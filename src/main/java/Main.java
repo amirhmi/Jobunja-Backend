@@ -1,4 +1,7 @@
 import javafx.util.Pair;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.util.Scanner;
 
@@ -14,7 +17,7 @@ public class Main {
 
             switch (commandName) {
                 case "register":
-                    System.out.println(commandData);
+                    regiser(commandData);
                     break;
                 case "addProject":
                     System.out.println(commandData);
@@ -27,6 +30,17 @@ public class Main {
                     isFinished = true;
                     break;
             }
+        }
+    }
+
+    private static void regiser(String data) {
+        JSONParser parser = new JSONParser();
+        try {
+            Object obj = parser.parse(data);
+            JSONObject jsonObject = (JSONObject) obj;
+            System.out.println(jsonObject.get("username"));
+        } catch (ParseException e) {
+            System.out.println(data);
         }
     }
 
