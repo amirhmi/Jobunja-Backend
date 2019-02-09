@@ -1,10 +1,17 @@
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Project {
     private String title;
     private List<Skill> skills;
     private int budget;
-    private List<Worker> candidates;
+    private List<Bid> candidates = new ArrayList<>();
+
+    public String getTitle()
+    {
+        return title;
+    }
 
     public Project(String title, List<Skill> skills, int budget)
     {
@@ -17,29 +24,52 @@ public class Project {
     {
         this.title = title;
         this.budget = budget;
-        for (Skill skill : skills)
-            this.skills.add(skill);
+        Collections.addAll(this.skills, skills);
     }
 
-    public void addWorker(Worker candidate, int budget)
+    public void addBid(Bid bid)
     {
-        if (budget > this.budget)
+        if (!bidSuited(bid))
             return;
-        this.candidates.add(candidate);
+        this.candidates.add(bid);
     }
 
-    private boolean workerSuited(Worker worker, int budget)
+    private boolean bidSuited(Bid bid)
     {
-        if (budget > this.budget)
+        if (bid.getBudget() > this.budget)
             return false;
-        for (int i = 0; i < this.skills.size(); i++)
-            ;//TODO
+        for (Skill skill : this.skills) {
+            int skill_points = bid.getWorker().getSkillPoint(skill);
+            if (skill_points < 0)
+                return false;
+            if (skill_points < skill.points)
+                return false;
+        }
         return true;
     }
 
-    public void evaluate()
+    public Bid evaluate()
     {
-        for (int i = 0; i < candidates; i++)
-            //;
+        Bid ret = null;
+        int ret_score = 0;
+        for (Bid this_bid : candidates) {
+            int this_score = getBidScore(this_bid);
+            if (ret == null || ret_score < this_score) {
+                ret = this_bid;
+                ret_score = this_score;
+            }
+        }
+        return ret;
+    }
+
+    private int getBidScore(Bid bid)
+    {
+        int ret = bid.getBudget() - this.budget;
+        for (Skill skill : this.skills)
+        {
+            int skill_diff = skill.points - bid.getWorker().getSkillPoint(skill);
+            ret += 10000 * skill_diff * skill_diff;
+        }
+        return ret;
     }
 }
