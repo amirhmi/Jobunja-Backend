@@ -3,6 +3,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -36,9 +37,12 @@ public class Main {
     private static void regiser(String data) {
         JSONParser parser = new JSONParser();
         try {
-            Object obj = parser.parse(data);
-            JSONObject jsonObject = (JSONObject) obj;
-            System.out.println(jsonObject.get("username"));
+            Object user_object = parser.parse(data);
+            JSONObject user_json_object = (JSONObject) user_object;
+            String name = (String) user_json_object.get("username");
+            List<Skill> skills = (List<Skill>) user_json_object.get("skills");
+            System.out.println(skills.size());
+
         } catch (ParseException e) {
             System.out.println(data);
         }
