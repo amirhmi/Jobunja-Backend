@@ -44,6 +44,7 @@ public class Main {
             String username = (String) user_json_object.get("username");
             List<Skill> skills = (List<Skill>) user_json_object.get("skills");
             db.addWorker(new Worker(username, skills));
+            System.out.println("user " + username + " has been added successfully");
         } catch (ParseException e) {
             System.out.println("Invalid json input");
         }
@@ -53,12 +54,13 @@ public class Main {
     {
         JSONParser parser = new JSONParser();
         try {
-            Object user_object = parser.parse(data);
-            JSONObject user_json_object = (JSONObject) user_object;
-            String title = (String) user_json_object.get("title");
-            List<Skill> skills = (List<Skill>) user_json_object.get("skills");
-            int budget = (int) user_json_object.get("budget");
+            Object project_object = parser.parse(data);
+            JSONObject project_json_object = (JSONObject) project_object;
+            String title = (String) project_json_object.get("title");
+            List<Skill> skills = (List<Skill>) project_json_object.get("skills");
+            int budget = (int) project_json_object.get("budget");
             db.addProject(new Project(title, skills, budget));
+            System.out.println("project " + title + " has been added successfully");
         } catch (ParseException e) {
             System.out.println("Invalid json input");
         }
@@ -68,17 +70,18 @@ public class Main {
     {
         JSONParser parser = new JSONParser();
         try {
-            Object user_object = parser.parse(data);
-            JSONObject user_json_object = (JSONObject) user_object;
+            Object bid_object = parser.parse(data);
+            JSONObject user_json_object = (JSONObject) bid_object;
             String username = (String) user_json_object.get("biddingUser");
             String title = (String) user_json_object.get("projectTitle");
             int budget = (int) user_json_object.get("bidAmount");
             Project project = db.findProject(title);
             Worker worker = db.findWorker(username);
+            System.out.println("bid by " + username + " has been added for project "  + title + " successfully");
             if (project == null)
-                System.out.println("no such a project exists");
+                System.out.println("No such a project exists");
             else if (worker == null)
-                System.out.println("no such a user exists");
+                System.out.println("No such a user exists");
             else
                 project.addBid(new Bid(worker, budget));
         } catch (ParseException e) {
@@ -88,7 +91,26 @@ public class Main {
 
     private static void auction(String data)
     {
-
+        JSONParser parser = new JSONParser();
+        try {
+            Object auction_object = parser.parse(data);
+            JSONObject auction_json_object = (JSONObject) auction_object;
+            String title = (String) auction_json_object.get("projectTitle");
+            Project project = db.findProject(title);
+            if (project == null)
+                System.out.println("No such a project exists");
+            else {
+                Bid winnerBid = project.evaluate();
+                if(winnerBid == null) {
+                    System.out.println("No suitable user for this project found");
+                }
+                else {
+                    System.out.println("User " + winnerBid.getWorker().getUsername() + " won this auction");
+                }
+            }
+        } catch (ParseException e) {
+            System.out.println("Invalid json input");
+        }
     }
 
     private static Pair<String, String> getCommandParts() {
