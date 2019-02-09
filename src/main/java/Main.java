@@ -66,6 +66,24 @@ public class Main {
 
     private static void bid(String data)
     {
+        JSONParser parser = new JSONParser();
+        try {
+            Object user_object = parser.parse(data);
+            JSONObject user_json_object = (JSONObject) user_object;
+            String username = (String) user_json_object.get("biddingUser");
+            String title = (String) user_json_object.get("projectTitle");
+            int budget = (int) user_json_object.get("bidAmount");
+            Project project = db.findProject(title);
+            Worker worker = db.findWorker(username);
+            if (project == null)
+                System.out.println("no such a project exists");
+            else if (worker == null)
+                System.out.println("no such a user exists");
+            else
+                project.addBid(new Bid(worker, budget));
+        } catch (ParseException e) {
+            System.out.println("Invalid json input");
+        }
     }
 
     private static void auction(String data)
