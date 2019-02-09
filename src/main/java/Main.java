@@ -9,10 +9,10 @@ import java.util.Scanner;
 public class Main {
     private static Scanner scanner = new Scanner(System.in);
     private static boolean isFinished = false;
-    private static DataBase DB;
+    private static DataBase db;
 
     public static void main(String[] args) {
-        DB = new DataBase();
+        db = new DataBase();
         while (!isFinished) {
             Pair<String, String> commandParts = getCommandParts();
             String commandName = commandParts.getKey();
@@ -43,7 +43,7 @@ public class Main {
             JSONObject user_json_object = (JSONObject) user_object;
             String username = (String) user_json_object.get("username");
             List<Skill> skills = (List<Skill>) user_json_object.get("skills");
-            DB.addWorker(new Worker(username, skills));
+            db.addWorker(new Worker(username, skills));
         } catch (ParseException e) {
             System.out.println("Invalid json input");
         }
@@ -58,7 +58,7 @@ public class Main {
             String title = (String) user_json_object.get("title");
             List<Skill> skills = (List<Skill>) user_json_object.get("skills");
             int budget = (int) user_json_object.get("budget");
-            DB.addProject(new Project(title, skills, budget));
+            db.addProject(new Project(title, skills, budget));
         } catch (ParseException e) {
             System.out.println("Invalid json input");
         }
@@ -70,6 +70,7 @@ public class Main {
 
     private static void auction(String data)
     {
+
     }
 
     private static Pair<String, String> getCommandParts() {
