@@ -25,6 +25,11 @@
             <artifactId>javafx-fxml</artifactId>
             <version>11.0.2</version>
         </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20180813</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -55,5 +60,7 @@
             </plugin>
         </plugins>
     </build>
+
+
 
 </project>
