@@ -42,7 +42,7 @@ public class Project {
             int skill_points = bid.getWorker().getSkillPoint(skill);
             if (skill_points < 0)
                 return false;
-            if (skill_points < skill.points)
+            if (skill_points < skill.getPoints())
                 return false;
         }
         return true;
@@ -67,7 +67,7 @@ public class Project {
         int ret = bid.getBudget() - this.budget;
         for (Skill skill : this.skills)
         {
-            int skill_diff = skill.points - bid.getWorker().getSkillPoint(skill);
+            int skill_diff = skill.getPoints() - bid.getWorker().getSkillPoint(skill);
             ret += 10000 * skill_diff * skill_diff;
         }
         return ret;

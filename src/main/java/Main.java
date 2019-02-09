@@ -43,6 +43,7 @@ public class Main {
             JSONObject user_json_object = (JSONObject) user_object;
             String username = (String) user_json_object.get("username");
             List<Skill> skills = (List<Skill>) user_json_object.get("skills");
+            System.out.println(skills.get(0).getName());
             db.addWorker(new Worker(username, skills));
             System.out.println("user " + username + " has been added successfully");
         } catch (ParseException e) {
@@ -58,8 +59,8 @@ public class Main {
             JSONObject project_json_object = (JSONObject) project_object;
             String title = (String) project_json_object.get("title");
             List<Skill> skills = (List<Skill>) project_json_object.get("skills");
-            int budget = (int) project_json_object.get("budget");
-            db.addProject(new Project(title, skills, budget));
+            long budget = (long) project_json_object.get("budget");
+            db.addProject(new Project(title, skills, (int)budget));
             System.out.println("project " + title + " has been added successfully");
         } catch (ParseException e) {
             System.out.println("Invalid json input");

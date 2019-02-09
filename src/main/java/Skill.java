@@ -1,6 +1,6 @@
 public class Skill {
-    String name;
-    int points;
+    private String name;
+    private int points;
 
     public Skill(String name, int points)
     {
