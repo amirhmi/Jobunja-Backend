@@ -3,6 +3,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -42,8 +43,14 @@ public class Main {
             Object user_object = parser.parse(data);
             JSONObject user_json_object = (JSONObject) user_object;
             String username = (String) user_json_object.get("username");
-            List<Skill> skills = (List<Skill>) user_json_object.get("skills");
-            System.out.println(skills.get(0).getName());
+            List<JSONObject> skills_jobjects = (List<JSONObject>) user_json_object.get("skills");
+            List<Skill> skills = new ArrayList<>();
+            for (JSONObject jobj : skills_jobjects)
+            {
+                String skillname = (String)jobj.get("name");
+                long skillpoints = (long)jobj.get("points");
+                skills.add(new Skill(skillname, (int)skillpoints));
+            }
             db.addWorker(new Worker(username, skills));
             System.out.println("user " + username + " has been added successfully");
         } catch (ParseException e) {
@@ -58,7 +65,14 @@ public class Main {
             Object project_object = parser.parse(data);
             JSONObject project_json_object = (JSONObject) project_object;
             String title = (String) project_json_object.get("title");
-            List<Skill> skills = (List<Skill>) project_json_object.get("skills");
+            List<JSONObject> skills_jobjects = (List<JSONObject>) project_json_object.get("skills");
+            List<Skill> skills = new ArrayList<>();
+            for (JSONObject jobj : skills_jobjects)
+            {
+                String skillname = (String)jobj.get("name");
+                long skillpoints = (long)jobj.get("points");
+                skills.add(new Skill(skillname, (int)skillpoints));
+            }
             long budget = (long) project_json_object.get("budget");
             db.addProject(new Project(title, skills, (int)budget));
             System.out.println("project " + title + " has been added successfully");
@@ -75,16 +89,17 @@ public class Main {
             JSONObject user_json_object = (JSONObject) bid_object;
             String username = (String) user_json_object.get("biddingUser");
             String title = (String) user_json_object.get("projectTitle");
-            int budget = (int) user_json_object.get("bidAmount");
+            long budget = (long) user_json_object.get("bidAmount");
             Project project = db.findProject(title);
             Worker worker = db.findWorker(username);
-            System.out.println("bid by " + username + " has been added for project "  + title + " successfully");
             if (project == null)
                 System.out.println("No such a project exists");
             else if (worker == null)
                 System.out.println("No such a user exists");
-            else
-                project.addBid(new Bid(worker, budget));
+            else {
+                project.addBid(new Bid(worker, (int) budget));
+                System.out.println("bid by " + username + " has been added for project "  + title + " successfully");
+            }
         } catch (ParseException e) {
             System.out.println("Invalid json input");
         }

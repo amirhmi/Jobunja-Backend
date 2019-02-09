@@ -15,7 +15,7 @@ public class Worker extends User {
             this.skills.add(skill);
     }
 
-    public int getSkillPoint(Skill jobSkill) {
+    public long getSkillPoint(Skill jobSkill) {
         for(Skill userSkill : skills) {
             if(userSkill.getName().equals(jobSkill.getName()))
                 return jobSkill.getPoints();

@@ -39,7 +39,7 @@ public class Project {
         if (bid.getBudget() > this.budget)
             return false;
         for (Skill skill : this.skills) {
-            int skill_points = bid.getWorker().getSkillPoint(skill);
+            long skill_points = bid.getWorker().getSkillPoint(skill);
             if (skill_points < 0)
                 return false;
             if (skill_points < skill.getPoints())
@@ -51,9 +51,9 @@ public class Project {
     public Bid evaluate()
     {
         Bid ret = null;
-        int ret_score = 0;
+        long ret_score = 0;
         for (Bid this_bid : candidates) {
-            int this_score = getBidScore(this_bid);
+            long this_score = getBidScore(this_bid);
             if (ret == null || ret_score < this_score) {
                 ret = this_bid;
                 ret_score = this_score;
@@ -62,12 +62,12 @@ public class Project {
         return ret;
     }
 
-    private int getBidScore(Bid bid)
+    private long getBidScore(Bid bid)
     {
-        int ret = bid.getBudget() - this.budget;
+        long ret = bid.getBudget() - this.budget;
         for (Skill skill : this.skills)
         {
-            int skill_diff = skill.getPoints() - bid.getWorker().getSkillPoint(skill);
+            long skill_diff = skill.getPoints() - bid.getWorker().getSkillPoint(skill);
             ret += 10000 * skill_diff * skill_diff;
         }
         return ret;
