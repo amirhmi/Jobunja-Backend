@@ -14,4 +14,12 @@ public class Worker extends User {
         for (Skill skill : skills)
             this.skills.add(skill);
     }
+
+    public int hasSkillMinPoint(Skill jobSkill) {
+        for(Skill userSkill : skills) {
+            if(userSkill.getName().equals(jobSkill.getName()))
+                return jobSkill.getPoints();
+        }
+        return -1;
+    }
 }
