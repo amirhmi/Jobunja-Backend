@@ -9,8 +9,10 @@ import java.util.Scanner;
 public class Main {
     private static Scanner scanner = new Scanner(System.in);
     private static boolean isFinished = false;
+    private static DataBase DB;
 
     public static void main(String[] args) {
+        DB = new DataBase();
         while (!isFinished) {
             Pair<String, String> commandParts = getCommandParts();
             String commandName = commandParts.getKey();
@@ -18,23 +20,23 @@ public class Main {
 
             switch (commandName) {
                 case "register":
-                    regiser(commandData);
+                    register(commandData);
                     break;
                 case "addProject":
-                    System.out.println(commandData);
+                    addProject(commandData);
                     break;
                 case "bid":
-                    System.out.println(commandData);
+                    bid(commandData);
                     break;
                 case "auction":
-                    System.out.println(commandData);
+                    auction(commandData);
                     isFinished = true;
                     break;
             }
         }
     }
 
-    private static void regiser(String data) {
+    private static void register(String data) {
         JSONParser parser = new JSONParser();
         try {
             Object user_object = parser.parse(data);
@@ -46,6 +48,29 @@ public class Main {
         } catch (ParseException e) {
             System.out.println(data);
         }
+    }
+
+    private static void addProject(String data)
+    {
+        JSONParser parser = new JSONParser();
+        try {
+            Object user_object = parser.parse(data);
+            JSONObject user_json_object = (JSONObject) user_object;
+            String title = (String) user_json_object.get("title");
+            List<Skill> skills = (List<Skill>) user_json_object.get("skills");
+            int budget = (int) user_json_object.get("budget");
+            DB.addProject(new Project(title, skills, budget));
+        } catch (ParseException e) {
+            System.out.println("error");
+        }
+    }
+
+    private static void bid(String data)
+    {
+    }
+
+    private static void auction(String data)
+    {
     }
 
     private static Pair<String, String> getCommandParts() {
