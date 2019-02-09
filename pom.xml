@@ -14,11 +14,6 @@
         <mainClass>org.openjfx.MainApp</mainClass>
     </properties>
 
-    <organization>
-        <!-- Used as the 'Vendor' for JNLP generation -->
-        <name>Your Organisation</name>
-    </organization>
-
     <dependencies>
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -39,6 +34,8 @@
                 <version>3.8.0</version>
                 <configuration>
                     <release>11</release>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
             <plugin>
