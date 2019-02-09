@@ -25,6 +25,11 @@
             <artifactId>javafx-fxml</artifactId>
             <version>11.0.2</version>
         </dependency>
+        <dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>1.1</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -33,7 +38,6 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.0</version>
                 <configuration>
-                    <release>11</release>
                     <source>1.7</source>
                     <target>1.7</target>
                 </configuration>
@@ -55,5 +59,7 @@
             </plugin>
         </plugins>
     </build>
+
+
 
 </project>
