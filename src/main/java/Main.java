@@ -41,12 +41,11 @@ public class Main {
         try {
             Object user_object = parser.parse(data);
             JSONObject user_json_object = (JSONObject) user_object;
-            String name = (String) user_json_object.get("username");
+            String username = (String) user_json_object.get("username");
             List<Skill> skills = (List<Skill>) user_json_object.get("skills");
-            System.out.println(skills.size());
-
+            DB.addWorker(new Worker(username, skills));
         } catch (ParseException e) {
-            System.out.println(data);
+            System.out.println("Invalid json input");
         }
     }
 
@@ -61,7 +60,7 @@ public class Main {
             int budget = (int) user_json_object.get("budget");
             DB.addProject(new Project(title, skills, budget));
         } catch (ParseException e) {
-            System.out.println("error");
+            System.out.println("Invalid json input");
         }
     }
 
