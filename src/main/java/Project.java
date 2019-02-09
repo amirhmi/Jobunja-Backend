@@ -64,7 +64,7 @@ public class Project {
 
     private long getBidScore(Bid bid)
     {
-        long ret = bid.getBudget() - this.budget;
+        long ret = this.budget - bid.getBudget();
         for (Skill skill : this.skills)
         {
             long skill_diff = skill.getPoints() - bid.getWorker().getSkillPoint(skill);

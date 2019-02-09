@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class DataBase {
     private static DataBase me = null;
@@ -22,14 +23,14 @@ public class DataBase {
     public static Worker findWorker(String username)
     {
         for (Worker worker : me.workers)
-            if (worker.getUsername() == username)
+            if (Objects.equals(worker.getUsername(), username))
                 return worker;
         return null;
     }
     public static Project findProject(String title)
     {
         for (Project project : me.projects)
-            if (project.getTitle() == title)
+            if (Objects.equals(project.getTitle(), title))
                 return project;
         return null;
     }

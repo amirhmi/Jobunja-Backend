@@ -92,6 +92,7 @@ public class Main {
             long budget = (long) user_json_object.get("bidAmount");
             Project project = db.findProject(title);
             Worker worker = db.findWorker(username);
+            System.out.println("searching for " + title);
             if (project == null)
                 System.out.println("No such a project exists");
             else if (worker == null)
