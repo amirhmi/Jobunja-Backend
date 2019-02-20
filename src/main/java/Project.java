@@ -36,7 +36,7 @@ public class Project {
     {
         if (!bidSuited(bid))
             return;
-        this.candidates.add(bid);
+        this.bids.add(bid);
     }
 
     private boolean bidSuited(Bid bid)
@@ -57,7 +57,7 @@ public class Project {
     {
         Bid ret = null;
         long ret_score = 0;
-        for (Bid this_bid : candidates) {
+        for (Bid this_bid : bids) {
             long this_score = getBidScore(this_bid);
             if (ret == null || ret_score < this_score) {
                 ret = this_bid;
