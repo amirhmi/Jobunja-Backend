@@ -8,12 +8,10 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    private static Scanner scanner = new Scanner(System.in);
-    private static boolean isFinished = false;
-    private static DataBase db;
+    private static HttpClientGet http_client_get = new HttpClientGet();
 
     public static void main(String[] args) {
-
+        http_client_get.HttpGetRequest();
 
     }
 }

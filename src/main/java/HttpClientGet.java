@@ -5,7 +5,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 
 public class HttpClientGet {
@@ -13,9 +12,16 @@ public class HttpClientGet {
     private HttpGet get_request;
     private HttpResponse response;
 
-    public void HttpGetRequest(String ip_addr) {
+    private String get_projects_addr = "http://142.93.134.194:8000/joboonja/project";
+    private String get_skills_addr = "http://142.93.134.194:8000/joboonja/skill";
+
+    public HttpClientGet() {
+        http_client = HttpClientBuilder.create().build();
+    }
+
+    public void HttpGetRequest(RequestType req_type) {
         try {
-            http_client = HttpClientBuilder.create().build();
+            String ip_addr = mapRequestTypeToAddress(req_type);
             get_request = new HttpGet(ip_addr);
             get_request.addHeader("accept", "application/json");
 
@@ -41,6 +47,17 @@ public class HttpClientGet {
         } catch (IOException e) {
 
             e.printStackTrace();
+        }
+    }
+
+    public String mapRequestTypeToAddress(RequestType req_type) {
+        switch (req_type) {
+            case PROJECT:
+                return get_projects_addr;
+            case SKILL:
+                return get_skills_addr;
+            default:
+                return "";
         }
     }
 }
