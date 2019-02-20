@@ -19,35 +19,26 @@ public class HttpClientGet {
         http_client = HttpClientBuilder.create().build();
     }
 
-    public void HttpGetRequest(RequestType req_type) {
-        try {
-            String ip_addr = mapRequestTypeToAddress(req_type);
-            get_request = new HttpGet(ip_addr);
-            get_request.addHeader("accept", "application/json");
+    public String HttpGetRequest(RequestType req_type) throws IOException{
+        String ip_addr = mapRequestTypeToAddress(req_type);
+        get_request = new HttpGet(ip_addr);
+        get_request.addHeader("accept", "application/json");
 
-            HttpResponse response = http_client.execute(get_request);
+        HttpResponse response = http_client.execute(get_request);
 
-            if (response.getStatusLine().getStatusCode() != 200) {
-                throw new RuntimeException("Failed : HTTP error code : "
-                        + response.getStatusLine().getStatusCode());
-            }
-
-            BufferedReader br = new BufferedReader(
-                    new InputStreamReader((response.getEntity().getContent())));
-
-            String output;
-            while ((output = br.readLine()) != null) {
-                System.out.println(output);
-            }
-
-        } catch (ClientProtocolException e) {
-
-            e.printStackTrace();
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
+        if (response.getStatusLine().getStatusCode() != 200) {
+            throw new RuntimeException("Failed : HTTP error code : "
+                    + response.getStatusLine().getStatusCode());
         }
+
+        BufferedReader br = new BufferedReader(
+                new InputStreamReader((response.getEntity().getContent())));
+
+        String line_data, output = "";
+        while ((line_data = br.readLine()) != null) {
+            output += line_data;
+        }
+        return output;
     }
 
     public String mapRequestTypeToAddress(RequestType req_type) {
