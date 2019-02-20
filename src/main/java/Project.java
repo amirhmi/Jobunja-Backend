@@ -3,10 +3,15 @@ import java.util.Collections;
 import java.util.List;
 
 public class Project {
+    private String id;
     private String title;
+    private String description;
+    private String imageURL;
     private List<Skill> skills;
+    private List<Bid> bids = new ArrayList<>();
     private int budget;
-    private List<Bid> candidates = new ArrayList<>();
+    private long deadline;
+    private User winner;
 
     public String getTitle()
     {
