@@ -4,7 +4,7 @@ import java.util.Objects;
 
 public class DataBase {
     private static DataBase me = null;
-    private List<Worker> workers = new ArrayList<>();
+    private List<User> users = new ArrayList<>();
     private List<Project> projects = new ArrayList<>();
     public DataBase ()
     {
@@ -12,17 +12,17 @@ public class DataBase {
             return;
         me = this;
     }
-    public static void addWorker(Worker worker)
+    public static void addWorker(User user)
     {
-        me.workers.add(worker);
+        me.users.add(user);
     }
     public static void addProject(Project project)
     {
         me.projects.add(project);
     }
-    public static Worker findWorker(String username)
+    public static User findWorker(String username)
     {
-        for (Worker worker : me.workers)
+        for (User worker : me.users)
             if (Objects.equals(worker.getUsername(), username))
                 return worker;
         return null;
