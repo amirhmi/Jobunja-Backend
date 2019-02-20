@@ -2,10 +2,12 @@ import java.util.List;
 
 public class User {
     private String username;
+    private List<Skill> skills;
+    private String job_title;
+    private String profile_pic_url;
+    private String bio;
 
     public String getUsername() { return username; }
-
-    private List<Skill> skills;
 
     public User (String username, List<Skill> skills) {
         this.username = username;
