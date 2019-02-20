@@ -44,7 +44,7 @@ public class Project {
         if (bid.getBudget() > this.budget)
             return false;
         for (Skill skill : this.skills) {
-            long skill_points = bid.getWorker().getSkillPoint(skill);
+            long skill_points = bid.getUser().getSkillPoint(skill);
             if (skill_points < 0)
                 return false;
             if (skill_points < skill.getPoints())
@@ -72,7 +72,7 @@ public class Project {
         long ret = this.budget - bid.getBudget();
         for (Skill skill : this.skills)
         {
-            long skill_diff = skill.getPoints() - bid.getWorker().getSkillPoint(skill);
+            long skill_diff = skill.getPoints() - bid.getUser().getSkillPoint(skill);
             ret += 10000 * skill_diff * skill_diff;
         }
         return ret;
