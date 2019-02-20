@@ -1,17 +1,16 @@
 public class Bid {
-    private Worker worker;
+    private User user;
+    private Project project;
     private int budget;
-    public Bid(Worker worker, int budget)
+    public Bid(User user, int budget, Project project)
     {
-        this.worker = worker;
+        this.user = user;
         this.budget = budget;
+        this.project = project;
     }
-    public Worker getWorker()
-    {
-        return worker;
-    }
-    public int getBudget()
-    {
-        return budget;
-    }
+    public User getUser () { return user; }
+
+    public Project getProject() { return project; }
+
+    public int getBudget() { return budget; }
 }
