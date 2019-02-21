@@ -1,6 +1,6 @@
 import java.io.IOException;
 import java.io.OutputStream;
-
+import java.nio.charset.StandardCharsets;
 import com.sun.net.httpserver.HttpExchange;
 
 import javax.xml.crypto.Data;
@@ -31,14 +31,16 @@ public class ProjectPage implements IPage {
                 "        <li>id: " + project.getId() + "</li>\n" +
                 "        <li>title: " + project.getTitle() + "</li>\n" +
                 "        <li>description: " + project.getDescription() + "</li>\n" +
-                "        <li>imageUrl: <img src=\"" + project.getDescription() + "\" style=\"width: 50px; height: 50px;\"></li>\n" +
+                "        <li>imageUrl: <img src=\"" + project.getImageUrl() + "\" style=\"width: 50px; height: 50px;\"></li>\n" +
                 "        <li>budget: " + project.getBudget() + "</li>\n" +
                 "    </ul>\n" +
                 "</body>\n" +
                 "</html>";
-        http_exchange.sendResponseHeaders(200, response.length());
+        byte[] bytes = response.getBytes(StandardCharsets.UTF_8);
+        http_exchange.sendResponseHeaders(200, bytes.length);
+        System.out.println(response);
         OutputStream os = http_exchange.getResponseBody();
-        os.write(response.getBytes());
+        os.write(bytes);
         os.close();
     }
 
