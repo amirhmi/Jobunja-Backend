@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class User {
@@ -6,7 +7,7 @@ public class User {
     private String last_name;
     private String job_title;
     private String profile_pic_url;
-    private List<Skill> skills;
+    private List<Skill> skills = new ArrayList<Skill>();
     private String bio;
 
     public String getFirstName() { return first_name; }

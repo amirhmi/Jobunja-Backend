@@ -12,7 +12,6 @@ public class ProjectsPage implements IPage {
         String ret = createHtmlResForProjects();
         byte[] bytes = ret.getBytes(StandardCharsets.UTF_8);
         http_exchange.sendResponseHeaders(200, bytes.length);
-        System.out.println(ret);
         OutputStream os = http_exchange.getResponseBody();
         os.write(bytes);
         os.close();

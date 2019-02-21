@@ -38,7 +38,6 @@ public class ProjectPage implements IPage {
                 "</html>";
         byte[] bytes = response.getBytes(StandardCharsets.UTF_8);
         http_exchange.sendResponseHeaders(200, bytes.length);
-        System.out.println(response);
         OutputStream os = http_exchange.getResponseBody();
         os.write(bytes);
         os.close();

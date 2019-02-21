@@ -14,7 +14,6 @@ public class JsonParser {
     public static List<String> parseNameList(String json) throws IOException {
         List<Skill> names = mapper.readValue(json,
                 mapper.getTypeFactory().constructCollectionType(List.class, Skill.class));
-        System.out.println("parsed successfully");
         List<String> ret = new ArrayList<>();
         for (Skill skill : names)
             ret.add(skill.getName());
