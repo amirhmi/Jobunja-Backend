@@ -11,8 +11,11 @@ public class User {
     private String bio;
 
     public String getFirstName() { return first_name; }
-
     public String getId() { return id; }
+    public String getLastName() { return last_name;}
+    public String getJobTitle() {return job_title;}
+    public String getProfilePicUrl() { return profile_pic_url;}
+    public String getBio() { return bio;}
 
     public User (String id, String first_name, String last_name, List<Skill> skills, String job_title,
                  String profile_pic_url, String bio) {

@@ -73,9 +73,6 @@ public class Server {
         @Override
         public void handle(HttpExchange http_exchange) throws IOException {
             StringTokenizer tokenizer = new StringTokenizer(http_exchange.getRequestURI().getPath(), "/");
-            tokenizer.nextToken();
-            String page = tokenizer.nextToken();
-            Class<IPage> page_class;
             switch (tokenizer.countTokens()){
                 case 2:
                     new UserPage().HandleRequest(http_exchange);

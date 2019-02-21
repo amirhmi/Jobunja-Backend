@@ -13,7 +13,10 @@ public class DataBase {
             return;
         me = this;
     }
-    public static void setLoginUser(User user) { only_login_user = user; }
+    public static void setLoginUser(User user) {
+        only_login_user = user;
+        me.users.add(user);
+    }
     public static void addUser(User user)
     {
         me.users.add(user);
@@ -25,7 +28,7 @@ public class DataBase {
     public static User findUser(String id)
     {
         for (User user : me.users)
-            if (Objects.equals(user.getId(), id))
+            if (id.equals(user.getId()))
                 return user;
         return null;
     }
