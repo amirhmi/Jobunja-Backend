@@ -23,6 +23,13 @@ public class Server {
         server.start();
     }
 
+    public static void sendResponse(HttpExchange http_exchange, int status, String response) throws IOException {
+        http_exchange.sendResponseHeaders(status, response.length());
+        OutputStream os = http_exchange.getResponseBody();
+        os.write(response.getBytes());
+        os.close();
+    }
+
     class projectHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange http_exchange) throws IOException {
@@ -30,39 +37,20 @@ public class Server {
             tokenizer.nextToken();
             String page = tokenizer.nextToken();
             Class<IPage> page_class;
-            try {
-                if(tokenizer.hasMoreTokens()) {
-                    ProjectPage project_page = new ProjectPage();
-                    project_page.HandleRequest(http_exchange);
-                }
-                else {
-                }
-            } catch (ClassNotFoundException |
-                    InstantiationException |
-                    IllegalAccessException |
-                    IllegalArgumentException |
-                    InvocationTargetException |
-                    NoSuchMethodException |
-                    SecurityException e) {
-                e.printStackTrace();
-                String response =
-                        "<html>"
-                                + "<body>Page \""+ page + "\" not found.</body>"
-                                + "</html>";
-                http_exchange.sendResponseHeaders(404, response.length());
-                OutputStream os = http_exchange.getResponseBody();
-                os.write(response.getBytes());
-                os.close();
+            switch (tokenizer.countTokens()){
+                case 1 :
+                    new ProjectPage().HandleRequest(http_exchange);
+                    break;
+                case 2:
+                    new ProjectsPage().HandleRequest(http_exchange);
+                    break;
+                default:
+                    String response =
+                            "<html>"
+                            + "<body>Page \""+ page + "\" not found.</body>"
+                            + "</html>";
+                    sendResponse(http_exchange, 400, response);
             }
-
-        }
-    }
-
-    public static int stringToInt(String param) {
-        try {
-            return Integer.valueOf(param);
-        } catch(NumberFormatException e) {
-            return -1;
         }
     }
 }
