@@ -27,11 +27,13 @@ public class DataBase {
                 return worker;
         return null;
     }
-    public static Project findProject(String title)
+    public static Project findProject(String id)
     {
         for (Project project : me.projects)
-            if (Objects.equals(project.getTitle(), title))
+            if (Objects.equals(project.getId(), id))
                 return project;
         return null;
     }
+
+    public static List<Project> getProjects() { return me.projects; }
 }

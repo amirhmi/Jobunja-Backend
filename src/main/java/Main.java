@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+    private static DataBase db = new DataBase();
+    private static Server server = new Server();
     private static HttpClientGet http_client_get = new HttpClientGet();
 
     public static void main(String[] args) {
@@ -20,6 +22,8 @@ public class Main {
             for(Project p : projs)
                 DataBase.addProject(p);
             Skill.setValidNames(JsonParser.parseNameList(skills_data_json));
+
+            server.startServer();
         }
         catch (IOException ioException) {
             return;

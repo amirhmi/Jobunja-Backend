@@ -1,6 +1,5 @@
 import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.net.InetSocketAddress;
 import java.util.StringTokenizer;
 
@@ -10,15 +9,14 @@ import com.sun.net.httpserver.HttpServer;
 
 
 public class Server {
-    private static DataBase db = new DataBase();
+    private static Server me;
     private static final String project_context = "/project";
     private static final String user_context = "/user";
 
-    public static void startServer(DataBase db) throws IOException {
-        db = db;
+    public void startServer() throws IOException {
         HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
-        server.createContext(project_context);
-        server.createContext(user_context);
+        server.createContext(project_context, new ProjectHandler());
+        server.createContext(user_context, new UserHandler());
         server.setExecutor(null);
         server.start();
     }
@@ -30,35 +28,33 @@ public class Server {
         os.close();
     }
 
-    private static void sendBadRequest(HttpExchange http_exchange, String page) throws IOException {
+    private static void sendBadRequest(HttpExchange http_exchange) throws IOException {
         String response =
                 "<html>"
-                        + "<body>Page \""+ page + "\" not found.</body>"
+                        + "<body>Page not found.</body>"
                         + "</html>";
         sendResponse(http_exchange, 400, response);
     }
 
-    class projectHandler implements HttpHandler {
+    class ProjectHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange http_exchange) throws IOException {
             StringTokenizer tokenizer = new StringTokenizer(http_exchange.getRequestURI().getPath(), "/");
-            tokenizer.nextToken();
-            String page = tokenizer.nextToken();
-            Class<IPage> page_class;
+            System.out.println("here " + tokenizer.countTokens());
             switch (tokenizer.countTokens()){
                 case 1 :
-                    new ProjectPage().HandleRequest(http_exchange);
+                    new ProjectsPage().HandleRequest(http_exchange);
                     break;
                 case 2:
                     new ProjectsPage().HandleRequest(http_exchange);
                     break;
                 default:
-                    sendBadRequest(http_exchange, page);
+                    sendBadRequest(http_exchange);
             }
         }
     }
 
-    class userHanlder implements HttpHandler {
+    class UserHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange http_exchange) throws IOException {
             StringTokenizer tokenizer = new StringTokenizer(http_exchange.getRequestURI().getPath(), "/");
@@ -67,11 +63,17 @@ public class Server {
             Class<IPage> page_class;
             switch (tokenizer.countTokens()){
                 case 2:
-                    new ProjectsPage().HandleRequest(http_exchange);
+                    new UserPage().HandleRequest(http_exchange);
                     break;
                 default:
-                    sendBadRequest(http_exchange, page);
+                    sendBadRequest(http_exchange);
             }
         }
+    }
+
+    public static String findId(HttpExchange http_exchange) {
+        StringTokenizer tokenizer = new StringTokenizer(http_exchange.getRequestURI().getPath(), "/");
+        tokenizer.nextToken();
+        return tokenizer.nextToken();
     }
 }
