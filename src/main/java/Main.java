@@ -11,7 +11,6 @@ import java.util.Scanner;
 
 public class Main {
     private static HttpClientGet http_client_get = new HttpClientGet();
-    private static DataBase db = new DataBase();
 
     public static void main(String[] args) {
         try {
