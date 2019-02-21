@@ -57,8 +57,13 @@ public class Project {
     {
         if (bid.getBudget() > this.budget)
             return false;
+        return userSuited(bid.getUser());
+    }
+
+    public boolean userSuited(User user)
+    {
         for (Skill skill : this.skills) {
-            long skill_points = bid.getUser().getSkillPoint(skill);
+            long skill_points = user.getSkillPoint(skill);
             if (skill_points < 0)
                 return false;
             if (skill_points < skill.getPoint())

@@ -1,24 +1,40 @@
 import java.util.List;
 
 public class User {
-    private String username;
-    private List<Skill> skills;
+    private String id;
+    private String first_name;
+    private String last_name;
     private String job_title;
     private String profile_pic_url;
+    private List<Skill> skills;
     private String bio;
 
-    public String getUsername() { return username; }
+    public String getFirstName() { return first_name; }
 
-    public User (String username, List<Skill> skills) {
-        this.username = username;
+    public String getId() { return id; }
+
+    public User (String id, String first_name, String last_name, List<Skill> skills, String job_title,
+                 String profile_pic_url, String bio) {
+        this.id = id;
+        this.first_name = first_name;
+        this.last_name = last_name;
         this.skills = skills;
+        this.job_title  = job_title;
+        this.profile_pic_url = profile_pic_url;
+        this.bio = bio;
     }
 
-    public User(String username, Skill... skills)
+    public User(String id, String first_name, String last_name, String job_title, String profile_pic_url,
+                String bio, Skill... skills)
     {
-        this.username = username;
+        this.id = id;
+        this.first_name = first_name;
+        this.last_name = last_name;
         for (Skill skill : skills)
             this.skills.add(skill);
+        this.job_title = job_title;
+        this.profile_pic_url = profile_pic_url;
+        this.bio = bio;
     }
 
     public long getSkillPoint(Skill jobSkill) {

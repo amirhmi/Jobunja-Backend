@@ -15,6 +15,11 @@ public class ProjectPage implements IPage {
             Server.sendNotFound(http_exchange);
             return;
         }
+        if (!project.userSuited(DataBase.only_login_user))
+        {
+            Server.sendForbidden(http_exchange);
+            return;
+        }
         String response = "<!DOCTYPE html>\n" +
                 "<html lang=\"en\">\n" +
                 "<head>\n" +

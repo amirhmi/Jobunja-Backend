@@ -31,7 +31,7 @@ public class Server {
     private static void sendBadRequest(HttpExchange http_exchange) throws IOException {
         String response =
                 "<html>"
-                        + "<body>Bad request.</body>"
+                        + "<body>Bad Request</body>"
                         + "</html>";
         sendResponse(http_exchange, 400, response);
     }
@@ -42,6 +42,14 @@ public class Server {
                 + "<body>Page not found.</body>"
                 + "</html>";
         sendResponse(http_exchange, 404, response);
+    }
+
+    public static void sendForbidden(HttpExchange http_exchange) throws IOException {
+        String response =
+                "<html>"
+                + "<body>Forbidden</body>"
+                + "</html>";
+        sendResponse(http_exchange, 403, response);
     }
 
     class ProjectHandler implements HttpHandler {
