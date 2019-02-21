@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 
 import com.sun.net.httpserver.HttpExchange;
 
@@ -7,12 +8,13 @@ public class ProjectsPage implements IPage {
 
     @Override
     public void HandleRequest(HttpExchange http_exchange) throws IOException {
-        String response = createHtmlResForProjects();
-        http_exchange.sendResponseHeaders(200, response.length());
+        String encoding = "UTF-8";
+        String ret = createHtmlResForProjects();
+        byte[] bytes = ret.getBytes(StandardCharsets.UTF_8);
+        http_exchange.sendResponseHeaders(200, bytes.length);
+        System.out.println(ret);
         OutputStream os = http_exchange.getResponseBody();
-        System.out.println(response.getBytes());
-        os.write(response.getBytes());
-        System.out.println(response);
+        os.write(bytes);
         os.close();
     }
 
@@ -45,7 +47,7 @@ public class ProjectsPage implements IPage {
             html +=
                     "<tr>\n" +
                     "<td>" + p.getId() + "</td>\n" +
-                    "<td>" + "title" + "</td>\n" +
+                    "<td>" + p.getTitle() + "</td>\n" +
                     "<td>" + Integer.toString(p.getBudget()) + "</td>\n" +
                     "</tr>\n";
         }
