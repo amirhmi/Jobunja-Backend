@@ -44,6 +44,8 @@ public class ProjectsPage implements IPage {
                 "            <th>budget</th>\n" +
                 "        </tr>\n";
         for (Project p : DataBase.getProjects()) {
+            if (!p.userSuited(DataBase.only_login_user))
+                continue;
             html +=
                     "<tr>\n" +
                     "<td>" + p.getId() + "</td>\n" +

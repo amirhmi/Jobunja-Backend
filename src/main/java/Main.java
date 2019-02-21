@@ -22,7 +22,11 @@ public class Main {
             for(Project p : projs)
                 DataBase.addProject(p);
             Skill.setValidNames(JsonParser.parseNameList(skills_data_json));
-
+            DataBase.setLoginUser(new User("1", "علی", "شریف زاده", "برنامه نویس وب",
+                    "",
+                    "روی سنگ قبرم بنویسید: خدا بیامرز می خواست خیلی کارا بکنه ولی پول نداشت",
+                    new Skill("HTML", 5), new Skill("Javascript", 4), new Skill("c++", 2),
+                    new Skill("Java", 3)));
             server.startServer();
         }
         catch (IOException ioException) {

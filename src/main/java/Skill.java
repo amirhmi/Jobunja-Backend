@@ -15,7 +15,7 @@ public class Skill {
         if (!valid_names.contains(name))
             throw new InvalidSkillNameException("skill is not valid");
         this.name = name;
-        this.point = points;
+        this.point = point;
     }
 
     public static void setValidNames(List<String> valid)

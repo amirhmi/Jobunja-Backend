@@ -4,11 +4,7 @@ import java.util.Objects;
 
 public class DataBase {
     private static DataBase me = null;
-    public static User only_login_user = new User("1", "علی", "شریف زاده", "برنامه نویس وب",
-            "",
-            "روی سنگ قبرم بنویسید: خدا بیامرز می خواست خیلی کارا بکنه ولی پول نداشت",
-            new Skill("HTML", 5), new Skill("Javascript", 4), new Skill("c++", 2),
-            new Skill("Java", 3));
+    public static User only_login_user = null;
     private List<User> users = new ArrayList<>();
     private List<Project> projects = new ArrayList<>();
     public DataBase ()
@@ -17,6 +13,7 @@ public class DataBase {
             return;
         me = this;
     }
+    public static void setLoginUser(User user) { only_login_user = user; }
     public static void addUser(User user)
     {
         me.users.add(user);
