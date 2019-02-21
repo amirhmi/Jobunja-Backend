@@ -25,7 +25,7 @@ public class Main {
             DataBase.setLoginUser(new User("1", "علی", "شریف زاده", "برنامه نویس وب",
                     "",
                     "روی سنگ قبرم بنویسید: خدا بیامرز می خواست خیلی کارا بکنه ولی پول نداشت",
-                    new Skill("HTML", 5), new Skill("Javascript", 4), new Skill("c++", 2),
+                    new Skill("HTML", 5), new Skill("Javascript", 4), new Skill("C++", 2),
                     new Skill("Java", 3)));
             server.startServer();
         }

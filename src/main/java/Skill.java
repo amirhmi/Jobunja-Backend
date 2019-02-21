@@ -20,7 +20,10 @@ public class Skill {
 
     public static void setValidNames(List<String> valid)
     {
+        System.out.println("setting valid names");
         valid_names = valid;
+        for (String name : valid_names)
+            System.out.println(name);
     }
 
     public String getName() { return this.name;}
