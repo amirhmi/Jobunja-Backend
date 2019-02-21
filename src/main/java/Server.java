@@ -30,6 +30,14 @@ public class Server {
         os.close();
     }
 
+    private static void sendBadRequest(HttpExchange http_exchange, String page) throws IOException {
+        String response =
+                "<html>"
+                        + "<body>Page \""+ page + "\" not found.</body>"
+                        + "</html>";
+        sendResponse(http_exchange, 400, response);
+    }
+
     class projectHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange http_exchange) throws IOException {
@@ -45,11 +53,24 @@ public class Server {
                     new ProjectsPage().HandleRequest(http_exchange);
                     break;
                 default:
-                    String response =
-                            "<html>"
-                            + "<body>Page \""+ page + "\" not found.</body>"
-                            + "</html>";
-                    sendResponse(http_exchange, 400, response);
+                    sendBadRequest(http_exchange, page);
+            }
+        }
+    }
+
+    class userHanlder implements HttpHandler {
+        @Override
+        public void handle(HttpExchange http_exchange) throws IOException {
+            StringTokenizer tokenizer = new StringTokenizer(http_exchange.getRequestURI().getPath(), "/");
+            tokenizer.nextToken();
+            String page = tokenizer.nextToken();
+            Class<IPage> page_class;
+            switch (tokenizer.countTokens()){
+                case 2:
+                    new ProjectsPage().HandleRequest(http_exchange);
+                    break;
+                default:
+                    sendBadRequest(http_exchange, page);
             }
         }
     }
