@@ -31,9 +31,17 @@ public class Server {
     private static void sendBadRequest(HttpExchange http_exchange) throws IOException {
         String response =
                 "<html>"
-                        + "<body>Page not found.</body>"
+                        + "<body>Bad request.</body>"
                         + "</html>";
         sendResponse(http_exchange, 400, response);
+    }
+
+    public static void sendNotFound(HttpExchange http_exchange) throws IOException {
+        String response =
+                "<html>"
+                + "<body>Page not found.</body>"
+                + "</html>";
+        sendResponse(http_exchange, 404, response);
     }
 
     class ProjectHandler implements HttpHandler {
@@ -46,7 +54,7 @@ public class Server {
                     new ProjectsPage().HandleRequest(http_exchange);
                     break;
                 case 2:
-                    new ProjectsPage().HandleRequest(http_exchange);
+                    new ProjectPage().HandleRequest(http_exchange);
                     break;
                 default:
                     sendBadRequest(http_exchange);
