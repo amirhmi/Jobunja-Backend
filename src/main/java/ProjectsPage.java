@@ -47,7 +47,7 @@ public class ProjectsPage implements IPage {
             html +=
                     "<tr>\n" +
                     "<td>" + p.getId() + "</td>\n" +
-                    "<td>" + p.getTitle() + "</td>\n" +
+                    "<td style=\"direction: rtl;\">" + p.getTitle() + "</td>\n" +
                     "<td>" + Integer.toString(p.getBudget()) + "</td>\n" +
                     "</tr>\n";
         }
