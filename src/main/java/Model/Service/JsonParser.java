@@ -1,3 +1,8 @@
+package Model.Service;
+
+import Model.Entity.Project;
+import Model.Entity.Skill;
+import Model.Entity.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;

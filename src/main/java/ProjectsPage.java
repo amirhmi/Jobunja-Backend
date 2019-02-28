@@ -1,6 +1,9 @@
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+
+import Model.Entity.DataBase;
+import Model.Entity.Project;
 import com.sun.net.httpserver.HttpExchange;
 
 public class ProjectsPage implements IPage {

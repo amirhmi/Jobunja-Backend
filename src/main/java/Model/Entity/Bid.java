@@ -1,3 +1,5 @@
+package Model.Entity;
+
 public class Bid {
     private User user;
     private Project project;

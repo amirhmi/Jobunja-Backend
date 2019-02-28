@@ -1,6 +1,9 @@
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+
+import Model.Entity.DataBase;
+import Model.Entity.User;
 import com.sun.net.httpserver.HttpExchange;
 
 public class UserPage implements IPage {
@@ -16,7 +19,7 @@ public class UserPage implements IPage {
                     "<html lang=\"en\">\n" +
                     "<head>\n" +
                     "    <meta charset=\"UTF-8\">\n" +
-                    "    <title>User</title>\n" +
+                    "    <title>Model.Entity.User</title>\n" +
                     "</head>\n" +
                     "<body>\n" +
                     "    <ul>\n" +

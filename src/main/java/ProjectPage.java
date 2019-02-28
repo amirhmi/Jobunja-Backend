@@ -1,9 +1,10 @@
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
-import com.sun.net.httpserver.HttpExchange;
 
-import javax.xml.crypto.Data;
+import Model.Entity.DataBase;
+import Model.Entity.Project;
+import com.sun.net.httpserver.HttpExchange;
 
 public class ProjectPage implements IPage {
 
@@ -24,7 +25,7 @@ public class ProjectPage implements IPage {
                 "<html lang=\"en\">\n" +
                 "<head>\n" +
                 "    <meta charset=\"UTF-8\">\n" +
-                "    <title>Project</title>\n" +
+                "    <title>Model.Entity.Project</title>\n" +
                 "</head>\n" +
                 "<body>\n" +
                 "    <ul>\n" +

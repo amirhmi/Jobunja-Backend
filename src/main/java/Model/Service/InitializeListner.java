@@ -1,3 +1,10 @@
+package Model.Service;
+
+import Model.Entity.DataBase;
+import Model.Entity.Project;
+import Model.Entity.Skill;
+import Model.Entity.User;
+
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
@@ -7,7 +14,6 @@ import java.util.List;
 @WebListener
 public class InitializeListner implements ServletContextListener {
     private static DataBase db = new DataBase();
-    private static Server server = new Server();
     private static HttpClientGet http_client_get = new HttpClientGet();
 
     @Override
