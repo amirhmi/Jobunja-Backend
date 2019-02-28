@@ -1,4 +1,4 @@
-package Contoller;
+package Controller;
 
 import Model.Entity.DataBase;
 import Model.Entity.Project;

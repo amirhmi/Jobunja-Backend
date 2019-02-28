@@ -1,4 +1,4 @@
-package Contoller;
+package Controller;
 
 import Model.Entity.DataBase;
 import Model.Entity.Project;
@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-@WebServlet(name = "ShowProject")
+@WebServlet("/project")
 public class ShowProject extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
@@ -22,14 +22,18 @@ public class ShowProject extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter("id");
         if(id != null && !id.isEmpty()) {
-            List<Project> projectList = MiddlewareService.;
-            request.setAttribute("projectList", projectList);
-            request.getRequestDispatcher("ShowProjects.jsp").forward(request, response);
+            Project project = MiddlewareService.getSpecificProject(id);
+            if(project != null) {
+                request.setAttribute("project", project);
+                request.getRequestDispatcher("ShowProject.jsp").forward(request, response);
+            }
         }
         response.setStatus(400);
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
         out.println("<h3>Bad Request</h3>");
-        out.println("<p>Please set correct project id in url</p>");
+        out.println("<p>Please set proper project id in url</p>");
     }
 }
+
+

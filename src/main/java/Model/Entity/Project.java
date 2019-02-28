@@ -48,11 +48,12 @@ public class Project {
 
     public List<Skill> getSkills() { return skills; }
 
-    public void addBid(Bid bid)
+    public boolean addBid(Bid bid)
     {
         if (!bidSuited(bid))
-            return;
+            return false;
         this.bids.add(bid);
+        return true;
     }
 
     private boolean bidSuited(Bid bid)
