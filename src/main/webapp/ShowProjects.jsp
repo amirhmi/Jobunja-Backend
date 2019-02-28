@@ -1,33 +1,36 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>JSTL!</title>
+    <meta charset="UTF-8">
+    <title>Projects</title>
+    <style>
+        table {
+            text-align: center;
+            margin: 0 auto;
+        }
+        td {
+            min-width: 300px;
+            margin: 5px 5px 5px 5px;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-
-<c:if test="${1 < 2}">
-    <c:out value="${'<b>This is a <c:out> example </b>'}" escapeXml="false"/>
-    <br><br>
-</c:if>
-
 <table>
-    <tbody>
     <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Role</th>
+        <th>id</th>
+        <th>title</th>
+        <th>budget</th>
     </tr>
-    <c:forEach var="emp" items="${requestScope.empList}">
+    <c:forEach var="project" items="${requestScope.projectsList}">
         <tr>
-            <td><c:out value="${emp.id}"/></td>
-            <td><c:out value="${emp.name}"/></td>
-            <td>${emp.role}</td>
+            <td><c:out value="${project.id}"/></td>
+            <td><c:out value="${project.title}"/></td>
+            <td><c:out value="${project.budget}"/></td>
         </tr>
     </c:forEach>
-    </tbody>
 </table>
-
-
 </body>
 </html>
