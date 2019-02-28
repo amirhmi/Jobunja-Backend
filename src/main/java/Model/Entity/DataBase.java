@@ -43,4 +43,5 @@ public class DataBase {
     }
 
     public static List<Project> getProjects() { return me.projects; }
+    public static List<User> getUsers() { return me.users; }
 }

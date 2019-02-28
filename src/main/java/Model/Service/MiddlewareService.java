@@ -16,4 +16,13 @@ public class MiddlewareService {
                 ret.add(project);
         return ret;
     }
+    public static List<User> getUsersExcept(User exceptUser)
+    {
+        List<User> userList = DataBase.getUsers(), ret = new ArrayList<>();
+        for (User user : userList)
+            if (user != exceptUser)
+                ret.add(user);
+        return userList;
+        //return ret;
+    }
 }

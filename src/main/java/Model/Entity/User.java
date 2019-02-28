@@ -12,9 +12,10 @@ public class User {
     private List<Skill> skills = new ArrayList<Skill>();
     private String bio;
 
-    public String getFirstName() { return first_name; }
     public String getId() { return id; }
+    public String getFirstName() { return first_name; }
     public String getLastName() { return last_name;}
+    public String getFullName() { return first_name + " " + last_name; }
     public String getJobTitle() {return job_title;}
     public String getProfilePicUrl() { return profile_pic_url;}
     public String getBio() { return bio;}
