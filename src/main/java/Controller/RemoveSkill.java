@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "RemoveSkill")
+@WebServlet("/RemoveSkill")
 public class RemoveSkill extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String skillName = request.getParameter("skill");
@@ -18,10 +18,11 @@ public class RemoveSkill extends HttpServlet {
         request.setAttribute("user", currentUser);
         if(skillName != null && !skillName.isEmpty()) {
             boolean status = MiddlewareService.RemoveSkillForLoginUser(skillName);
-            if(status == true) {
+            if(status) {
                 response.setStatus(200);
                 request.setAttribute("message", "skill removed successfully");
                 request.getRequestDispatcher("Profile.jsp").forward(request, response);
+                return;
             }
         }
         response.setStatus(400);

@@ -66,7 +66,7 @@ public class User {
 
     public boolean removeSkill(String skillName) {
         for(Skill skill : skills)
-            if(skill.equals(skillName)) {
+            if(skill.getName().equals(skillName)) {
                 skills.remove(skill);
                 return true;
             }
