@@ -6,7 +6,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Project</title>
+    <title>User</title>
 </head>
 <body>
 <ul>
@@ -45,4 +45,3 @@
     <h4><c:out value = "${message}"/><h4>
 </c:if>
 </body>
-<
