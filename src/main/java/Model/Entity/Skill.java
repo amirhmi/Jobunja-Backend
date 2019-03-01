@@ -25,6 +25,8 @@ public class Skill {
         this.point = 0;
     }
 
+    public void addPoint() { this.point += 1; }
+
     public static void setValidNames(List<String> valid)
     {
         valid_names = valid;

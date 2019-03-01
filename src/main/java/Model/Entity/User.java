@@ -72,4 +72,14 @@ public class User {
             }
         return false;
     }
+
+    public boolean endorseSkill(String skillName)
+    {
+        for (Skill skill : skills)
+            if (skill.getName().equals(skillName)) {
+                skill.addPoint();
+                return true;
+            }
+        return false;
+    }
 }
