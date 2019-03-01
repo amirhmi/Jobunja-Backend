@@ -21,10 +21,12 @@ public class SetBid extends HttpServlet {
             boolean status = MiddlewareService.setBid(id, bidAmount);
             if(!status)
                 throw new NumberFormatException();
+            request.setAttribute("showBid", false);
             request.setAttribute("message", "Bid set succesfully");
             request.getRequestDispatcher("ShowProject.jsp").forward(request, response);
 
         } catch (NumberFormatException e) {
+            request.setAttribute("showBid", true);
             request.setAttribute("message", "Error occurred while setting bid");
             request.getRequestDispatcher("ShowProject.jsp").forward(request, response);
         }

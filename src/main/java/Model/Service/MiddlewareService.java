@@ -44,4 +44,12 @@ public class MiddlewareService {
         boolean status = project.addBid(bid);
         return status;
     }
+
+    public static boolean hasCurrentUserBidForProject(Project project) {
+        for(Bid bid : project.getBids()) {
+            if(bid.getUser().getId() == DataBase.only_login_user.getId())
+                return false;
+        }
+        return true;
+    }
 }

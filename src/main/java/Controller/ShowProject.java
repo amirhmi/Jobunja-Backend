@@ -24,6 +24,8 @@ public class ShowProject extends HttpServlet {
         if(id != null && !id.isEmpty()) {
             Project project = MiddlewareService.getSpecificProject(id);
             if(project != null) {
+                boolean hasBid = MiddlewareService.hasCurrentUserBidForProject(project);
+                request.setAttribute("showBid", hasBid);
                 request.setAttribute("project", project);
                 request.getRequestDispatcher("ShowProject.jsp").forward(request, response);
             }

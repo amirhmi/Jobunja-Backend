@@ -48,6 +48,8 @@ public class Project {
 
     public List<Skill> getSkills() { return skills; }
 
+    public List<Bid> getBids() {return bids;}
+
     public boolean addBid(Bid bid)
     {
         if (!bidSuited(bid))
