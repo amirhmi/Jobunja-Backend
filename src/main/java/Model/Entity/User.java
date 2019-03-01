@@ -56,4 +56,13 @@ public class User {
     public void addSkill(Skill skill) {
         skills.add(skill);
     }
+
+    public boolean removeSkill(String SkillName) {
+        for(Skill skill : skills)
+            if(skill.equals(SkillName)) {
+                skills.remove(skill);
+                return true;
+            }
+        return false;
+    }
 }
