@@ -61,6 +61,7 @@ public class MiddlewareService {
             User currentUser = DataBase.only_login_user;
             if(currentUser.hasSkill(skillName))
                 return false;
+            System.out.println("inja");
             Skill skill = new Skill(skillName);
             currentUser.addSkill(skill);
             return true;
@@ -78,5 +79,14 @@ public class MiddlewareService {
     public static boolean RemoveSkillForLoginUser(String skillName) {
         User currentUser = getCurrentUser();
         return currentUser.removeSkill(skillName);
+    }
+
+    public static List<String> CanBeAddedSkills() {
+        User currentUser = getCurrentUser();
+        List<String> skillNames = new ArrayList<>();
+        for (String skillName : Skill.getValidNames())
+            if (!currentUser.hasSkill(skillName))
+                skillNames.add(skillName);
+        return skillNames;
     }
 }

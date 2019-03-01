@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.crypto.Data;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet("/AddSkill")
 public class AddSkill extends HttpServlet {
@@ -22,11 +23,16 @@ public class AddSkill extends HttpServlet {
             boolean status = MiddlewareService.addSkillForLoginUser(skillName);
             if(status == true) {
                 response.setStatus(200);
+                List<String> skillNames = MiddlewareService.CanBeAddedSkills();
+                request.setAttribute("skillNames", skillNames);
+                request.setAttribute("message", "skill removed successfully");
                 request.setAttribute("message", "skill added successfully");
-                response.sendRedirect("/Profile.jsp");
+                request.getRequestDispatcher("Profile.jsp").forward(request, response);
                 return;
             }
         }
+        List<String> skillNames = MiddlewareService.CanBeAddedSkills();
+        request.setAttribute("skillNames", skillNames);
         response.setStatus(400);
         request.setAttribute("message", "Please select proper skill");
         request.getRequestDispatcher("Profile.jsp").forward(request, response);

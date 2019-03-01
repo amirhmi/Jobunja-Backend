@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet("/RemoveSkill")
 public class RemoveSkill extends HttpServlet {
@@ -20,11 +21,15 @@ public class RemoveSkill extends HttpServlet {
             boolean status = MiddlewareService.RemoveSkillForLoginUser(skillName);
             if(status) {
                 response.setStatus(200);
+                List<String> skillNames = MiddlewareService.CanBeAddedSkills();
+                request.setAttribute("skillNames", skillNames);
                 request.setAttribute("message", "skill removed successfully");
-                response.sendRedirect("/Profile.jsp");
+                request.getRequestDispatcher("Profile.jsp").forward(request, response);
                 return;
             }
         }
+        List<String> skillNames = MiddlewareService.CanBeAddedSkills();
+        request.setAttribute("skillNames", skillNames);
         response.setStatus(400);
         request.setAttribute("message", "Please remove proper skill");
         request.getRequestDispatcher("Profile.jsp").forward(request, response);

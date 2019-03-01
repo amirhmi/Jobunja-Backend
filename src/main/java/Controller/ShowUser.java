@@ -29,10 +29,7 @@ public class ShowUser extends HttpServlet {
                 {
                     System.out.println("showing profile");
                     request.setAttribute("user", user);
-                    List<String> skillNames = new ArrayList<>();
-                    for (String skillName : Skill.getValidNames())
-                        if (!user.hasSkill(skillName))
-                            skillNames.add(skillName);
+                    List<String> skillNames = MiddlewareService.CanBeAddedSkills();
                     request.setAttribute("skillNames", skillNames);
                     request.getRequestDispatcher("Profile.jsp").forward(request, response);
                 }

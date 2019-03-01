@@ -58,9 +58,12 @@ public class User {
     }
 
     public boolean hasSkill(String skillName) {
-        for(Skill skill : skills)
-            if(skill.equals(skillName))
+        for(Skill skill : skills) {
+            if (skill.getName().equals(skillName)) {
+                System.out.println("salam " + skillName);
                 return true;
+            }
+        }
         return false;
     }
 
