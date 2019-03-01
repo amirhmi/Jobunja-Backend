@@ -36,14 +36,18 @@
             <c:forEach var="skill" items="${user.skills}">
                 <li>
                     <c:out value="${skill.name}"/>
+                    <form action="${pageContext.request.contextPath}/RemoveSkill" method="POST">
+                        <input type="hidden" name="skill" value="${skill.name}"/>
+                        <button>Delete</button>
+                    </form>
                 </li>
             </c:forEach>
         </ul>
     </li>
 </ul>
-<form action="" method="">
+<form action="${pageContext.request.contextPath}/AddSkill" method="POST">
     Add Skill:
-    <select name="">
+    <select name="skill">
         <c:forEach var="skillName" items="${skillNames}">
             <option value="${skillName}"><c:out value="${skillName}"/> </option>
         </c:forEach>

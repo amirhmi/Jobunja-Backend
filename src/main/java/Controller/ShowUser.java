@@ -31,7 +31,7 @@ public class ShowUser extends HttpServlet {
                     request.setAttribute("user", user);
                     List<String> skillNames = new ArrayList<>();
                     for (String skillName : Skill.getValidNames())
-                        if (user.getSkillPoint(new Skill(skillName, 0)) == -1)
+                        if (!user.hasSkill(skillName))
                             skillNames.add(skillName);
                     request.setAttribute("skillNames", skillNames);
                     request.getRequestDispatcher("Profile.jsp").forward(request, response);
