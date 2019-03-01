@@ -57,9 +57,16 @@ public class User {
         skills.add(skill);
     }
 
-    public boolean removeSkill(String SkillName) {
+    public boolean hasSkill(String skillName) {
         for(Skill skill : skills)
-            if(skill.equals(SkillName)) {
+            if(skill.equals(skillName))
+                return true;
+        return false;
+    }
+
+    public boolean removeSkill(String skillName) {
+        for(Skill skill : skills)
+            if(skill.equals(skillName)) {
                 skills.remove(skill);
                 return true;
             }
