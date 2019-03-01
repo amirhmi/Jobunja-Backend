@@ -27,11 +27,15 @@ public class MiddlewareService {
         return userList;
     }
 
+    public static User getSpecificUser(String id)
+    {
+        return DataBase.findUser(id);
+    }
+
     public static Project getSpecificProject(String id)
     {
-        List<Project> projectList = DataBase.getProjects();
         Project project = DataBase.findProject(id);
-        if(project.userSuited(DataBase.only_login_user))
+        if(project != null && project.userSuited(DataBase.only_login_user))
             return project;
         return null;
     }

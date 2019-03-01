@@ -33,13 +33,13 @@ public class InitializeListner implements ServletContextListener {
             DataBase.setLoginUser(new User("2", "امیرحسین", "احمدی", "برنامه نویس وب",
                     "",
                     "روی سنگ قبرم بنویسید: خدا بیامرز می خواست خیلی کارا بکنه ولی پول نداشت",
-                    new Skill("HTML", 5), new Skill("Javascript", 4), new Skill("C++", 2),
-                    new Skill("Java", 3)));
+                    new Skill("HTML", 5), new Skill("Django", 6), new Skill("PHP", 2),
+                    new Skill("Java", 3), new Skill("Node.js", 10)));
             DataBase.setLoginUser(new User("3", "بهار", "باطنی", "برنامه نویس وب",
                     "",
                     "روی سنگ قبرم بنویسید: خدا بیامرز می خواست خیلی کارا بکنه ولی پول نداشت",
-                    new Skill("HTML", 5), new Skill("Javascript", 4), new Skill("C++", 2),
-                    new Skill("Java", 3)));
+                    new Skill("C", 4), new Skill("C++", 7), new Skill("Photoshop", 1),
+                    new Skill("Java", 4), new Skill("Linux", 3)));
             System.out.println(project_data_json);
         }
         catch (IOException ioException) {
