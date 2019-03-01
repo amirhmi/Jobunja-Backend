@@ -72,4 +72,9 @@ public class MiddlewareService {
     public static User getCurrentUser() {
         return DataBase.only_login_user;
     }
+
+    public static boolean RemoveSkillForLoginUser(String skillName) {
+        User currentUser = getCurrentUser();
+        return currentUser.removeSkill(skillName);
+    }
 }
