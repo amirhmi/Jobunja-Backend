@@ -19,6 +19,7 @@ public class User {
     public String getJobTitle() {return job_title;}
     public String getProfilePicUrl() { return profile_pic_url;}
     public String getBio() { return bio;}
+    public List<Skill> getSkills() { return skills; }
 
     public User (String id, String first_name, String last_name, List<Skill> skills, String job_title,
                  String profile_pic_url, String bio) {
