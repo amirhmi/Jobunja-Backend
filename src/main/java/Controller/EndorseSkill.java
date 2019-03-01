@@ -27,7 +27,7 @@ public class EndorseSkill extends HttpServlet {
             }
         }
         response.setStatus(400);
-        request.setAttribute("message", "Please select proper skill");
+        request.setAttribute("message", "You cannot endorse this skill");
         request.getRequestDispatcher("UserInfo.jsp").forward(request, response);
     }
 }
