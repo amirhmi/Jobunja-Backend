@@ -23,7 +23,7 @@ public class AddSkill extends HttpServlet {
             if(status == true) {
                 response.setStatus(200);
                 request.setAttribute("message", "skill added successfully");
-                request.getRequestDispatcher("Profile.jsp").forward(request, response);
+                response.sendRedirect("/Profile.jsp");
                 return;
             }
         }
