@@ -21,7 +21,7 @@ public class AddSkill extends HttpServlet {
         request.setAttribute("user", currentUser);
         if(skillName != null && !skillName.isEmpty()) {
             boolean status = MiddlewareService.addSkillForLoginUser(skillName);
-            if(status == true) {
+            if(status) {
                 response.setStatus(200);
                 List<String> skillNames = MiddlewareService.CanBeAddedSkills();
                 request.setAttribute("skillNames", skillNames);

@@ -58,10 +58,10 @@ public class MiddlewareService {
 
     public static boolean addSkillForLoginUser(String skillName) {
         try {
-            User currentUser = DataBase.only_login_user;
-            if(currentUser.hasSkill(skillName))
+            User currentUser = getCurrentUser();
+            if(currentUser.hasSkill(skillName)) {
                 return false;
-            System.out.println("inja");
+            }
             Skill skill = new Skill(skillName);
             currentUser.addSkill(skill);
             return true;

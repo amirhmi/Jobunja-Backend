@@ -40,7 +40,6 @@ public class InitializeListner implements ServletContextListener {
                     "روی سنگ قبرم بنویسید: خدا بیامرز می خواست خیلی کارا بکنه ولی پول نداشت",
                     new Skill("C", 4), new Skill("C++", 7), new Skill("Photoshop", 1),
                     new Skill("Java", 4), new Skill("Linux", 3)));
-            System.out.println(project_data_json);
         }
         catch (IOException ioException) {
             return;
