@@ -22,7 +22,7 @@ public class ShowUser extends HttpServlet {
         if(id != null && !id.isEmpty()) {
             User user = MiddlewareService.getSpecificUser(id);
             if(user != null) {
-                if (user == DataBase.only_login_user)
+                if (user.getId().equals(DataBase.only_login_user.getId()))
                 {
                     request.setAttribute("user", user);
                     request.getRequestDispatcher("Profile.jsp").forward(request, response);
