@@ -75,7 +75,7 @@ public class MiddlewareService {
     {
         if (user == null || user.getId().equals(getCurrentUser().getId()))
             return false;
-        return user.endorseSkill(skillName);
+        return user.endorseSkill(skillName, user);
     }
 
     public static User getCurrentUser() {

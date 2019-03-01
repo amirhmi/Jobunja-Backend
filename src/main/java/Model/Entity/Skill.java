@@ -7,6 +7,7 @@ public class Skill {
     private String name;
     private int point;
     private static List<String> valid_names = new ArrayList<>();
+    private List<User> endorsedBy = new ArrayList<>();
 
     public Skill() {
         this.name = "no-skill";
@@ -25,7 +26,15 @@ public class Skill {
         this.point = 0;
     }
 
-    public void addPoint() { this.point += 1; }
+    public boolean endorse(User endorser)
+    {
+        for (User user : endorsedBy)
+            if (user.getId().equals(endorser.getId()))
+                return false;
+        endorsedBy.add(endorser);
+        this.point += 1;
+        return true;
+    }
 
     public static void setValidNames(List<String> valid)
     {

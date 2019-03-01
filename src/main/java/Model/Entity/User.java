@@ -73,12 +73,11 @@ public class User {
         return false;
     }
 
-    public boolean endorseSkill(String skillName)
+    public boolean endorseSkill(String skillName, User user)
     {
         for (Skill skill : skills)
             if (skill.getName().equals(skillName)) {
-                skill.addPoint();
-                return true;
+                return skill.endorse(user);
             }
         return false;
     }

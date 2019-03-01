@@ -19,7 +19,7 @@ public class EndorseSkill extends HttpServlet {
         request.setAttribute("user", otherUser);
         if(skillName != null && !skillName.isEmpty()) {
             boolean status = MiddlewareService.endorseSkillForOtherUser(skillName, otherUser);
-            if(status == true) {
+            if(status) {
                 response.setStatus(200);
                 request.setAttribute("message", "skill endorsed successfully");
                 request.getRequestDispatcher("UserInfo.jsp").forward(request, response);
