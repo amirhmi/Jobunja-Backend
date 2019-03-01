@@ -27,7 +27,6 @@ public class ShowUser extends HttpServlet {
             if(user != null) {
                 if (user.getId().equals(MiddlewareService.getCurrentUser().getId()))
                 {
-                    System.out.println("showing profile");
                     request.setAttribute("user", user);
                     List<String> skillNames = MiddlewareService.CanBeAddedSkills();
                     request.setAttribute("skillNames", skillNames);
@@ -36,6 +35,7 @@ public class ShowUser extends HttpServlet {
                 else
                 {
                     request.setAttribute("user", user);
+                    request.getRequestDispatcher("UserInfo.jsp").forward(request, response);
                 }
                 return;
             }

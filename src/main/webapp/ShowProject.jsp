@@ -32,7 +32,7 @@
     </form>
 </c:if>
 <c:if test = "${message != null && !message.isEmpty()}">
-    <h4><c:out value = "${message}"/><h4>
+    <h4><c:out value = "${message}"/></h4>
 </c:if>
 </body>
 </html>

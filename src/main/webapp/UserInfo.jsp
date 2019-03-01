@@ -36,24 +36,16 @@
             <c:forEach var="skill" items="${user.skills}">
                 <li>
                     <c:out value="${skill.name}"/>: <c:out value="${skill.point}"/>
-                    <form action="${pageContext.request.contextPath}/RemoveSkill" method="POST">
+                    <form action="${pageContext.request.contextPath}/EndorseSkill" method="POST">
+                        <input type="hidden" name="userId" value="${user.id}"/>
                         <input type="hidden" name="skill" value="${skill.name}"/>
-                        <button>Delete</button>
+                        <button>Endorse</button>
                     </form>
                 </li>
             </c:forEach>
         </ul>
     </li>
 </ul>
-<form action="${pageContext.request.contextPath}/AddSkill" method="POST">
-    Add Skill:
-    <select name="skill">
-        <c:forEach var="skillName" items="${skillNames}">
-            <option value="${skillName}"><c:out value="${skillName}"/> </option>
-        </c:forEach>
-    </select>
-    <button>Add</button>
-</form>
 <c:if test = "${message != null && !message.isEmpty()}">
     <h4><c:out value = "${message}"/></h4>
 </c:if>

@@ -72,6 +72,13 @@ public class MiddlewareService {
         }
     }
 
+    public static boolean endorseSkillForOtherUser (String skillName, User user)
+    {
+        if (user == null || user.getId().equals(getCurrentUser().getId()))
+            return false;
+        return user.endorseSkill(skillName, user);
+    }
+
     public static User getCurrentUser() {
         return DataBase.only_login_user;
     }

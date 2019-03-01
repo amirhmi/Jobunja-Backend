@@ -75,4 +75,13 @@ public class User {
             }
         return false;
     }
+
+    public boolean endorseSkill(String skillName, User user)
+    {
+        for (Skill skill : skills)
+            if (skill.getName().equals(skillName)) {
+                return skill.endorse(user);
+            }
+        return false;
+    }
 }
