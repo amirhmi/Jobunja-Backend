@@ -29,5 +29,8 @@
     <input type="hidden" name="id" value="${project.id}">
     <button>Submit</button>
 </form>
+<c:if test = "${message != null && !message.isEmpty()}">
+    <h4><c:out value = "${message}"/><h4>
+</c:if>
 </body>
 </html>
