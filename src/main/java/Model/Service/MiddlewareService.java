@@ -40,6 +40,8 @@ public class MiddlewareService {
         Project project = DataBase.findProject(id);
         if(project == null)
             return false;
+        if(hasCurrentUserBidForProject(project))
+            return false;
         Bid bid = new Bid(DataBase.only_login_user, bidAmount, project);
         boolean status = project.addBid(bid);
         return status;
@@ -48,8 +50,8 @@ public class MiddlewareService {
     public static boolean hasCurrentUserBidForProject(Project project) {
         for(Bid bid : project.getBids()) {
             if(bid.getUser().getId() == DataBase.only_login_user.getId())
-                return false;
+                return true;
         }
-        return true;
+        return false;
     }
 }
