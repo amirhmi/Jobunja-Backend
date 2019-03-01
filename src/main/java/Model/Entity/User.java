@@ -52,4 +52,8 @@ public class User {
         }
         return -1;
     }
+
+    public void addSkill(Skill skill) {
+        skills.add(skill);
+    }
 }
