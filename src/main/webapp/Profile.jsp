@@ -41,6 +41,15 @@
         </ul>
     </li>
 </ul>
+<form action="" method="">
+    Add Skill:
+    <select name="">
+        <c:forEach var="skillName" items="${skillNames}">
+            <option value="${skillName}"><c:out value="${skillName}"/> </option>
+        </c:forEach>
+    </select>
+    <button>Add</button>
+</form>
 <c:if test = "${message != null && !message.isEmpty()}">
     <h4><c:out value = "${message}"/><h4>
 </c:if>

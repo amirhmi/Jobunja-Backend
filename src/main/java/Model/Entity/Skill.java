@@ -34,6 +34,8 @@ public class Skill {
 
     public int getPoint() { return this.point; }
 
+    public static List<String> getValidNames() { return valid_names; }
+
     public static class InvalidSkillNameException extends Exception
     {
         public InvalidSkillNameException(String msg) { super(msg); }
