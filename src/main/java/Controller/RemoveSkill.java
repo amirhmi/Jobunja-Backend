@@ -21,10 +21,11 @@ public class RemoveSkill extends HttpServlet {
             if(status == true) {
                 response.setStatus(200);
                 request.setAttribute("message", "skill removed successfully");
-                return;
+                request.getRequestDispatcher("Profile.jsp").forward(request, response);
             }
         }
         response.setStatus(400);
         request.setAttribute("message", "Please remove proper skill");
+        request.getRequestDispatcher("Profile.jsp").forward(request, response);
     }
 }
