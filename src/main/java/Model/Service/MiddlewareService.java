@@ -1,9 +1,6 @@
 package Model.Service;
 
-import Model.Entity.Bid;
-import Model.Entity.DataBase;
-import Model.Entity.Project;
-import Model.Entity.User;
+import Model.Entity.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,5 +50,18 @@ public class MiddlewareService {
                 return true;
         }
         return false;
+    }
+
+    public static boolean addSkillForLoginUser(String skillName) {
+        try {
+            Skill skill = new Skill(skillName);
+            User currentUser = DataBase.only_login_user;
+            currentUser.addSkill(skill);
+            return true;
+
+        }
+        catch (Skill.InvalidSkillNameException e) {
+            return false;
+        }
     }
 }
