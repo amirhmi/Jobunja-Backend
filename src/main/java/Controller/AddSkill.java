@@ -16,14 +16,17 @@ import java.io.IOException;
 public class AddSkill extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String skillName = request.getParameter("skill");
+        User currentUser = MiddlewareService.getCurrentUser();
+        request.setAttribute("user", currentUser);
         if(skillName != null && !skillName.isEmpty()) {
             boolean status = MiddlewareService.addSkillForLoginUser(skillName);
             if(status == true) {
-//                User currentUser = MiddlewareService.
                 response.setStatus(200);
                 request.setAttribute("message", "skill added successfully");
-                request.setAttribute("user", );
+                return;
             }
         }
+        response.setStatus(400);
+        request.setAttribute("message", "Please select proper skill");
     }
 }

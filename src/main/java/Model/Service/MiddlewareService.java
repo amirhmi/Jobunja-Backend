@@ -68,4 +68,8 @@ public class MiddlewareService {
             return false;
         }
     }
+
+    public static User getCurrentUser() {
+        return DataBase.only_login_user;
+    }
 }
