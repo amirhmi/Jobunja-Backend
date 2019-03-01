@@ -30,7 +30,6 @@ public class ShowProject extends HttpServlet {
                 request.getRequestDispatcher("ShowProject.jsp").forward(request, response);
             }
         }
-        System.out.println("salam");
         response.setStatus(400);
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
