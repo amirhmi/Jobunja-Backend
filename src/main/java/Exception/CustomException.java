@@ -25,4 +25,15 @@ public class CustomException {
     public static class InvalidSkillNameException extends RuntimeException {
     }
 
+    @ResponseStatus(code = HttpStatus.PRECONDITION_FAILED, reason = "Project Already bid")
+    public static class ProjectAlreadyBidExcption extends RuntimeException {
+    }
+
+    @ResponseStatus(code = HttpStatus.PRECONDITION_FAILED, reason = "Project not suited for this user")
+    public static class NotSuitedProjectBidException extends RuntimeException {
+    }
+
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Bad bid amount")
+    public static class BadBidAmountException extends RuntimeException {
+    }
 }

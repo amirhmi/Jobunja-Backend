@@ -50,10 +50,10 @@ public class Project {
 
     public List<Bid> getBids() {return bids;}
 
-    public boolean addBid(Bid bid)
+    public boolean addBid(Bid bid) throws NotSuitedBidException
     {
         if (!bidSuited(bid))
-            return false;
+            throw new NotSuitedBidException();
         this.bids.add(bid);
         return true;
     }
@@ -101,4 +101,6 @@ public class Project {
         }
         return ret;
     }
+
+    public static class NotSuitedBidException extends RuntimeException{}
 }
