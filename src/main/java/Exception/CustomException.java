@@ -18,16 +18,14 @@ public class CustomException {
     public static class InvalidSkillNameException extends RuntimeException { }
 
     @ResponseStatus(code = HttpStatus.FORBIDDEN, reason = "Project Already bid")
-    public static class ProjectAlreadyBidExcption extends RuntimeException {
-    }
+    public static class ProjectAlreadyBidExcption extends RuntimeException { }
 
     @ResponseStatus(code = HttpStatus.FORBIDDEN, reason = "Project not suited for this user")
-    public static class NotSuitedProjectBidException extends RuntimeException {
-    }
+    public static class NotSuitedProjectBidException extends RuntimeException { }
 
     @ResponseStatus(code = HttpStatus.FORBIDDEN, reason = "Bad bid amount")
-    public static class BadBidAmountException extends RuntimeException {
-    }
+    public static class BadBidAmountException extends RuntimeException { }
+
     @ResponseStatus(code = HttpStatus.FORBIDDEN, reason = "endorsed user cannot be same as login user.")
     public static class EndorseByOwnerException extends  RuntimeException { }
 
