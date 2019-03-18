@@ -11,7 +11,7 @@ import java.util.List;
 @RestController
 public class ShowProjects {
     @RequestMapping(value = "/projects", method = RequestMethod.GET)
-    public List<Project> showUsers() {
+    public List<Project> showProjects() {
         return MiddlewareService.getSuitedProjects();
     }
 }
