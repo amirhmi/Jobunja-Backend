@@ -21,19 +21,18 @@ public class Skill {
 
     public Skill(String name) throws InvalidSkillNameException {
         if (!valid_names.contains(name))
-            throw new InvalidSkillNameException("skill is not valid");
+            throw new InvalidSkillNameException();
         this.name = name;
         this.point = 0;
     }
 
-    public boolean endorse(User endorser)
+    public void endorse(User endorser)
     {
         for (User user : endorsedBy)
             if (user.getId().equals(endorser.getId()))
-                return false;
+                throw new AlreadyEndorsedException();
         endorsedBy.add(endorser);
         this.point += 1;
-        return true;
     }
 
     public static void setValidNames(List<String> valid)
@@ -47,9 +46,8 @@ public class Skill {
 
     public static List<String> getValidNames() { return valid_names; }
 
-    public static class InvalidSkillNameException extends Exception
-    {
-        public InvalidSkillNameException(String msg) { super(msg); }
-    }
+    public static class InvalidSkillNameException extends RuntimeException { }
+
+    public static class AlreadyEndorsedException extends RuntimeException { }
 }
 

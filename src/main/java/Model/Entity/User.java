@@ -75,12 +75,14 @@ public class User {
         return false;
     }
 
-    public boolean endorseSkill(String skillName, User user)
+    public void endorseSkill(String skillName, User user)
     {
         for (Skill skill : skills)
             if (skill.getName().equals(skillName)) {
-                return skill.endorse(user);
+                skill.endorse(user);
             }
-        return false;
+        throw new SkillNotFoundException();
     }
+
+    public static class SkillNotFoundException extends RuntimeException {}
 }

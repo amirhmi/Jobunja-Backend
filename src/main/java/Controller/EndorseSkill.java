@@ -1,23 +1,26 @@
 package Controller;
 
+import Model.Entity.Skill;
 import Model.Entity.User;
+import Exception.CustomException;
 import Model.Service.MiddlewareService;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class EndorseSkill {
 
     @RequestMapping(value = "/endorseSkill/{userid}/{skill}", method = RequestMethod.PUT)
-    public String endorseSkill(@PathVariable(value = "userid") String userId, @PathVariable(value = "skill") String skillName) {
+    public List<Skill> endorseSkill(@PathVariable(value = "userid") String userId, @PathVariable(value = "skill") String skillName) {
         User endorsedUser = MiddlewareService.getSpecificUser(userId);
-        if(skillName != null && !skillName.isEmpty()) {
-            MiddlewareService.endorseSkillForOtherUser(skillName, endorsedUser);
-            String response = "Skill endorsed successfully";
-            return response;
-        }
+        if (endorsedUser == null)
+            throw new CustomException.UserNotFoundException();
+        MiddlewareService.endorseSkillForOtherUser(skillName, endorsedUser);
+        return endorsedUser.getSkills();
     }
 }
 
