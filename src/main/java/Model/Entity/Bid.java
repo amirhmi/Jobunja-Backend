@@ -15,4 +15,20 @@ public class Bid {
     public Project getProject() { return project; }
 
     public int getBudget() { return budget; }
+
+    public static class BidJson
+    {
+        public String user;
+        public String project;
+        public int budget;
+    }
+
+    public BidJson toBidJson ()
+    {
+        BidJson ret = new BidJson();
+        ret.user = this.user.getId();
+        ret.project = this.project.getId();
+        ret.budget = this.budget;
+        return ret;
+    }
 }

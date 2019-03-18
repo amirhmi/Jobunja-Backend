@@ -51,5 +51,21 @@ public class Skill {
     public static class InvalidSkillNameException extends RuntimeException { }
 
     public static class AlreadyEndorsedException extends RuntimeException { }
-}
 
+    public class SkillJson
+    {
+        public String name;
+        public int point;
+        public List<String> endorsers;
+    }
+
+    public SkillJson toSkillJson ()
+    {
+        SkillJson ret = new SkillJson();
+        ret.name = this.name;
+        ret.point = this.point;
+        for (User endorser : endorsedBy)
+            ret.endorsers.add(endorser.getId());
+        return ret;
+    }
+}

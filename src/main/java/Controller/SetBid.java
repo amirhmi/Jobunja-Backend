@@ -11,9 +11,9 @@ import Exception.CustomException;
 public class SetBid {
 
     @RequestMapping(value = "/setbid/{projectid}", method = RequestMethod.POST)
-    public Bid setBid(@PathVariable(value = "projectid") String projectId,
-                      HttpServletRequest request,
-                      @RequestParam(value="bidAmount", required=false) String bidAmountParam) {
+    public Bid.BidJson setBid(@PathVariable(value = "projectid") String projectId,
+                              HttpServletRequest request,
+                              @RequestParam(value="bidAmount", required=false) String bidAmountParam) {
         int bidAmount;
         try {
             bidAmount = Integer.parseInt(bidAmountParam);
@@ -22,6 +22,6 @@ public class SetBid {
             throw new CustomException.BadBidAmountException();
         }
         Bid bid = MiddlewareService.setBid(projectId, bidAmount);
-        return bid;
+        return bid.toBidJson();
     }
 }

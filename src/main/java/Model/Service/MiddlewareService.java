@@ -79,14 +79,14 @@ public class MiddlewareService {
             }
     }
 
-    public static void endorseSkillForOtherUser (String skillName, User user)
+    public static Skill endorseSkillForOtherUser (String skillName, User user)
     {
         if (user == null)
             throw new CustomException.UserNotFoundException();
         if (user.getId().equals(getCurrentUser().getId()))
             throw new CustomException.EndorseByOwnerException();
         try {
-            user.endorseSkill(skillName, user);
+            return user.endorseSkill(skillName, user);
         }
         catch (User.SkillNotFoundException e)
         {

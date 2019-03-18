@@ -17,9 +17,9 @@ import java.util.List;
 public class RemoveSkill {
 
     @RequestMapping(value = "/removeSkill", method = RequestMethod.DELETE)
-    public List<Skill> removeSkill(HttpServletRequest request,
+    public List<User.UserJson.SkillJson> removeSkill(HttpServletRequest request,
                                    @RequestParam(value="skill", required=true) String skillName) {
         MiddlewareService.RemoveSkillForLoginUser(skillName);
-        return MiddlewareService.getCurrentUser().getSkills();
+        return MiddlewareService.getCurrentUser().toUserJson().skills;
     }
 }

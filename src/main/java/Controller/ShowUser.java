@@ -12,7 +12,7 @@ import Exception.CustomException;
 public class ShowUser {
 
     @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
-    public User showUser(@PathVariable(value = "id") String id) {
+    public User.UserJson showUser(@PathVariable(value = "id") String id) {
         if (id == null || id.isEmpty()) {
             throw new CustomException.BadRequestException();
         }
@@ -21,6 +21,6 @@ public class ShowUser {
         if(user == null) {
             throw new CustomException.UserNotFoundException();
         }
-        return user;
+        return user.toUserJson();
     }
 }

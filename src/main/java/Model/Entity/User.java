@@ -77,17 +77,52 @@ public class User {
         throw new SkillNotFoundException();
     }
 
-    public void endorseSkill(String skillName, User user) throws SkillNotFoundException, Skill.AlreadyEndorsedException
+    public Skill endorseSkill(String skillName, User user) throws SkillNotFoundException, Skill.AlreadyEndorsedException
     {
         for (Skill skill : skills)
             if (skill.getName().equals(skillName)) {
                 skill.endorse(user);
-                return;
-            }
+                return skill;
+        }
         throw new SkillNotFoundException();
     }
 
     public static class SkillNotFoundException extends RuntimeException {}
 
     public static class SkillAlreadyExistsException extends RuntimeException {}
+
+    public static class UserJson
+    {
+        public String id;
+        public String first_name;
+        public String last_name;
+        public String job_title;
+        public String profile_pic_url;
+        public List<SkillJson> skills = new ArrayList<SkillJson>();
+        public String bio;
+        public static class SkillJson
+        {
+            public String skillname;
+            public int point;
+        }
+    }
+
+    public UserJson toUserJson()
+    {
+        UserJson ret = new UserJson();
+        ret.id = this.id;
+        ret.first_name = this.first_name;
+        ret.last_name = this.last_name;
+        ret.job_title = this.job_title;
+        ret.profile_pic_url = this.profile_pic_url;
+        for (Skill skill : skills)
+        {
+            UserJson.SkillJson skillJson = new UserJson.SkillJson();
+            skillJson.skillname = skill.getName();
+            skillJson.point = skill.getPoint();
+            ret.skills.add(skillJson);
+        }
+        ret.bio = this.bio;
+        return ret;
+    }
 }
