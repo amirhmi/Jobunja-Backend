@@ -10,7 +10,7 @@ import java.util.List;
 @RestController
 public class ShowUsers {
 
-    @RequestMapping(value = "/users}", method = RequestMethod.GET)
+    @RequestMapping(value = "/users", method = RequestMethod.GET)
     public List<User> showUsers() {
         List<User> response = MiddlewareService.getUsersExceptCurrent();
         return response;
