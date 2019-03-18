@@ -2,32 +2,22 @@ package Controller;
 
 import Model.Entity.User;
 import Model.Service.MiddlewareService;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+@RestController
+public class EndorseSkill {
 
-@WebServlet("/EndorseSkill")
-public class EndorseSkill extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String skillName = request.getParameter("skill");
-        String userId = request.getParameter("userId");
-        User otherUser = MiddlewareService.getSpecificUser(userId);
-        request.setAttribute("user", otherUser);
+    @RequestMapping(value = "/endorseSkill/{userid}/{skill}", method = RequestMethod.PUT)
+    public String endorseSkill(@PathVariable(value = "userid") String userId, @PathVariable(value = "skill") String skillName) {
+        User endorsedUser = MiddlewareService.getSpecificUser(userId);
         if(skillName != null && !skillName.isEmpty()) {
-            boolean status = MiddlewareService.endorseSkillForOtherUser(skillName, otherUser);
-            if(status) {
-                response.setStatus(200);
-                request.setAttribute("message", "skill endorsed successfully");
-                request.getRequestDispatcher("UserInfo.jsp").forward(request, response);
-                return;
-            }
+            MiddlewareService.endorseSkillForOtherUser(skillName, endorsedUser);
+            String response = "Skill endorsed successfully";
+            return response;
         }
-        response.setStatus(400);
-        request.setAttribute("message", "You cannot endorse this skill");
-        request.getRequestDispatcher("UserInfo.jsp").forward(request, response);
     }
 }
+

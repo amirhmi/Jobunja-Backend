@@ -4,6 +4,7 @@ import Model.Entity.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import Exception.CustomException;
 
 public class MiddlewareService {
     public static List<Project> getSuitedProjects()
@@ -58,20 +59,19 @@ public class MiddlewareService {
         return false;
     }
 
-    public static boolean addSkillForLoginUser(String skillName) {
-        try {
+    public static void addSkillForLoginUser(String skillName) throws CustomException.InvalidSkillNameException, CustomException.SkillAlreadyExistsException {
             User currentUser = getCurrentUser();
             if(currentUser.hasSkill(skillName)) {
-                return false;
+                throw new CustomException.SkillAlreadyExistsException();
             }
-            Skill skill = new Skill(skillName);
-            currentUser.addSkill(skill);
-            return true;
-
-        }
-        catch (Skill.InvalidSkillNameException e) {
-            return false;
-        }
+            try {
+                Skill skill = new Skill(skillName);
+                currentUser.addSkill(skill);
+            }
+            catch (Skill.InvalidSkillNameException e)
+            {
+                throw new CustomException.InvalidSkillNameException();
+            }
     }
 
     public static boolean endorseSkillForOtherUser (String skillName, User user)

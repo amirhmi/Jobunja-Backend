@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import Exception.CustomException;
 
-import java.util.List;
-
 @RestController
 public class ShowUser {
 
@@ -23,8 +21,6 @@ public class ShowUser {
         if(user == null) {
             throw new CustomException.UserNotFoundException();
         }
-
-        User response = MiddlewareService.getSpecificUser(id);
-        return response;
+        return user;
     }
 }

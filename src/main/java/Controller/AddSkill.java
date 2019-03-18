@@ -1,40 +1,18 @@
 package Controller;
 
-import Model.Entity.Skill;
-import Model.Entity.User;
 import Model.Service.MiddlewareService;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.crypto.Data;
-import java.io.IOException;
-import java.util.List;
+@RestController
+public class AddSkill {
 
-@WebServlet("/AddSkill")
-public class AddSkill extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String skillName = request.getParameter("skill");
-        User currentUser = MiddlewareService.getCurrentUser();
-        request.setAttribute("user", currentUser);
-        if(skillName != null && !skillName.isEmpty()) {
-            boolean status = MiddlewareService.addSkillForLoginUser(skillName);
-            if(status) {
-                response.setStatus(200);
-                List<String> skillNames = MiddlewareService.CanBeAddedSkills();
-                request.setAttribute("skillNames", skillNames);
-                request.setAttribute("message", "skill removed successfully");
-                request.setAttribute("message", "skill added successfully");
-                request.getRequestDispatcher("Profile.jsp").forward(request, response);
-                return;
-            }
-        }
-        List<String> skillNames = MiddlewareService.CanBeAddedSkills();
-        request.setAttribute("skillNames", skillNames);
-        response.setStatus(400);
-        request.setAttribute("message", "Please select proper skill");
-        request.getRequestDispatcher("Profile.jsp").forward(request, response);
+    @RequestMapping(value = "/addSkill/{skill}", method = RequestMethod.PUT)
+    public String addSkill(@PathVariable(value = "skill") String skillName) {
+        MiddlewareService.addSkillForLoginUser(skillName);
+        String response = "Skill " + skillName + " added succesfuly";
+        return response;
     }
 }

@@ -12,4 +12,13 @@ public class CustomException {
     @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Bad Request")
     public static class BadRequestException extends RuntimeException {
     }
+
+    @ResponseStatus(code = HttpStatus.PRECONDITION_FAILED, reason = "Skill already exists")
+    public static class SkillAlreadyExistsException extends RuntimeException {
+    }
+
+    @ResponseStatus(code = HttpStatus.NOT_ACCEPTABLE, reason = "Skill name is not valid")
+    public static class InvalidSkillNameException extends RuntimeException {
+    }
+
 }

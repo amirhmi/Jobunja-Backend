@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-
 public class ShowProject{
     @RequestMapping(value = "/project/{id}", method = RequestMethod.GET)
     public Project showProject(@PathVariable(value = "id") String id) {
