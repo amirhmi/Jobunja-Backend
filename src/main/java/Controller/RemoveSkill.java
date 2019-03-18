@@ -1,7 +1,12 @@
 package Controller;
 
+import Model.Entity.Skill;
 import Model.Entity.User;
 import Model.Service.MiddlewareService;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,27 +16,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/RemoveSkill")
-public class RemoveSkill extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String skillName = request.getParameter("skill");
-        User currentUser = MiddlewareService.getCurrentUser();
-        request.setAttribute("user", currentUser);
-        if(skillName != null && !skillName.isEmpty()) {
-            boolean status = MiddlewareService.RemoveSkillForLoginUser(skillName);
-            if(status) {
-                response.setStatus(200);
-                List<String> skillNames = MiddlewareService.CanBeAddedSkills();
-                request.setAttribute("skillNames", skillNames);
-                request.setAttribute("message", "skill removed successfully");
-                request.getRequestDispatcher("Profile.jsp").forward(request, response);
-                return;
-            }
-        }
-        List<String> skillNames = MiddlewareService.CanBeAddedSkills();
-        request.setAttribute("skillNames", skillNames);
-        response.setStatus(400);
-        request.setAttribute("message", "Please remove proper skill");
-        request.getRequestDispatcher("Profile.jsp").forward(request, response);
+@RestController
+public class RemoveSkill {
+
+    @RequestMapping(value = "/removeSkill/{skill}", method = RequestMethod.DELETE)
+    public List<Skill> removeSkill(@PathVariable(value = "userid") String userId, @PathVariable(value = "skill") String skillName) {
+        MiddlewareService.RemoveSkillForLoginUser(skillName);
+        return MiddlewareService.getCurrentUser().getSkills();
     }
 }
