@@ -86,7 +86,7 @@ public class MiddlewareService {
         if (user.getId().equals(getCurrentUser().getId()))
             throw new CustomException.EndorseByOwnerException();
         try {
-            return user.endorseSkill(skillName, user);
+            return user.endorseSkill(skillName, getCurrentUser());
         }
         catch (User.SkillNotFoundException e)
         {

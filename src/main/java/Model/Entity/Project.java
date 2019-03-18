@@ -9,7 +9,7 @@ public class Project {
     private String title;
     private String description;
     private String imageUrl;
-    private List<Skill> skills;
+    private List<Skill> skills = new ArrayList<>();
     private List<Bid> bids = new ArrayList<>();
     private int budget;
     private long deadline;
@@ -150,7 +150,10 @@ public class Project {
         }
         ret.budget = this.budget;
         ret.deadline = this.deadline;
-        ret.winner = this.winner.getId();
+        if (ret.winner != null)
+            ret.winner = this.winner.getId();
+        else
+            ret.winner = "";
         return ret;
     }
 }

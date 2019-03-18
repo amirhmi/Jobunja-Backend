@@ -56,7 +56,7 @@ public class Skill {
     {
         public String name;
         public int point;
-        public List<String> endorsers;
+        public List<String> endorsers = new ArrayList<>();
     }
 
     public SkillJson toSkillJson ()
