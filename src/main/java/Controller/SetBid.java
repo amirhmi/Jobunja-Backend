@@ -3,6 +3,8 @@ package Controller;
 import Model.Entity.DataBase;
 import Model.Entity.Project;
 import Model.Service.MiddlewareService;
+import org.apache.http.annotation.Contract;
+import org.springframework.stereotype.Controller;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet("/SetBid")
+@Controller
 public class SetBid extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
