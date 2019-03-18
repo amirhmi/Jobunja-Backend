@@ -9,6 +9,10 @@ public class CustomException {
     public static class UserNotFoundException extends RuntimeException {
     }
 
+    @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Project not found")
+    public static class ProjectNotFoundException extends RuntimeException {
+    }
+
     @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Bad Request")
     public static class BadRequestException extends RuntimeException {
     }
