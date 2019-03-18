@@ -19,7 +19,7 @@ public class ShowProject{
 
         Project project = MiddlewareService.getSpecificProject(id);
         if(project == null) {
-            throw new CustomException.UserNotFoundException();
+            throw new CustomException.ProjectNotFoundException();
         }
         return project;
     }
