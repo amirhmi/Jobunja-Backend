@@ -20,8 +20,8 @@ import java.util.List;
 public class RemoveSkill {
 
     @RequestMapping(value = "/removeSkill/{skill}", method = RequestMethod.DELETE)
-    public List<Skill> removeSkill(@PathVariable(value = "userid") String userId, @PathVariable(value = "skill") String skillName) {
+    public List<User.UserJson.SkillJson> removeSkill(@PathVariable(value = "userid") String userId, @PathVariable(value = "skill") String skillName) {
         MiddlewareService.RemoveSkillForLoginUser(skillName);
-        return MiddlewareService.getCurrentUser().getSkills();
+        return MiddlewareService.getCurrentUser().toUserJson().skills;
     }
 }

@@ -14,10 +14,10 @@ import java.util.List;
 public class AddSkill {
 
     @RequestMapping(value = "/addSkill/{skill}", method = RequestMethod.PUT)
-    public List<Skill> addSkill(@PathVariable(value = "skill") String skillName) {
+    public List<User.UserJson.SkillJson> addSkill(@PathVariable(value = "skill") String skillName) {
         MiddlewareService.addSkillForLoginUser(skillName);
         User currentUser = MiddlewareService.getCurrentUser();
         List<Skill> skills = currentUser.getSkills();
-        return skills;
+        return MiddlewareService.getCurrentUser().toUserJson().skills;
     }
 }

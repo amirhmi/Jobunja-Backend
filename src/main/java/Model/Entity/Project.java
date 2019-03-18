@@ -103,4 +103,54 @@ public class Project {
     }
 
     public static class NotSuitedBidException extends RuntimeException{}
+
+    public static class ProjectJson
+    {
+        public String id;
+        public String title;
+        public String description;
+        public String imageUrl;
+        public List<SkillJson> skills = new ArrayList<>();
+        public List<BidJson> bids = new ArrayList<>();
+        public int budget;
+        public long deadline;
+        public String winner;
+        public static class SkillJson
+        {
+            public String name;
+            public int point;
+        }
+        public static class BidJson
+        {
+            public String userid;
+            public int budget;
+        }
+    }
+
+    public ProjectJson toProjectJson ()
+    {
+        ProjectJson ret = new ProjectJson();
+        ret.id = this.id;
+        ret.title = this.title;
+        ret.description = this.description;
+        ret.imageUrl = this.imageUrl;
+        for (Skill skill : skills)
+        {
+            ProjectJson.SkillJson skillJson = new ProjectJson.SkillJson();
+            skillJson.name = skill.getName();
+            skillJson.point = skill.getPoint();
+            ret.skills.add(skillJson);
+        }
+        for (Bid bid : bids)
+        {
+            ProjectJson.BidJson bidJson = new ProjectJson.BidJson();
+            bidJson.userid = bid.getUser().getId();
+            bidJson.budget = bid.getBudget();
+            ret.bids.add(bidJson);
+        }
+        ret.budget = this.budget;
+        ret.deadline = this.deadline;
+        ret.winner = this.winner.getId();
+        return ret;
+    }
 }

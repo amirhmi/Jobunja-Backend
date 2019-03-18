@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ShowProject{
     @RequestMapping(value = "/project/{id}", method = RequestMethod.GET)
-    public Project showProject(@PathVariable(value = "id") String id) {
+    public Project.ProjectJson showProject(@PathVariable(value = "id") String id) {
         if (id == null || id.isEmpty()) {
             throw new CustomException.BadRequestException();
         }
@@ -20,6 +20,6 @@ public class ShowProject{
         if(project == null) {
             throw new CustomException.ProjectNotFoundException();
         }
-        return project;
+        return project.toProjectJson();
     }
 }

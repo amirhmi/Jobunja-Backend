@@ -15,12 +15,12 @@ import java.util.List;
 public class EndorseSkill {
 
     @RequestMapping(value = "/endorseSkill/{userid}/{skill}", method = RequestMethod.PUT)
-    public List<Skill> endorseSkill(@PathVariable(value = "userid") String userId, @PathVariable(value = "skill") String skillName) {
+    public Skill.SkillJson endorseSkill(@PathVariable(value = "userid") String userId, @PathVariable(value = "skill") String skillName) {
         User endorsedUser = MiddlewareService.getSpecificUser(userId);
         if (endorsedUser == null)
             throw new CustomException.UserNotFoundException();
-        MiddlewareService.endorseSkillForOtherUser(skillName, endorsedUser);
-        return endorsedUser.getSkills();
+        Skill skill = MiddlewareService.endorseSkillForOtherUser(skillName, endorsedUser);
+        return skill.toSkillJson();
     }
 }
 
