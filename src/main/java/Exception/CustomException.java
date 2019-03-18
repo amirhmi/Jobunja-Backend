@@ -20,6 +20,17 @@ public class CustomException {
     @ResponseStatus(code = HttpStatus.NOT_ACCEPTABLE, reason = "Skill name is not valid")
     public static class InvalidSkillNameException extends RuntimeException { }
 
+    @ResponseStatus(code = HttpStatus.PRECONDITION_FAILED, reason = "Project Already bid")
+    public static class ProjectAlreadyBidExcption extends RuntimeException {
+    }
+
+    @ResponseStatus(code = HttpStatus.PRECONDITION_FAILED, reason = "Project not suited for this user")
+    public static class NotSuitedProjectBidException extends RuntimeException {
+    }
+
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Bad bid amount")
+    public static class BadBidAmountException extends RuntimeException {
+    }
     @ResponseStatus(code = HttpStatus.PRECONDITION_FAILED, reason = "endorsed user cannot be same as login user.")
     public static class EndorseByOwnerException extends  RuntimeException { }
 

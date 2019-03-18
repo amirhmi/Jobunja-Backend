@@ -40,15 +40,20 @@ public class MiddlewareService {
         return null;
     }
 
-    public static boolean setBid(String id, int bidAmount) {
+    public static Bid setBid(String id, int bidAmount) {
         Project project = DataBase.findProject(id);
         if(project == null)
-            return false;
+            throw new CustomException.ProjectNotFoundException();
         if(hasCurrentUserBidForProject(project))
-            return false;
-        Bid bid = new Bid(DataBase.only_login_user, bidAmount, project);
-        boolean status = project.addBid(bid);
-        return status;
+            throw new CustomException.ProjectAlreadyBidExcption();
+        Bid bid = new Bid(MiddlewareService.getCurrentUser(), bidAmount, project);
+        try {
+            project.addBid(bid);
+        }
+        catch (Project.NotSuitedBidException e) {
+            throw new CustomException.NotSuitedProjectBidException();
+        }
+        return bid;
     }
 
     public static boolean hasCurrentUserBidForProject(Project project) {
