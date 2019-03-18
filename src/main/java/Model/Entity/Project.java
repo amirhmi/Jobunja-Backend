@@ -68,9 +68,9 @@ public class Project {
     public boolean userSuited(User user)
     {
         for (Skill skill : this.skills) {
-            long skill_points = user.getSkillPoint(skill);
-            if (skill_points < 0)
+            if (!user.hasSkill(skill.getName()))
                 return false;
+            long skill_points = user.getSkillPoint(skill);
             if (skill_points < skill.getPoint())
                 return false;
         }

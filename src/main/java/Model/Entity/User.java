@@ -82,6 +82,7 @@ public class User {
         for (Skill skill : skills)
             if (skill.getName().equals(skillName)) {
                 skill.endorse(user);
+                return;
             }
         throw new SkillNotFoundException();
     }
