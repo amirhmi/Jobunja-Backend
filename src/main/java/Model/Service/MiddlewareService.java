@@ -91,19 +91,21 @@ public class MiddlewareService {
         {
             throw new CustomException.SkillAlreadyEndorsedException();
         }
-        catch (Skill.InvalidSkillNameException e)
-        {
-            throw new CustomException.InvalidSkillNameException();
-        }
     }
 
     public static User getCurrentUser() {
         return DataBase.only_login_user;
     }
 
-    public static boolean RemoveSkillForLoginUser(String skillName) {
+    public static void RemoveSkillForLoginUser(String skillName) {
         User currentUser = getCurrentUser();
-        return currentUser.removeSkill(skillName);
+        try {
+            currentUser.removeSkill(skillName);
+        }
+        catch (User.SkillNotFoundException e)
+        {
+            throw new CustomException.SkillNotFoundForUserException();
+        }
     }
 
     public static List<String> CanBeAddedSkills() {

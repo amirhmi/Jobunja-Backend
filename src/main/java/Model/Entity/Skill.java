@@ -14,7 +14,9 @@ public class Skill {
         this.point = 0;
     }
 
-    public Skill(String name, int point) {
+    public Skill(String name, int point) throws InvalidSkillNameException {
+        if (!valid_names.contains(name))
+            throw new InvalidSkillNameException();
         this.name = name;
         this.point = point;
     }
@@ -26,7 +28,7 @@ public class Skill {
         this.point = 0;
     }
 
-    public void endorse(User endorser)
+    public void endorse(User endorser) throws AlreadyEndorsedException
     {
         for (User user : endorsedBy)
             if (user.getId().equals(endorser.getId()))
