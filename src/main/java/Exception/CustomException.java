@@ -11,32 +11,29 @@ public class CustomException {
     @ResponseStatus(code = HttpStatus.NOT_FOUND, reason = "Project not found")
     public static class ProjectNotFoundException extends RuntimeException { }
 
-    @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Bad Request")
-    public static class BadRequestException extends RuntimeException { }
-
-    @ResponseStatus(code = HttpStatus.PRECONDITION_FAILED, reason = "Skill already exists")
+    @ResponseStatus(code = HttpStatus.FORBIDDEN, reason = "Skill already exists")
     public static class SkillAlreadyExistsException extends RuntimeException { }
 
-    @ResponseStatus(code = HttpStatus.NOT_ACCEPTABLE, reason = "Skill name is not valid")
+    @ResponseStatus(code = HttpStatus.FORBIDDEN, reason = "Skill name is not valid")
     public static class InvalidSkillNameException extends RuntimeException { }
 
-    @ResponseStatus(code = HttpStatus.PRECONDITION_FAILED, reason = "Project Already bid")
+    @ResponseStatus(code = HttpStatus.FORBIDDEN, reason = "Project Already bid")
     public static class ProjectAlreadyBidExcption extends RuntimeException {
     }
 
-    @ResponseStatus(code = HttpStatus.PRECONDITION_FAILED, reason = "Project not suited for this user")
+    @ResponseStatus(code = HttpStatus.FORBIDDEN, reason = "Project not suited for this user")
     public static class NotSuitedProjectBidException extends RuntimeException {
     }
 
-    @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Bad bid amount")
+    @ResponseStatus(code = HttpStatus.FORBIDDEN, reason = "Bad bid amount")
     public static class BadBidAmountException extends RuntimeException {
     }
-    @ResponseStatus(code = HttpStatus.PRECONDITION_FAILED, reason = "endorsed user cannot be same as login user.")
+    @ResponseStatus(code = HttpStatus.FORBIDDEN, reason = "endorsed user cannot be same as login user.")
     public static class EndorseByOwnerException extends  RuntimeException { }
 
-    @ResponseStatus(code = HttpStatus.PRECONDITION_FAILED, reason = "selected user does not have requested skill")
+    @ResponseStatus(code = HttpStatus.FORBIDDEN, reason = "selected user does not have requested skill")
     public static class SkillNotFoundForUserException extends RuntimeException { }
 
-    @ResponseStatus(code = HttpStatus.PRECONDITION_FAILED, reason = "this skilled is already endorsed")
+    @ResponseStatus(code = HttpStatus.FORBIDDEN, reason = "this skilled is already endorsed")
     public static class SkillAlreadyEndorsedException extends RuntimeException { }
 }
