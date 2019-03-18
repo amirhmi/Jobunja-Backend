@@ -15,11 +15,12 @@ public class MiddlewareService {
         return suitedProjects;
     }
 
-    public static List<User> getUsersExcept(User exceptUser)
+    public static List<User> getUsersExceptCurrent()
     {
         List<User> userList = DataBase.getUsers(), ret = new ArrayList<>();
+        User CurrentUser = getCurrentUser();
         for (User user : userList)
-            if (user != exceptUser)
+            if (!user.getId().equals(CurrentUser.getId()))
                 ret.add(user);
         return userList;
     }
