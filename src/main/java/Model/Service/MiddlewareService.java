@@ -6,11 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MiddlewareService {
-    public static List<Project> getSuitedProjects(User user)
+    public static List<Project> getSuitedProjects()
     {
+        User currentUser = getCurrentUser();
         List<Project> projectList = DataBase.getProjects(), suitedProjects = new ArrayList<>();
         for (Project project : projectList)
-            if (project.userSuited(user))
+            if (project.userSuited(currentUser))
                 suitedProjects.add(project);
         return suitedProjects;
     }
