@@ -79,20 +79,38 @@ public class MiddlewareService {
             }
     }
 
-    public static boolean endorseSkillForOtherUser (String skillName, User user)
+    public static void endorseSkillForOtherUser (String skillName, User user)
     {
-        if (user == null || user.getId().equals(getCurrentUser().getId()))
-            return false;
-        return user.endorseSkill(skillName, user);
+        if (user == null)
+            throw new CustomException.UserNotFoundException();
+        if (user.getId().equals(getCurrentUser().getId()))
+            throw new CustomException.EndorseByOwnerException();
+        try {
+            user.endorseSkill(skillName, user);
+        }
+        catch (User.SkillNotFoundException e)
+        {
+            throw new CustomException.SkillNotFoundForUserException();
+        }
+        catch (Skill.AlreadyEndorsedException e)
+        {
+            throw new CustomException.SkillAlreadyEndorsedException();
+        }
     }
 
     public static User getCurrentUser() {
         return DataBase.only_login_user;
     }
 
-    public static boolean RemoveSkillForLoginUser(String skillName) {
+    public static void RemoveSkillForLoginUser(String skillName) {
         User currentUser = getCurrentUser();
-        return currentUser.removeSkill(skillName);
+        try {
+            currentUser.removeSkill(skillName);
+        }
+        catch (User.SkillNotFoundException e)
+        {
+            throw new CustomException.SkillNotFoundForUserException();
+        }
     }
 
     public static List<String> CanBeAddedSkills() {

@@ -45,15 +45,17 @@ public class User {
         this.bio = bio;
     }
 
-    public long getSkillPoint(Skill jobSkill) {
+    public long getSkillPoint(Skill jobSkill) throws SkillNotFoundException{
         for(Skill userSkill : skills) {
             if(userSkill.getName().equals(jobSkill.getName()))
                 return userSkill.getPoint();
         }
-        return -1;
+        throw new SkillNotFoundException();
     }
 
-    public void addSkill(Skill skill) {
+    public void addSkill(Skill skill) throws SkillAlreadyExistsException{
+        if (hasSkill(skill.getName()))
+            throw new SkillAlreadyExistsException();
         skills.add(skill);
     }
 
@@ -66,21 +68,25 @@ public class User {
         return false;
     }
 
-    public boolean removeSkill(String skillName) {
+    public void removeSkill(String skillName) throws SkillNotFoundException{
         for(Skill skill : skills)
             if(skill.getName().equals(skillName)) {
                 skills.remove(skill);
-                return true;
+                return;
             }
-        return false;
+        throw new SkillNotFoundException();
     }
 
-    public boolean endorseSkill(String skillName, User user)
+    public void endorseSkill(String skillName, User user) throws SkillNotFoundException, Skill.AlreadyEndorsedException
     {
         for (Skill skill : skills)
             if (skill.getName().equals(skillName)) {
-                return skill.endorse(user);
+                skill.endorse(user);
             }
-        return false;
+        throw new SkillNotFoundException();
     }
+
+    public static class SkillNotFoundException extends RuntimeException {}
+
+    public static class SkillAlreadyExistsException extends RuntimeException {}
 }
