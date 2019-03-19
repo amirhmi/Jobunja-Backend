@@ -1,0 +1,27 @@
+<html>
+<head>
+	<title>Test JobUnja API</title>
+</head>
+<body>
+	response: <div id="response"></div><br>
+	<button type="button" onClick="getProjectsAPI()">Projects API</button><br>
+	<button type="button" onClick="addSkillAPI()">Add Skill API</button><br>
+	<script type="text/javascript">
+		function reqListener () {
+			document.getElementById("response").innerHTML = this.responseText;
+  		}
+  		function getProjectsAPI() {
+			var oReq = new XMLHttpRequest();
+			oReq.addEventListener("load", reqListener);
+			oReq.open("GET", "http://localhost:8080/projects");
+			oReq.send();
+  		}
+		function addSkillAPI() {
+			var oReq = new XMLHttpRequest();
+			oReq.addEventListener("load", reqListener);
+			oReq.open("PUT", "http://localhost:8080/addSkill?skill=PHP");
+			oReq.send();
+  		}
+	</script>
+</body>
+</html>
