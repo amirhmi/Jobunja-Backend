@@ -11,9 +11,9 @@ import java.util.List;
 @RequestMapping("/skills")
 public class SkillController {
     @GetMapping
-    public List<String> getSkills()
+    public List<String> getAddableSkills()
     {
-        return Skill.getValidNames();
+        return MiddlewareService.CanBeAddedSkills();
     }
 
     @PutMapping
