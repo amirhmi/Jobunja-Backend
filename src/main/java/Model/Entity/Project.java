@@ -114,7 +114,8 @@ public class Project {
         public List<BidJson> bids = new ArrayList<>();
         public int budget;
         public long deadline;
-        public String winner;
+        public String winnerId;
+        public String winnerName;
         public static class SkillJson
         {
             public String name;
@@ -149,11 +150,15 @@ public class Project {
             ret.bids.add(bidJson);
         }
         ret.budget = this.budget;
-        ret.deadline = this.deadline;
-        if (ret.winner != null)
-            ret.winner = this.winner.getId();
-        else
-            ret.winner = "";
+        ret.deadline = 1553342999123l;
+        if (this.winner != null) {
+            ret.winnerId = this.winner.getId();
+            ret.winnerName = this.winner.getFullName();
+        }
+        else {
+            ret.winnerId = "1";
+            ret.winnerName = "امیرحسین احمدی";
+        }
         return ret;
     }
 }
