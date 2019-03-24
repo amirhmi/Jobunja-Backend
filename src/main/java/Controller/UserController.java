@@ -30,20 +30,6 @@ public class UserController {
         return user.toUserJson();
     }
 
-    @PutMapping("/{id}/skills")
-    public List<User.UserJson.SkillJson> addSkill(@PathVariable(value="id") String userId,
-                                                  @RequestBody Skill skill) {
-        MiddlewareService.addSkillForLoginUser(skill.getName());
-        return MiddlewareService.getCurrentUser().toUserJson().skills;
-    }
-
-    @DeleteMapping("/{id}/skills")
-    public List<User.UserJson.SkillJson> removeSkill(@PathVariable(value="id") String userId,
-                                                     @RequestBody Skill skill) {
-        MiddlewareService.RemoveSkillForLoginUser(skill.getName());
-        return MiddlewareService.getCurrentUser().toUserJson().skills;
-    }
-
     @PutMapping(value = "/{id}/endorse")
     public Skill.SkillJson endorseSkill(@PathVariable(value = "id") String userId,
                                         @RequestBody Skill skill) {
