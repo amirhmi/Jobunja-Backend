@@ -21,6 +21,11 @@ public class UserController {
         return usersRes;
     }
 
+    @GetMapping("/myid")
+    public String getLoginUserId() {
+        return MiddlewareService.getCurrentUser().getId();
+    }
+
     @GetMapping("/{id}")
     public User.UserJson getUser(@PathVariable(value = "id") String id) {
         User user = MiddlewareService.getSpecificUser(id);
