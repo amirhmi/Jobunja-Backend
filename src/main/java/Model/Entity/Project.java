@@ -1,5 +1,7 @@
 package Model.Entity;
 
+import Model.Service.MiddlewareService;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -102,6 +104,14 @@ public class Project {
         return ret;
     }
 
+    private boolean currentUserAlreadyBid() {
+        for(Bid bid: bids) {
+            if(MiddlewareService.getCurrentUser().getId().equals(bid.getUser().getId()))
+                return true;
+        }
+        return false;
+    }
+
     public static class NotSuitedBidException extends RuntimeException{}
 
     public static class ProjectJson
@@ -116,6 +126,7 @@ public class Project {
         public long deadline;
         public String winnerId;
         public String winnerName;
+        public boolean alreadyBid;
         public static class SkillJson
         {
             public String name;
@@ -149,6 +160,7 @@ public class Project {
             bidJson.budget = bid.getBudget();
             ret.bids.add(bidJson);
         }
+        ret.alreadyBid = currentUserAlreadyBid();
         ret.budget = this.budget;
         ret.deadline = 1553342999123l;
         if (this.winner != null) {
@@ -156,8 +168,8 @@ public class Project {
             ret.winnerName = this.winner.getFullName();
         }
         else {
-            ret.winnerId = "1";
-            ret.winnerName = "امیرحسین احمدی";
+            ret.winnerId = "";
+            ret.winnerName = "";
         }
         return ret;
     }
