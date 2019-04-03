@@ -35,14 +35,24 @@ public class UserController {
         return user.toUserJson();
     }
 
+    @GetMapping("/{id}/amiendorser")
+    public List<Boolean> getIsEndorsedBefore(@PathVariable(value = "id") String id) {
+        User user = MiddlewareService.getSpecificUser(id);
+        if (user == null){
+            throw new CustomException.UserNotFoundException();
+        }
+        return user.getIsEndorser(MiddlewareService.getCurrentUser().getId());
+    }
+
     @PutMapping(value = "/{id}/endorse")
-    public Skill.SkillJson endorseSkill(@PathVariable(value = "id") String userId,
-                                        @RequestBody Skill skill) {
+    public User.UserJson endorseSkill(@PathVariable(value = "id") String userId,
+                                        @RequestParam String skillName) {
         User endorsedUser = MiddlewareService.getSpecificUser(userId);
         if (endorsedUser == null)
             throw new CustomException.UserNotFoundException();
-        Skill skillRes = MiddlewareService.endorseSkillForOtherUser(skill.getName(), endorsedUser);
-        return skillRes.toSkillJson();
+        Skill skillRes = MiddlewareService.endorseSkillForOtherUser(skillName, endorsedUser);
+        //return skillRes.toSkillJson();
+        return endorsedUser.toUserJson();
     }
 
 }

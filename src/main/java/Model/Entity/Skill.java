@@ -28,6 +28,14 @@ public class Skill {
         this.point = 0;
     }
 
+    public Boolean isEndorsed(String endorserId)
+    {
+        for (User user: endorsedBy)
+            if (user.getId().equals(endorserId))
+                return true;
+        return false;
+    }
+
     public void endorse(User endorser) throws AlreadyEndorsedException
     {
         for (User user : endorsedBy)

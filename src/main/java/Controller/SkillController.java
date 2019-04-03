@@ -17,14 +17,14 @@ public class SkillController {
     }
 
     @PutMapping
-    public List<User.UserJson.SkillJson> addSkill(@RequestBody String skillName) {
+    public User.UserJson addSkill(@RequestParam String skillName) {
         MiddlewareService.addSkillForLoginUser(skillName);
-        return MiddlewareService.getCurrentUser().toUserJson().skills;
+        return MiddlewareService.getCurrentUser().toUserJson();
     }
 
     @DeleteMapping
-    public List<User.UserJson.SkillJson> removeSkill(@RequestBody String skillName) {
+    public User.UserJson removeSkill(@RequestParam String skillName) {
         MiddlewareService.RemoveSkillForLoginUser(skillName);
-        return MiddlewareService.getCurrentUser().toUserJson().skills;
+        return MiddlewareService.getCurrentUser().toUserJson();
     }
 }

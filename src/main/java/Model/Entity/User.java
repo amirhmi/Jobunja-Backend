@@ -87,6 +87,14 @@ public class User {
         throw new SkillNotFoundException();
     }
 
+    public List<Boolean> getIsEndorser(String userId)
+    {
+        List<Boolean> ret = new ArrayList<>();
+        for (Skill skill : skills)
+            ret.add(skill.isEndorsed(userId));
+        return ret;
+    }
+
     public static class SkillNotFoundException extends RuntimeException {}
 
     public static class SkillAlreadyExistsException extends RuntimeException {}
