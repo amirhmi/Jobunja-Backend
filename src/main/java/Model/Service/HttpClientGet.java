@@ -3,6 +3,8 @@ package Model.Service;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -33,7 +35,7 @@ public class HttpClientGet {
         }
 
         BufferedReader br = new BufferedReader(
-                new InputStreamReader((response.getEntity().getContent())));
+                new InputStreamReader(response.getEntity().getContent(), StandardCharsets.UTF_8));
 
         String line_data, output = "";
         while ((line_data = br.readLine()) != null) {
