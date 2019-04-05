@@ -31,7 +31,7 @@ public class InitializeListner implements ServletContextListener {
                     new Skill("HTML", 5), new Skill("Javascript", 4), new Skill("C++", 2),
                     new Skill("Java", 3)));
             DataBase.addUser(new User("2", "امیرحسین", "احمدی", "دانش‌پژوه",
-                    "https://i.ibb.co/fM9grbc/amir.jpg",
+                    "https://i.ibb.co/5FRFzY8/amir.jpg",
                     "روی سنگ قبرم بنویسید: خدا بیامرز می خواست خیلی کارا بکنه ولی پول نداشت",
                     new Skill("HTML", 5), new Skill("Django", 6), new Skill("PHP", 2),
                     new Skill("Java", 3), new Skill("Node.js", 10)));
