@@ -17,7 +17,7 @@ public class DataSource {
         System.out.println(dbfile.getAbsolutePath());
         ds.setUrl("jdbc:sqlite:" + dbfile.getAbsolutePath() + "/jobunja.db");
         ds.setMinIdle(5);
-        ds.setMaxIdle(10);
+        ds.setMaxIdle(50);
         ds.setMaxOpenPreparedStatements(100);
     }
 
@@ -30,6 +30,8 @@ public class DataSource {
             Connection connection = getConnection();
             Statement statement = connection.createStatement();
             statement.execute(sql);
+            connection.close();
+            statement.close();
         }
         catch (SQLException e)
         {

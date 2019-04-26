@@ -5,12 +5,12 @@ public class EntityInitializer {
         String createUser =
                 "CREATE TABLE IF NOT EXISTS User" +
                 "(" +
-                "  id INT NOT NULL," +
-                "  firstName INT NOT NULL," +
-                "  lastName INT NOT NULL," +
-                "  jobTitle INT," +
-                "  profilePicUrl INT," +
-                "  bio INT," +
+                "  id VARCHAR NOT NULL," +
+                "  firstName VARCHAR NOT NULL," +
+                "  lastName VARCHAR NOT NULL," +
+                "  jobTitle VARCHAR," +
+                "  profilePicUrl VARCHAR," +
+                "  bio VARCHAR," +
                 "  PRIMARY KEY (id)" +
                 ");";
         String createSkill =
@@ -22,7 +22,7 @@ public class EntityInitializer {
         String createUserSkill =
                 "CREATE TABLE IF NOT EXISTS UserSkill" +
                 "(" +
-                "  userId INT NOT NULL," +
+                "  userId VARCHAR NOT NULL," +
                 "  skillName VARCHAR NOT NULL," +
                 "  PRIMARY KEY (userId, skillName)," +
                 "  FOREIGN KEY (userId) REFERENCES User(id)," +
@@ -31,8 +31,8 @@ public class EntityInitializer {
         String createEndorsement =
                 "CREATE TABLE IF NOT EXISTS Endorsement" +
                 "(" +
-                "  endorserId INT NOT NULL," +
-                "  endorsedId INT NOT NULL," +
+                "  endorserId VARCHAR NOT NULL," +
+                "  endorsedId VARCHAR NOT NULL," +
                 "  skillName VARCHAR NOT NULL," +
                 "  PRIMARY KEY (endorserId, endorsedId, skillName)," +
                 "  FOREIGN KEY (endorserId) REFERENCES User(id)," +
@@ -46,10 +46,10 @@ public class EntityInitializer {
                 "  description VARCHAR," +
                 "  imageUrl VARCHAR," +
                 "  budget INT NOT NULL," +
-                "  deadline DATE NOT NULL," +
-                "  creationDate DATE," +
-                "  ownerId INT," +
-                "  winnerId INT," +
+                "  deadline INT NOT NULL," +
+                "  creationDate INT," +
+                "  ownerId VARCHAR," +
+                "  winnerId VARCHAR," +
                 "  PRIMARY KEY (id)," +
                 "  FOREIGN KEY (ownerId) REFERENCES User(id)," +
                 "  FOREIGN KEY (winnerId) REFERENCES User(id)" +
@@ -58,7 +58,7 @@ public class EntityInitializer {
                 "CREATE TABLE IF NOT EXISTS Bid" +
                 "(" +
                 "  budget INT NOT NULL," +
-                "  userId INT NOT NULL," +
+                "  userId VARCHAR NOT NULL," +
                 "  projectId VARCHAR NOT NULL," +
                 "  PRIMARY KEY (userId, projectId)," +
                 "  FOREIGN KEY (userId) REFERENCES User(id)," +
@@ -67,7 +67,7 @@ public class EntityInitializer {
         String createProjectSkill =
                 "CREATE TABLE IF NOT EXISTS ProjectSkill" +
                 "(" +
-                "  value INT NOT NULL," +
+                "  point INT NOT NULL," +
                 "  skillName VARCHAR NOT NULL," +
                 "  projectId VARCHAR NOT NULL," +
                 "  PRIMARY KEY (skillName, projectId)," +

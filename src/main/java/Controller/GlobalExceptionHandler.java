@@ -9,6 +9,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.sql.SQLException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
@@ -75,5 +76,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<String> handleException(HttpServletRequest req, CustomException.SkillAlreadyEndorsedException exception, HttpServletResponse resp)
     {
         return new ResponseEntity<>(messageToJson("this skilled is already endorsed"), HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler({SQLException.class})
+    public ResponseEntity<String> handleException(HttpServletRequest req, SQLException exception, HttpServletResponse resp)
+    {
+        return new ResponseEntity<>(messageToJson("error in getting valid skills"), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

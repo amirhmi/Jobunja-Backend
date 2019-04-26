@@ -1,7 +1,9 @@
 package Model.Service;
 
+import DataAccess.SkillDataMapper;
 import Model.Entity.*;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import Exception.CustomException;
@@ -73,6 +75,9 @@ public class MiddlewareService {
                 Skill skill = new Skill(skillName);
                 currentUser.addSkill(skill);
             }
+            catch (SQLException e) {
+                throw new CustomException.SqlException();
+            }
             catch (Skill.InvalidSkillNameException e)
             {
                 throw new CustomException.InvalidSkillNameException();
@@ -114,11 +119,17 @@ public class MiddlewareService {
     }
 
     public static List<String> CanBeAddedSkills() {
-        User currentUser = getCurrentUser();
-        List<String> skillNames = new ArrayList<>();
-        for (String skillName : Skill.getValidNames())
-            if (!currentUser.hasSkill(skillName))
-                skillNames.add(skillName);
-        return skillNames;
+        try {
+            User currentUser = getCurrentUser();
+            List<String> skillNames = new ArrayList<>();
+            for (String skillName : SkillDataMapper.getAll())
+                if (!currentUser.hasSkill(skillName))
+                    skillNames.add(skillName);
+            return skillNames;
+        }
+        catch (SQLException e) {
+            throw new CustomException.SqlException();
+        }
+
     }
 }

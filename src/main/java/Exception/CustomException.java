@@ -34,4 +34,7 @@ public class CustomException {
 
     @ResponseStatus(code = HttpStatus.FORBIDDEN, reason = "this skilled is already endorsed")
     public static class SkillAlreadyEndorsedException extends RuntimeException { }
+
+    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "sql exception")
+    public static class SqlException extends RuntimeException { }
 }

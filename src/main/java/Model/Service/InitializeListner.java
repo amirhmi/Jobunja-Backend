@@ -1,7 +1,6 @@
 package Model.Service;
 
-import DataAccess.DataSource;
-import DataAccess.EntityInitializer;
+import DataAccess.*;
 import Model.Entity.DataBase;
 import Model.Entity.Project;
 import Model.Entity.Skill;
@@ -11,8 +10,12 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import java.io.IOException;
+import java.sql.Driver;
+import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.Set;
 
 @WebListener
 public class InitializeListner implements ServletContextListener {
@@ -24,10 +27,22 @@ public class InitializeListner implements ServletContextListener {
         try {
             String project_data_json = http_client_get.HttpGetRequest(RequestType.PROJECT);
             String skills_data_json = http_client_get.HttpGetRequest(RequestType.SKILL);
-            Skill.setValidNames(JsonParser.parseNameList(skills_data_json));
+//            Skill.setValidNames(JsonParser.parseNameList(skills_data_json));
+
+            EntityInitializer.createTables();
+            List<String> validSkillNames = JsonParser.parseNameList(skills_data_json);
+            for(String skillName : validSkillNames)
+                SkillDataMapper.insert(skillName);
             List<Project> projs = JsonParser.parseProjectList(project_data_json);
-            for(Project p : projs)
-                DataBase.addProject(p);
+//            for(Project p : projs) {
+//                ProjectDataMapper.insert(p);
+//                for(Skill skill : p.getSkills()) {
+//                    System.out.println(skill.getName());
+//                    ProjectSkillDataMapper.insert(p.getId(), skill.getName(), skill.getPoint());
+//                }
+//            }
+//                DataBase.addProject(p);
+
             DataBase.setLoginUser(new User("1", "علی", "شریف زاده", "برنامه نویس وب",
                     "https://i.ibb.co/wCkChfK/ali.jpg",
                     "روی سنگ قبرم بنویسید: خدا بیامرز می خواست خیلی کارا بکنه ولی پول نداشت",
@@ -43,7 +58,9 @@ public class InitializeListner implements ServletContextListener {
                     "روی سنگ قبرم بنویسید: خدا بیامرز می خواست خیلی کارا بکنه ولی پول نداشت",
                     new Skill("C", 4), new Skill("C++", 7), new Skill("Photoshop", 1),
                     new Skill("Java", 4), new Skill("Linux", 3)));
-            EntityInitializer.createTables();
+        }
+        catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
         catch (IOException ioException) {
             return;
@@ -52,6 +69,23 @@ public class InitializeListner implements ServletContextListener {
 
     @Override
     public final void contextDestroyed(final ServletContextEvent sce) {
-
+//        Enumeration<Driver> drivers = DriverManager.getDrivers();
+//        Driver d = null;
+//        while(drivers.hasMoreElements()) {
+//            try {
+//                d = drivers.nextElement();
+//                DriverManager.deregisterDriver(d);
+//            } catch (SQLException ex) {
+//            }
+//        }
+//        Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
+//        Thread[] threadArray = threadSet.toArray(new Thread[threadSet.size()]);
+//        for(Thread t:threadArray) {
+//            if(t.getName().contains("Abandoned connection cleanup thread")) {
+//                synchronized(t) {
+//                    t.stop(); //don't complain, it works
+//                }
+//            }
+//        }
     }
 }

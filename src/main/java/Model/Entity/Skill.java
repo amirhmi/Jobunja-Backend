@@ -1,12 +1,14 @@
 package Model.Entity;
 
+import DataAccess.SkillDataMapper;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Skill {
     private String name;
     private int point;
-    private static List<String> valid_names = new ArrayList<>();
     private List<User> endorsedBy = new ArrayList<>();
 
     public Skill() {
@@ -14,15 +16,15 @@ public class Skill {
         this.point = 0;
     }
 
-    public Skill(String name, int point) throws InvalidSkillNameException {
-        if (!valid_names.contains(name))
+    public Skill(String name, int point) throws InvalidSkillNameException, SQLException {
+        if (!SkillDataMapper.find(name))
             throw new InvalidSkillNameException();
         this.name = name;
         this.point = point;
     }
 
-    public Skill(String name) throws InvalidSkillNameException {
-        if (!valid_names.contains(name))
+    public Skill(String name) throws InvalidSkillNameException, SQLException {
+        if (!SkillDataMapper.find(name))
             throw new InvalidSkillNameException();
         this.name = name;
         this.point = 0;
@@ -45,16 +47,9 @@ public class Skill {
         this.point += 1;
     }
 
-    public static void setValidNames(List<String> valid)
-    {
-        valid_names = valid;
-    }
-
     public String getName() { return this.name;}
 
     public int getPoint() { return this.point; }
-
-    public static List<String> getValidNames() { return valid_names; }
 
     public static class InvalidSkillNameException extends RuntimeException { }
 
