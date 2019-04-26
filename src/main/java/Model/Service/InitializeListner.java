@@ -1,6 +1,7 @@
 package Model.Service;
 
-import DataAccess.DBCPDataSource;
+import DataAccess.DataSource;
+import DataAccess.EntityInitializer;
 import Model.Entity.DataBase;
 import Model.Entity.Project;
 import Model.Entity.Skill;
@@ -42,10 +43,7 @@ public class InitializeListner implements ServletContextListener {
                     "روی سنگ قبرم بنویسید: خدا بیامرز می خواست خیلی کارا بکنه ولی پول نداشت",
                     new Skill("C", 4), new Skill("C++", 7), new Skill("Photoshop", 1),
                     new Skill("Java", 4), new Skill("Linux", 3)));
-            DBCPDataSource.getConnection();
-        }
-        catch (SQLException e) {
-            System.out.println("sql exception");
+            EntityInitializer.createTables();
         }
         catch (IOException ioException) {
             return;

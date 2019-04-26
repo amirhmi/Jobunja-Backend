@@ -5,8 +5,9 @@ import org.apache.commons.dbcp.BasicDataSource;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Statement;
 
-public class DBCPDataSource {
+public class DataSource {
 
     private static BasicDataSource ds = new BasicDataSource();
 
@@ -14,7 +15,7 @@ public class DBCPDataSource {
         File dbfile = new File(".");
         ds.setDriverClassName("org.sqlite.JDBC");
         System.out.println(dbfile.getAbsolutePath());
-        ds.setUrl("jdbc:sqlite:" + dbfile.getAbsolutePath() + "jobunja.db");
+        ds.setUrl("jdbc:sqlite:" + dbfile.getAbsolutePath() + "/jobunja.db");
         ds.setMinIdle(5);
         ds.setMaxIdle(10);
         ds.setMaxOpenPreparedStatements(100);
@@ -24,5 +25,17 @@ public class DBCPDataSource {
         return ds.getConnection();
     }
 
-    private DBCPDataSource(){ }
+    public static void excuteSql(String sql) {
+        try {
+            Connection connection = getConnection();
+            Statement statement = connection.createStatement();
+            statement.execute(sql);
+        }
+        catch (SQLException e)
+        {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private DataSource(){ }
 }
