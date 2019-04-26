@@ -1,7 +1,7 @@
 package Model.Entity;
 
 import Model.Service.MiddlewareService;
-
+//import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -15,6 +15,7 @@ public class Project {
     private List<Bid> bids = new ArrayList<>();
     private int budget;
     private long deadline;
+    private long creationDate;
     private User winner;
 
     public Project() { }
@@ -47,6 +48,8 @@ public class Project {
     public int getBudget() { return budget; }
 
     public long getDeadline() { return deadline; }
+
+    public long getCreationDate() { return creationDate; }
 
     public List<Skill> getSkills() { return skills; }
 
