@@ -34,32 +34,32 @@ public class InitializeListner implements ServletContextListener {
             for(String skillName : validSkillNames)
                 SkillDataMapper.insert(skillName);
             List<Project> projs = JsonParser.parseProjectList(project_data_json);
-//            for(Project p : projs) {
-//                ProjectDataMapper.insert(p);
-//                for(Skill skill : p.getSkills()) {
-//                    System.out.println(skill.getName());
-//                    ProjectSkillDataMapper.insert(p.getId(), skill.getName(), skill.getPoint());
-//                }
-//            }
+            for(Project p : projs) {
+                ProjectDataMapper.insert(p);
+                for(Skill skill : p.getSkills()) {
+                    ProjectSkillDataMapper.insert(p.getId(), skill.getName(), skill.getPoint());
+                }
+            }
 //                DataBase.addProject(p);
 
-            DataBase.setLoginUser(new User("1", "علی", "شریف زاده", "برنامه نویس وب",
-                    "https://i.ibb.co/wCkChfK/ali.jpg",
-                    "روی سنگ قبرم بنویسید: خدا بیامرز می خواست خیلی کارا بکنه ولی پول نداشت",
-                    new Skill("HTML", 5), new Skill("Javascript", 4), new Skill("C++", 2),
-                    new Skill("Java", 3)));
-            DataBase.addUser(new User("2", "امیرحسین", "احمدی", "دانش‌پژوه",
-                    "https://i.ibb.co/5FRFzY8/amir.jpg",
-                    "روی سنگ قبرم بنویسید: خدا بیامرز می خواست خیلی کارا بکنه ولی پول نداشت",
-                    new Skill("HTML", 5), new Skill("Django", 6), new Skill("PHP", 2),
-                    new Skill("Java", 3), new Skill("Node.js", 10)));
-            DataBase.addUser(new User("3", "بهار", "باطنی", "گیمر",
-                    "https://i.ibb.co/d5Y4PDK/bahar.jpg",
-                    "روی سنگ قبرم بنویسید: خدا بیامرز می خواست خیلی کارا بکنه ولی پول نداشت",
-                    new Skill("C", 4), new Skill("C++", 7), new Skill("Photoshop", 1),
-                    new Skill("Java", 4), new Skill("Linux", 3)));
+//            DataBase.setLoginUser(new User("1", "علی", "شریف زاده", "برنامه نویس وب",
+//                    "https://i.ibb.co/wCkChfK/ali.jpg",
+//                    "روی سنگ قبرم بنویسید: خدا بیامرز می خواست خیلی کارا بکنه ولی پول نداشت",
+//                    new Skill("HTML", 5), new Skill("Javascript", 4), new Skill("C++", 2),
+//                    new Skill("Java", 3)));
+//            DataBase.addUser(new User("2", "امیرحسین", "احمدی", "دانش‌پژوه",
+//                    "https://i.ibb.co/5FRFzY8/amir.jpg",
+//                    "روی سنگ قبرم بنویسید: خدا بیامرز می خواست خیلی کارا بکنه ولی پول نداشت",
+//                    new Skill("HTML", 5), new Skill("Django", 6), new Skill("PHP", 2),
+//                    new Skill("Java", 3), new Skill("Node.js", 10)));
+//            DataBase.addUser(new User("3", "بهار", "باطنی", "گیمر",
+//                    "https://i.ibb.co/d5Y4PDK/bahar.jpg",
+//                    "روی سنگ قبرم بنویسید: خدا بیامرز می خواست خیلی کارا بکنه ولی پول نداشت",
+//                    new Skill("C", 4), new Skill("C++", 7), new Skill("Photoshop", 1),
+//                    new Skill("Java", 4), new Skill("Linux", 3)));
         }
         catch (SQLException e) {
+            System.out.println("hiiii");
             System.out.println(e.getMessage());
         }
         catch (IOException ioException) {
@@ -76,15 +76,6 @@ public class InitializeListner implements ServletContextListener {
 //                d = drivers.nextElement();
 //                DriverManager.deregisterDriver(d);
 //            } catch (SQLException ex) {
-//            }
-//        }
-//        Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
-//        Thread[] threadArray = threadSet.toArray(new Thread[threadSet.size()]);
-//        for(Thread t:threadArray) {
-//            if(t.getName().contains("Abandoned connection cleanup thread")) {
-//                synchronized(t) {
-//                    t.stop(); //don't complain, it works
-//                }
 //            }
 //        }
     }

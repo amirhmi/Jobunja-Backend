@@ -16,9 +16,11 @@ public class DataSource {
         ds.setDriverClassName("org.sqlite.JDBC");
         System.out.println(dbfile.getAbsolutePath());
         ds.setUrl("jdbc:sqlite:" + dbfile.getAbsolutePath() + "/jobunja.db");
-        ds.setMinIdle(5);
-        ds.setMaxIdle(50);
-        ds.setMaxOpenPreparedStatements(100);
+        ds.setMinIdle(2);
+        ds.setMaxIdle(5);
+        ds.setMaxOpenPreparedStatements(2);
+        ds.setRemoveAbandoned(true);
+        ds.setRemoveAbandonedTimeout(10);
     }
 
     public static Connection getConnection() throws SQLException {
@@ -32,6 +34,7 @@ public class DataSource {
             statement.execute(sql);
             connection.close();
             statement.close();
+            System.out.println("saaal");
         }
         catch (SQLException e)
         {
