@@ -74,12 +74,12 @@ public class EntityInitializer {
                 "  FOREIGN KEY (skillName) REFERENCES Skill(skillName)," +
                 "  FOREIGN KEY (projectId) REFERENCES Project(id)" +
                 ");";
-        DataSource.excuteSql(createUser);
-        DataSource.excuteSql(createProject);
-        DataSource.excuteSql(createBid);
-        DataSource.excuteSql(createSkill);
-        DataSource.excuteSql(createUserSkill);
-        DataSource.excuteSql(createProjectSkill);
-        DataSource.excuteSql(createEndorsement);
+        DataSource.executeSql(createUser);
+        DataSource.executeSql(createProject);
+        DataSource.executeSql(createBid);
+        DataSource.executeSql(createSkill);
+        DataSource.executeSql(createUserSkill);
+        DataSource.executeSql(createProjectSkill);
+        DataSource.executeSql(createEndorsement);
     }
 }
