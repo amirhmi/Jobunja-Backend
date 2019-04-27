@@ -33,7 +33,7 @@ public class InitializeListner implements ServletContextListener {
             List<String> validSkillNames = JsonParser.parseNameList(skills_data_json);
             for(String skillName : validSkillNames)
                 SkillDataMapper.insert(skillName);
-            List<Project> projs = JsonParser.parseProjectList(project_data_json);
+            //List<Project> projs = JsonParser.parseProjectList(project_data_json);
 //            for(Project p : projs) {
 //                ProjectDataMapper.insert(p);
 //                for(Skill skill : p.getSkills()) {
@@ -43,17 +43,17 @@ public class InitializeListner implements ServletContextListener {
 //            }
 //                DataBase.addProject(p);
 
-            DataBase.setLoginUser(new User("1", "علی", "شریف زاده", "برنامه نویس وب",
+            UserDataMapper.insert(new User("1", "علی", "شریف زاده", "برنامه نویس وب",
                     "https://i.ibb.co/wCkChfK/ali.jpg",
                     "روی سنگ قبرم بنویسید: خدا بیامرز می خواست خیلی کارا بکنه ولی پول نداشت",
                     new Skill("HTML", 5), new Skill("Javascript", 4), new Skill("C++", 2),
                     new Skill("Java", 3)));
-            DataBase.addUser(new User("2", "امیرحسین", "احمدی", "دانش‌پژوه",
+            UserDataMapper.insert(new User("2", "امیرحسین", "احمدی", "دانش‌پژوه",
                     "https://i.ibb.co/5FRFzY8/amir.jpg",
                     "روی سنگ قبرم بنویسید: خدا بیامرز می خواست خیلی کارا بکنه ولی پول نداشت",
                     new Skill("HTML", 5), new Skill("Django", 6), new Skill("PHP", 2),
                     new Skill("Java", 3), new Skill("Node.js", 10)));
-            DataBase.addUser(new User("3", "بهار", "باطنی", "گیمر",
+            UserDataMapper.insert(new User("3", "بهار", "باطنی", "گیمر",
                     "https://i.ibb.co/d5Y4PDK/bahar.jpg",
                     "روی سنگ قبرم بنویسید: خدا بیامرز می خواست خیلی کارا بکنه ولی پول نداشت",
                     new Skill("C", 4), new Skill("C++", 7), new Skill("Photoshop", 1),
