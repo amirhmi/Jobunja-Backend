@@ -29,7 +29,7 @@ public class ProjectSkillDataMapper {
 
     public static void insert(String projectId, String skillName, int val) throws SQLException {
         Connection db = DataSource.getConnection();
-        String statement = "INSERT INTO ProjectSkill(point, skillName, projectId) VALUES(?, ?, ?)";
+        String statement = "INSERT OR IGNORE INTO ProjectSkill(point, skillName, projectId) VALUES(?, ?, ?)";
         PreparedStatement dbStatement = db.prepareStatement(statement);
         dbStatement.setInt(1, val);
         dbStatement.setString(2, skillName);

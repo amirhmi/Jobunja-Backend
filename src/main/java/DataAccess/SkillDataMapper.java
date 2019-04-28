@@ -25,7 +25,7 @@ public class SkillDataMapper {
 
     public static void insert(String skillName) throws SQLException {
         Connection db = DataSource.getConnection();
-        String statement = "INSERT INTO Skill VALUES(?)";
+        String statement = "INSERT OR IGNORE INTO Skill VALUES(?)";
         PreparedStatement dbStatement = db.prepareStatement(statement);
         dbStatement.setString(1, skillName);
         dbStatement.execute();

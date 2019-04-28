@@ -23,7 +23,7 @@ public class ProjectDataMapper {
     public static void insert(Project project) throws SQLException {
         Connection db = DataSource.getConnection();
         String statement =
-                "INSERT INTO project(id, title, description, imageUrl, budget, deadline, creationDate)" +
+                "INSERT OR IGNORE INTO project(id, title, description, imageUrl, budget, deadline, creationDate)" +
                 "VALUES(?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement dbStatement = db.prepareStatement(statement);
         dbStatement.setString(1, project.getId());

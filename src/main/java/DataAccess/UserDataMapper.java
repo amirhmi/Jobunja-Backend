@@ -25,7 +25,7 @@ public class UserDataMapper {
     public static void insert(User user) throws SQLException {
         Connection db = DataSource.getConnection();
         String statement =
-                "INSERT INTO User(id, firstName, lastName, jobTitle, profilePicUrl, bio)" +
+                "INSERT OR IGNORE INTO User(id, firstName, lastName, jobTitle, profilePicUrl, bio)" +
                         "VALUES(?, ?, ?, ?, ?, ?)";
         PreparedStatement dbStatement = db.prepareStatement(statement);
         dbStatement.setString(1, user.getId());
@@ -37,7 +37,7 @@ public class UserDataMapper {
         dbStatement.execute();
         dbStatement.close();
         db.close();
-        statement = "INSERT INTO UserSkill(userid, skillName)" +
+        statement = "INSERT OR IGNORE INTO UserSkill(userid, skillName)" +
                             "VALUES(?, ?)";
         for (Skill s : user.getSkills()) {
             db = DataSource.getConnection();
