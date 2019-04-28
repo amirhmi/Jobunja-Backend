@@ -9,7 +9,7 @@ import java.util.List;
 public class Skill {
     private String name;
     private int point;
-    private List<User> endorsedBy = new ArrayList<>();
+    private List<String> endorsersId = new ArrayList<>();
 
     public Skill() {
         this.name = "no-skill";
@@ -36,18 +36,18 @@ public class Skill {
 
     public Boolean isEndorsed(String endorserId)
     {
-        for (User user: endorsedBy)
-            if (user.getId().equals(endorserId))
+        for (String userId: endorsersId)
+            if (userId.equals(endorserId))
                 return true;
         return false;
     }
 
     public void endorse(User endorser) throws AlreadyEndorsedException
     {
-        for (User user : endorsedBy)
-            if (user.getId().equals(endorser.getId()))
+        for (String userId : endorsersId)
+            if (userId.equals(endorser.getId()))
                 throw new AlreadyEndorsedException();
-        endorsedBy.add(endorser);
+        endorsersId.add(endorser.getId());
         this.point += 1;
     }
 
@@ -71,8 +71,8 @@ public class Skill {
         SkillJson ret = new SkillJson();
         ret.name = this.name;
         ret.point = this.point;
-        for (User endorser : endorsedBy)
-            ret.endorsers.add(endorser.getId());
+        for (String userId : endorsersId)
+            ret.endorsers.add(userId);
         return ret;
     }
 }

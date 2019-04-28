@@ -25,6 +25,9 @@ public class UserDataMapper {
         System.out.println(firstName + " " + lastName + " " + jobTitle + " " + profilePicUrl + " " + bio);
         for(Skill s : skills)
             System.out.println(s.getName());
+        rs.close();
+        dbStatement.close();
+        db.close();
         return new User(userId, firstName, lastName, skills, jobTitle, profilePicUrl, bio);
 
     }

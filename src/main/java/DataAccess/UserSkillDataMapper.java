@@ -31,8 +31,10 @@ public class UserSkillDataMapper {
         List<Skill> skills = new ArrayList<>();
         while (rs.next()) {
             Skill skill = new Skill();
-            skill.setName(rs.getString("skillName"));
-            //TODO: ADD endorsed by
+            String skillName = rs.getString("skillName");
+            skill.setName(skillName);
+            List<String> endorsersId = EndorsementDataMapper.findEndorsersId(userId, skillName);
+            skill.setEndorsedBy(endorsersId);
             skills.add(skill);
         }
         dbStatement.close();
