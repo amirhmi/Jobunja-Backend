@@ -30,6 +30,10 @@ public class Skill {
         this.point = 0;
     }
 
+    public void setName(String name) { this.name = name;}
+    public void setPoint(int point) { this.point = point;}
+    public void setEndorsedBy(List<String> endorsedBy) {}
+
     public Boolean isEndorsed(String endorserId)
     {
         for (User user: endorsedBy)

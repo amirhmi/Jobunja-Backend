@@ -34,7 +34,6 @@ public class DataSource {
             statement.execute(sql);
             connection.close();
             statement.close();
-            System.out.println("saaal");
         }
         catch (SQLException e)
         {

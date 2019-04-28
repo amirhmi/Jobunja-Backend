@@ -49,6 +49,7 @@ public class Application {
                     "روی سنگ قبرم بنویسید: خدا بیامرز می خواست خیلی کارا بکنه ولی پول نداشت",
                     new Skill("C", 4), new Skill("C++", 7), new Skill("Photoshop", 1),
                     new Skill("Java", 4), new Skill("Linux", 3)));
+            UserDataMapper.find("2");
         }
         catch (SQLException e) {
             System.out.println(e.getMessage());

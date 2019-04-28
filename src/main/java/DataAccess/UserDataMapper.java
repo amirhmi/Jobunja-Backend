@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class UserDataMapper {
     public static User find(String userId) throws SQLException {
@@ -15,10 +16,16 @@ public class UserDataMapper {
         PreparedStatement dbStatement = db.prepareStatement(statement);
         dbStatement.setString(1, userId);
         ResultSet rs = dbStatement.executeQuery();
-        while (rs.next())
-            System.out.println(rs.getType());
-        //User user = new User(userId, );
-        return null;
+        String firstName = rs.getString("firstName");
+        String lastName = rs.getString("lastName");
+        String jobTitle = rs.getString("jobTitle");
+        String profilePicUrl = rs.getString("profilePicUrl");
+        String bio = rs.getString("bio");
+        List<Skill> skills = UserSkillDataMapper.findByUser(userId);
+        System.out.println(firstName + " " + lastName + " " + jobTitle + " " + profilePicUrl + " " + bio);
+        for(Skill s : skills)
+            System.out.println(s.getName());
+        return new User(userId, firstName, lastName, skills, jobTitle, profilePicUrl, bio);
 
     }
 
@@ -37,16 +44,8 @@ public class UserDataMapper {
         dbStatement.execute();
         dbStatement.close();
         db.close();
-        statement = "INSERT OR IGNORE INTO UserSkill(userid, skillName)" +
-                            "VALUES(?, ?)";
         for (Skill s : user.getSkills()) {
-            db = DataSource.getConnection();
-            dbStatement = db.prepareStatement(statement);
-            dbStatement.setString(1, user.getId());
-            dbStatement.setString(2, s.getName());
-            dbStatement.execute();
-            dbStatement.close();
-            db.close();
+            UserSkillDataMapper.insert(user.getId(), s.getName());
         }
     }
 }
