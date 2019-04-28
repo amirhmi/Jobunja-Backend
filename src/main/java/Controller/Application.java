@@ -49,11 +49,9 @@ public class Application {
                     "روی سنگ قبرم بنویسید: خدا بیامرز می خواست خیلی کارا بکنه ولی پول نداشت",
                     new Skill("C", 4), new Skill("C++", 7), new Skill("Photoshop", 1),
                     new Skill("Java", 4), new Skill("Linux", 3)));
-            Project p = ProjectDataMapper.find("ad5aad06-68fb-4367-87f0-a6bef5af761d");
-            for(Skill s: p.getSkills()) {
-                System.out.println(s.getName());
-                System.out.println(s.getPoint());
-            }
+            for(Project p : ProjectDataMapper.getAll())
+                System.out.println(p.getTitle());
+            System.out.println(ProjectDataMapper.getAll().size());
         }
         catch (SQLException e) {
             System.out.println(e.getMessage());

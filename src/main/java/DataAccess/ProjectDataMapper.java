@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectDataMapper {
@@ -18,6 +19,28 @@ public class ProjectDataMapper {
         PreparedStatement dbStatement = db.prepareStatement(statement);
         dbStatement.setString(1, projectId);
         ResultSet rs = dbStatement.executeQuery();
+        Project project = fillProject(rs);
+        rs.close();
+        dbStatement.close();
+        db.close();
+        return project;
+    }
+
+    public static List<Project> getAll() throws SQLException{
+        Connection db = DataSource.getConnection();
+        String statement = "SELECT * FROM project";
+        PreparedStatement dbStatement = db.prepareStatement(statement);
+        ResultSet rs = dbStatement.executeQuery();
+        List<Project> projects = new ArrayList<>();
+        while (rs.next())
+            projects.add(fillProject(rs));
+        rs.close();
+        dbStatement.close();
+        db.close();
+        return projects;
+    }
+
+    private static Project fillProject(ResultSet rs) throws SQLException {
         Project project = new Project();
         project.setId(rs.getString("Id"));
         project.setTitle(rs.getString("title"));
@@ -33,13 +56,9 @@ public class ProjectDataMapper {
         if(ownerId != null)
             project.setOwner(UserDataMapper.find(ownerId));
         //TODO: get and set bids
-        List<Skill> skills = ProjectSkillDataMapper.findByProject(projectId);
+        List<Skill> skills = ProjectSkillDataMapper.findByProject(rs.getString("id"));
         project.setSkills(skills);
-        rs.close();
-        dbStatement.close();
-        db.close();
         return project;
-
     }
 
     public static void insert(Project project) throws SQLException {
