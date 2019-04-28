@@ -11,15 +11,15 @@ import java.util.List;
 import Exception.CustomException;
 
 public class MiddlewareService {
-//    public static List<Project> getSuitedProjects()
-//    {
-//        User currentUser = getCurrentUser();
-//        List<Project> projectList = ProjectDataMapper.getProjects(), suitedProjects = new ArrayList<>();
-//        for (Project project : projectList)
-//            if (project.userSuited(currentUser))
-//                suitedProjects.add(project);
-//        return suitedProjects;
-//    }
+    public static List<Project> getSuitedProjects()
+    {
+        User currentUser = getCurrentUser();
+        List<Project> projectList = ProjectDataMapper.getAll(), suitedProjects = new ArrayList<>();
+        for (Project project : projectList)
+            if (project.userSuited(currentUser))
+                suitedProjects.add(project);
+        return suitedProjects;
+    }
 
 //    public static List<User> getUsersExceptCurrent()
 //    {
@@ -106,12 +106,7 @@ public class MiddlewareService {
 //    }
 //
     public static User getCurrentUser()  {
-        try {
-            return UserDataMapper.find("1");
-        }
-        catch (SQLException e) {
-            throw new CustomException.SqlException();
-        }
+        return UserDataMapper.find("1");
     }
 //
 //    public static void RemoveSkillForLoginUser(String skillName) {

@@ -6,6 +6,7 @@ import Model.Entity.Skill;
 import Model.Entity.User;
 import Model.Service.HttpClientGet;
 import Model.Service.JsonParser;
+import Model.Service.MiddlewareService;
 import Model.Service.RequestType;
 import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
@@ -49,9 +50,8 @@ public class Application {
                     "روی سنگ قبرم بنویسید: خدا بیامرز می خواست خیلی کارا بکنه ولی پول نداشت",
                     new Skill("C", 4), new Skill("C++", 7), new Skill("Photoshop", 1),
                     new Skill("Java", 4), new Skill("Linux", 3)));
-            for(Project p : ProjectDataMapper.getAll())
-                System.out.println(p.getTitle());
-            System.out.println(ProjectDataMapper.getAll().size());
+            for(User p : UserDataMapper.getAll())
+                System.out.println(p.getFirstName());
         }
         catch (SQLException e) {
             System.out.println(e.getMessage());

@@ -2,8 +2,7 @@ package DataAccess;
 
 import Model.Entity.Project;
 import Model.Entity.Skill;
-import Model.Entity.User;
-
+import Exception.CustomException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -26,18 +25,23 @@ public class ProjectDataMapper {
         return project;
     }
 
-    public static List<Project> getAll() throws SQLException{
-        Connection db = DataSource.getConnection();
-        String statement = "SELECT * FROM project";
-        PreparedStatement dbStatement = db.prepareStatement(statement);
-        ResultSet rs = dbStatement.executeQuery();
-        List<Project> projects = new ArrayList<>();
-        while (rs.next())
-            projects.add(fillProject(rs));
-        rs.close();
-        dbStatement.close();
-        db.close();
-        return projects;
+    public static List<Project> getAll() {
+        try {
+            Connection db = DataSource.getConnection();
+            String statement = "SELECT * FROM project";
+            PreparedStatement dbStatement = db.prepareStatement(statement);
+            ResultSet rs = dbStatement.executeQuery();
+            List<Project> projects = new ArrayList<>();
+            while (rs.next())
+                projects.add(fillProject(rs));
+            rs.close();
+            dbStatement.close();
+            db.close();
+            return projects;
+        }
+        catch (SQLException e) {
+            throw new CustomException.SqlException();
+        }
     }
 
     private static Project fillProject(ResultSet rs) throws SQLException {
