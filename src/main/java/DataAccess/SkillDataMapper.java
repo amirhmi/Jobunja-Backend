@@ -17,7 +17,7 @@ public class SkillDataMapper {
         rs.close();
         dbStatement.close();
         db.close();
-        if(retSkillName == skillName)
+        if(retSkillName.equals(skillName))
             return true;
         else
             return false;

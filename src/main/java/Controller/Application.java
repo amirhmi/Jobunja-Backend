@@ -3,6 +3,7 @@ package Controller;
 import DataAccess.*;
 import Model.Entity.Project;
 import Model.Entity.Skill;
+import Model.Entity.User;
 import Model.Service.HttpClientGet;
 import Model.Service.JsonParser;
 import Model.Service.RequestType;
@@ -18,7 +19,6 @@ public class Application {
     private static HttpClientGet http_client_get = new HttpClientGet();
     @PostConstruct
     public void init() {
-        System.out.println("salam");
         try {
             String project_data_json = http_client_get.HttpGetRequest(RequestType.PROJECT);
             String skills_data_json = http_client_get.HttpGetRequest(RequestType.SKILL);

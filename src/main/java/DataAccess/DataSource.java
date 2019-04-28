@@ -27,7 +27,7 @@ public class DataSource {
         return ds.getConnection();
     }
 
-    public static void excuteSql(String sql) {
+    public static void executeSql(String sql) {
         try {
             Connection connection = getConnection();
             Statement statement = connection.createStatement();
