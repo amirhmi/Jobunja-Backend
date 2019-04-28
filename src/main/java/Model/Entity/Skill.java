@@ -32,7 +32,7 @@ public class Skill {
 
     public void setName(String name) { this.name = name;}
     public void setPoint(int point) { this.point = point;}
-    public void setEndorsedBy(List<String> endorsedBy) {}
+    public void setEndorsedBy(List<String> endorsersId) { this.endorsersId = endorsersId;}
 
     public Boolean isEndorsed(String endorserId)
     {
@@ -52,8 +52,8 @@ public class Skill {
     }
 
     public String getName() { return this.name;}
-
-    public int getPoint() { return this.point; }
+    public int getPoint() { return this.point;}
+    public List<String> getEndorsersId() { return this.endorsersId;}
 
     public static class InvalidSkillNameException extends RuntimeException { }
 

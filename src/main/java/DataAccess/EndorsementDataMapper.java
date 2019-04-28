@@ -28,10 +28,8 @@ public class EndorsementDataMapper {
         dbStatement.setString(2, skillName);
         ResultSet rs = dbStatement.executeQuery();
         List<String> endorsersId = new ArrayList<>();
-        while (rs.next()) {
+        while (rs.next())
             endorsersId.add(rs.getString("endorserId"));
-            System.out.println("enorserId : " + rs.getString("endorserId"));
-        }
         rs.close();
         dbStatement.close();
         db.close();

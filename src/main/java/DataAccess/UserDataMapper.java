@@ -22,9 +22,6 @@ public class UserDataMapper {
         String profilePicUrl = rs.getString("profilePicUrl");
         String bio = rs.getString("bio");
         List<Skill> skills = UserSkillDataMapper.findByUser(userId);
-        System.out.println(firstName + " " + lastName + " " + jobTitle + " " + profilePicUrl + " " + bio);
-        for(Skill s : skills)
-            System.out.println(s.getName());
         rs.close();
         dbStatement.close();
         db.close();

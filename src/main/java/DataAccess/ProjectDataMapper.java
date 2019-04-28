@@ -1,11 +1,14 @@
 package DataAccess;
 
 import Model.Entity.Project;
+import Model.Entity.Skill;
+import Model.Entity.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class ProjectDataMapper {
 
@@ -16,7 +19,26 @@ public class ProjectDataMapper {
         dbStatement.setString(1, projectId);
         ResultSet rs = dbStatement.executeQuery();
         Project project = new Project();
-        return null;
+        project.setId(rs.getString("Id"));
+        project.setTitle(rs.getString("title"));
+        project.setDescription(rs.getString("description"));
+        project.setImageUrl(rs.getString("imageUrl"));
+        project.setBudget(rs.getInt("budget"));
+        project.setDeadline(rs.getLong("deadline"));
+        project.setCreationDate(rs.getLong("creationDate"));
+        String winnerId = rs.getString("winnerId");
+        if(winnerId != null)
+            project.setWinner(UserDataMapper.find(winnerId));
+        String ownerId = rs.getString("ownerId");
+        if(ownerId != null)
+            project.setOwner(UserDataMapper.find(ownerId));
+        //TODO: get and set bids
+        List<Skill> skills = ProjectSkillDataMapper.findByProject(projectId);
+        project.setSkills(skills);
+        rs.close();
+        dbStatement.close();
+        db.close();
+        return project;
 
     }
 

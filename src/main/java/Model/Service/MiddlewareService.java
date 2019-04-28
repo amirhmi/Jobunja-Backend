@@ -1,25 +1,26 @@
-//package Model.Service;
-//
-//import DataAccess.SkillDataMapper;
-//import DataAccess.UserDataMapper;
-//import Model.Entity.*;
-//
-//import java.sql.SQLException;
-//import java.util.ArrayList;
-//import java.util.List;
-//import Exception.CustomException;
-//
-//public class MiddlewareService {
+package Model.Service;
+
+import DataAccess.ProjectDataMapper;
+import DataAccess.SkillDataMapper;
+import DataAccess.UserDataMapper;
+import Model.Entity.*;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import Exception.CustomException;
+
+public class MiddlewareService {
 //    public static List<Project> getSuitedProjects()
 //    {
 //        User currentUser = getCurrentUser();
-//        List<Project> projectList = DataBase.getProjects(), suitedProjects = new ArrayList<>();
+//        List<Project> projectList = ProjectDataMapper.getProjects(), suitedProjects = new ArrayList<>();
 //        for (Project project : projectList)
 //            if (project.userSuited(currentUser))
 //                suitedProjects.add(project);
 //        return suitedProjects;
 //    }
-//
+
 //    public static List<User> getUsersExceptCurrent()
 //    {
 //        List<User> userList = DataBase.getUsers(), ret = new ArrayList<>();
@@ -104,9 +105,14 @@
 //        }
 //    }
 //
-//    public static User getCurrentUser() {
-//        return UserDataMapper.find("1");
-//    }
+    public static User getCurrentUser()  {
+        try {
+            return UserDataMapper.find("1");
+        }
+        catch (SQLException e) {
+            throw new CustomException.SqlException();
+        }
+    }
 //
 //    public static void RemoveSkillForLoginUser(String skillName) {
 //        User currentUser = getCurrentUser();
@@ -133,4 +139,4 @@
 //        }
 //
 //    }
-//}
+}

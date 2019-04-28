@@ -16,6 +16,7 @@ public class Project {
     private int budget;
     private long deadline;
     private long creationDate;
+    private User owner;
     private User winner;
 
     public Project() { }
@@ -34,26 +35,29 @@ public class Project {
         Collections.addAll(this.skills, skills);
     }
 
-    public String getTitle()
-    {
-        return title;
-    }
-
     public String getId() { return id; }
-
+    public String getTitle() { return title;}
     public String getDescription() { return description; }
-
     public String getImageUrl() { return imageUrl; }
-
     public int getBudget() { return budget; }
-
     public long getDeadline() { return deadline; }
-
     public long getCreationDate() { return creationDate; }
-
     public List<Skill> getSkills() { return skills; }
-
     public List<Bid> getBids() {return bids;}
+    public User getOwner() { return owner;}
+    public User getWinner() { return winner;}
+
+    public void setId(String id) { this.id = id;}
+    public void setTitle(String title) { this.title = title;}
+    public void setDescription(String description) { this.description = description;}
+    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl;}
+    public void setBudget(int budget) { this.budget = budget;}
+    public void setDeadline(long deadline) { this.deadline = deadline;}
+    public void setCreationDate(long creationDate) { this.creationDate = creationDate;}
+    public void setSkills(List<Skill> skills) { this.skills = skills;}
+    public void setBids(List<Bid> bids) { this.bids = bids;}
+    public void setOwner(User user) { this.owner = user;}
+    public void setWinner(User user) { this.winner = user;}
 
     public boolean addBid(Bid bid) throws NotSuitedBidException
     {

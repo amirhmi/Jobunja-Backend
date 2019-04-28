@@ -18,7 +18,7 @@ public class ProjectSkillDataMapper {
         ResultSet rs = dbStatement.executeQuery();
         List<Skill> skills = new ArrayList<>();
         while (rs.next()) {
-            Skill skill = new Skill(rs.getString("skillName"), rs.getInt("value"));
+            Skill skill = new Skill(rs.getString("skillName"), rs.getInt("point"));
             skills.add(skill);
         }
         rs.close();
