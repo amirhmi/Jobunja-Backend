@@ -11,11 +11,8 @@ import Exception.CustomException;
 public class MiddlewareService {
     public static List<Project> getSuitedProjects()
     {
-        System.out.println(2);
         User currentUser = getCurrentUser();
-        System.out.println(3);
         List<Project> projectList = ProjectDataMapper.getAll(), suitedProjects = new ArrayList<>();
-        System.out.println(projectList.size());
         for (Project project : projectList)
             if (project.userSuited(currentUser))
                 suitedProjects.add(project);
@@ -45,29 +42,31 @@ public class MiddlewareService {
         return null;
     }
 
-//    public static Bid setBid(String id, int bidAmount) {
-//        Project project = DataBase.findProject(id);
-//        if(project == null)
-//            throw new CustomException.ProjectNotFoundException();
-//        if(hasCurrentUserBidForProject(project))
-//            throw new CustomException.ProjectAlreadyBidExcption();
-//        Bid bid = new Bid(MiddlewareService.getCurrentUser(), bidAmount, project);
-//        try {
-//            project.addBid(bid);
-//        }
-//        catch (Project.NotSuitedBidException e) {
-//            throw new CustomException.NotSuitedProjectBidException();
-//        }
-//        return bid;
-//    }
-//
-//    public static boolean hasCurrentUserBidForProject(Project project) {
-//        for(Bid bid : project.getBids()) {
-//            if(bid.getUser().getId() == DataBase.only_login_user.getId())
-//                return true;
-//        }
-//        return false;
-//    }
+    public static Bid setBid(String id, int bidAmount) {
+        Project project = ProjectDataMapper.find(id);
+        if(project == null)
+            throw new CustomException.ProjectNotFoundException();
+        if(hasCurrentUserBidForProject(project))
+            throw new CustomException.ProjectAlreadyBidExcption();
+        String currentUserId = getCurrentUser().getId();
+        Bid bid = new Bid(currentUserId, bidAmount, project.getId());
+        try {
+            project.addBid(bid);
+            BidDataMapper.insert(project.getId(), currentUserId, bidAmount);
+        }
+        catch (Project.NotSuitedBidException e) {
+            throw new CustomException.NotSuitedProjectBidException();
+        }
+        return bid;
+    }
+
+    public static boolean hasCurrentUserBidForProject(Project project) {
+        for(Bid bid : project.getBids()) {
+            if(bid.getUser().getId().equals(getCurrentUser().getId()))
+                return true;
+        }
+        return false;
+    }
 
     public static void addSkillForLoginUser(String skillName) throws CustomException.InvalidSkillNameException, CustomException.SkillAlreadyExistsException {
             User currentUser = getCurrentUser();

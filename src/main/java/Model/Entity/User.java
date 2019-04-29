@@ -130,7 +130,7 @@ public class User {
         {
             UserJson.SkillJson skillJson = new UserJson.SkillJson();
             skillJson.skillname = skill.getName();
-            skillJson.point = skill.getPoint();
+            skillJson.point = EndorsementDataMapper.findSkillPoint(id, skill.getName());
             ret.skills.add(skillJson);
         }
         ret.bio = this.bio;

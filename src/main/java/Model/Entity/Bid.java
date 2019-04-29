@@ -1,18 +1,21 @@
 package Model.Entity;
 
-public class Bid {
-    private User user;
-    private Project project;
-    private int budget;
-    public Bid(User user, int budget, Project project)
-    {
-        this.user = user;
-        this.budget = budget;
-        this.project = project;
-    }
-    public User getUser () { return user; }
+import DataAccess.ProjectDataMapper;
+import DataAccess.UserDataMapper;
 
-    public Project getProject() { return project; }
+public class Bid {
+    private String userId;
+    private String projectId;
+    private int budget;
+    public Bid(String userId, int budget, String projectId)
+    {
+        this.userId = userId;
+        this.budget = budget;
+        this.projectId = projectId;
+    }
+    public User getUser () { return UserDataMapper.find(userId); }
+
+    public Project getProject() { return ProjectDataMapper.find(projectId); }
 
     public int getBudget() { return budget; }
 
@@ -26,8 +29,8 @@ public class Bid {
     public BidJson toBidJson ()
     {
         BidJson ret = new BidJson();
-        ret.user = this.user.getId();
-        ret.project = this.project.getId();
+        ret.user = this.userId;
+        ret.project = this.projectId;
         ret.budget = this.budget;
         return ret;
     }

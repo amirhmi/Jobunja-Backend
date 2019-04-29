@@ -1,5 +1,6 @@
 package DataAccess;
 
+import Model.Entity.Bid;
 import Model.Entity.Project;
 import Model.Entity.Skill;
 import Exception.CustomException;
@@ -67,6 +68,8 @@ public class ProjectDataMapper {
         //TODO: get and set bids
         List<Skill> skills = ProjectSkillDataMapper.findByProject(rs.getString("id"));
         project.setSkills(skills);
+        List<Bid> bids = BidDataMapper.findByProject(project.getId());
+        project.setBids(bids);
         return project;
     }
 

@@ -14,7 +14,6 @@ public class ProjectController {
 
     @GetMapping
     public List<Project.ProjectJson> getProjects() {
-        System.out.println(1);
         List<Project> response = MiddlewareService.getSuitedProjects();
         List<Project.ProjectJson> ret = new ArrayList<>();
         for (Project project : response)
@@ -31,13 +30,13 @@ public class ProjectController {
         return project.toProjectJson();
     }
 
-//    @PostMapping("/{id}/bid")
-//    public Bid.BidJson setBid(@PathVariable(value = "id") String id,
-//                              Integer bidAmount) {
-//        if(bidAmount == null) {
-//            throw new CustomException.BadBidAmountException();
-//        }
-//        Bid bid = MiddlewareService.setBid(id, bidAmount);
-//        return bid.toBidJson();
-//    }
+    @PostMapping("/{id}/bid")
+    public Bid.BidJson setBid(@PathVariable(value = "id") String id,
+                              Integer bidAmount) {
+        if(bidAmount == null) {
+            throw new CustomException.BadBidAmountException();
+        }
+        Bid bid = MiddlewareService.setBid(id, bidAmount);
+        return bid.toBidJson();
+    }
 }
