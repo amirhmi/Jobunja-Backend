@@ -39,6 +39,9 @@ public class UserDataMapper {
             List<User> users = new ArrayList<>();
             while (rs.next())
                 users.add(fillUser(rs));
+            rs.close();
+            dbStatement.close();
+            db.close();
             return users;
         }
         catch (SQLException e) {

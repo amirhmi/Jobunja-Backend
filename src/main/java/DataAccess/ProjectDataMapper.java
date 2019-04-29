@@ -12,17 +12,22 @@ import java.util.List;
 
 public class ProjectDataMapper {
 
-    public static Project find(String projectId) throws SQLException {
-        Connection db = DataSource.getConnection();
-        String statement = "SELECT * FROM project WHERE id = ?";
-        PreparedStatement dbStatement = db.prepareStatement(statement);
-        dbStatement.setString(1, projectId);
-        ResultSet rs = dbStatement.executeQuery();
-        Project project = fillProject(rs);
-        rs.close();
-        dbStatement.close();
-        db.close();
-        return project;
+    public static Project find(String projectId)  {
+        try {
+            Connection db = DataSource.getConnection();
+            String statement = "SELECT * FROM project WHERE id = ?";
+            PreparedStatement dbStatement = db.prepareStatement(statement);
+            dbStatement.setString(1, projectId);
+            ResultSet rs = dbStatement.executeQuery();
+            Project project = fillProject(rs);
+            rs.close();
+            dbStatement.close();
+            db.close();
+            return project;
+        }
+        catch (SQLException e) {
+            throw new CustomException.SqlException();
+        }
     }
 
     public static List<Project> getAll() {

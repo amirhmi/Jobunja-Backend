@@ -2,6 +2,10 @@ package Model.Entity;
 
 //import Model.Service.MiddlewareService;
 //import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import DataAccess.EndorsementDataMapper;
+import DataAccess.UserSkillDataMapper;
+import Model.Service.MiddlewareService;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -113,8 +117,8 @@ public class Project {
 
     private boolean currentUserAlreadyBid() {
         for(Bid bid: bids) {
-//            if(MiddlewareService.getCurrentUser().getId().equals(bid.getUser().getId()))
-//                return true;
+            if(MiddlewareService.getCurrentUser().getId().equals(bid.getUser().getId()))
+                return true;
         }
         return false;
     }

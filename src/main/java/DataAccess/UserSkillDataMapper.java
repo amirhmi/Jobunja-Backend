@@ -8,18 +8,40 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import Exception.CustomException;
 
 public class UserSkillDataMapper {
-    public static void insert(String userId, String skillName) throws SQLException {
+    public static void insert(String userId, String skillName) {
         String statement = "INSERT OR IGNORE INTO UserSkill(userid, skillName)" +
                             "VALUES(?, ?)";
-        Connection db = DataSource.getConnection();
-        PreparedStatement dbStatement = db.prepareStatement(statement);
-        dbStatement.setString(1, userId);
-        dbStatement.setString(2, skillName);
-        dbStatement.execute();
-        dbStatement.close();
-        db.close();
+        try {
+            Connection db = DataSource.getConnection();
+            PreparedStatement dbStatement = db.prepareStatement(statement);
+            dbStatement.setString(1, userId);
+            dbStatement.setString(2, skillName);
+            dbStatement.execute();
+            dbStatement.close();
+            db.close();
+        }
+        catch (SQLException e) {
+            throw new CustomException.SqlException();
+        }
+    }
+
+    public static void delete(String userId, String skillName) throws CustomException.SqlException {
+        try {
+            Connection db = DataSource.getConnection();
+            String statement = "DELETE FROM userSkill WHERE userId = ? and skillName = ?";
+            PreparedStatement dbStatement = db.prepareStatement(statement);
+            dbStatement.setString(1, userId);
+            dbStatement.setString(2, skillName);
+            dbStatement.execute();
+            dbStatement.close();
+            db.close();
+        }
+        catch (SQLException e) {
+            throw new CustomException.SqlException();
+        }
     }
 
     public static List<Skill> findByUser(String userId) throws SQLException {

@@ -17,8 +17,8 @@ public class DataSource {
         System.out.println(dbfile.getAbsolutePath());
         ds.setUrl("jdbc:sqlite:" + dbfile.getAbsolutePath() + "/jobunja.db");
         ds.setMinIdle(2);
-        ds.setMaxIdle(5);
-        ds.setMaxOpenPreparedStatements(2);
+        ds.setMaxIdle(10);
+        ds.setMaxOpenPreparedStatements(10);
         ds.setRemoveAbandoned(true);
         ds.setRemoveAbandonedTimeout(10);
     }

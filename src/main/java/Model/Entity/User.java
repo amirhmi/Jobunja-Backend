@@ -1,5 +1,8 @@
 package Model.Entity;
 
+import DataAccess.EndorsementDataMapper;
+import DataAccess.UserSkillDataMapper;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +51,7 @@ public class User {
     public long getSkillPoint(Skill jobSkill) throws SkillNotFoundException{
         for(Skill userSkill : skills) {
             if(userSkill.getName().equals(jobSkill.getName()))
-                return userSkill.getPoint();
+                return EndorsementDataMapper.findSkillPoint(id, jobSkill.getName());
         }
         throw new SkillNotFoundException();
     }
