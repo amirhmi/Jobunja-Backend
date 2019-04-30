@@ -9,17 +9,19 @@ import java.util.List;
 import Exception.CustomException;
 
 public class MiddlewareService {
-    public static List<Project> getSuitedProjects(int page, int limit, boolean hasPage)
+    public static List<Project> getSuitedProjects(int page, int limit, boolean hasPage, String searchKey)
     {
         List<Project> projectList;
         if(!hasPage)
             projectList = ProjectDataMapper.getAll();
         else
-            projectList = ProjectDataMapper.getLimit(limit, page*limit, getCurrentUserId());
+            projectList = ProjectDataMapper.getLimit(limit, page*limit, getCurrentUserId(), searchKey);
         return projectList;
     }
 
-    public static List<User> getUsersExceptCurrent() { return UserDataMapper.getAll(true); }
+    public static List<User> getUsersExceptCurrent(String searchKey) {
+        return UserDataMapper.getAll(searchKey, true);
+    }
 
     public static User getSpecificUser(String id)
     {

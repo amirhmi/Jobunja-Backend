@@ -13,8 +13,8 @@ import java.util.List;
 public class UserController {
 
     @GetMapping
-    public List<User.UserJson> getUsers() {
-        List<User> users = MiddlewareService.getUsersExceptCurrent();
+    public List<User.UserJson> getUsers(@RequestParam(value = "searchKey") String searchKey) {
+        List<User> users = MiddlewareService.getUsersExceptCurrent(searchKey);
         List<User.UserJson> usersRes = new ArrayList<>();
         for (User user : users)
             usersRes.add(user.toUserJson());

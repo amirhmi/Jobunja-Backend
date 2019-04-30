@@ -32,7 +32,7 @@ public class UserDataMapper {
 
     public static List<User> getAll ()
     {
-        return getAll(false);
+        return getAll(null, false);
     }
 
     public static boolean exists(String userId) {
@@ -53,13 +53,19 @@ public class UserDataMapper {
         }
     }
 
-    public static List<User> getAll(boolean exceptCurrent) {
+    public static List<User> getAll(String searchKey, boolean exceptCurrent) {
         try {
             Connection db = DataSource.getConnection();
             String statement = "SELECT * FROM user";
             if (exceptCurrent)
                 statement += " WHERE id <> 1";
+            if (exceptCurrent && searchKey != null)
+                statement += " AND firstName LIKE \"%?%\"";
+            else if (searchKey != null)
+                statement += "WHERE firstName LIKE \"%?%\"";
             PreparedStatement dbStatement = db.prepareStatement(statement);
+            if (searchKey != null)
+                dbStatement.setString(1, searchKey);
             ResultSet rs = dbStatement.executeQuery();
             List<User> users = new ArrayList<>();
             while (rs.next())

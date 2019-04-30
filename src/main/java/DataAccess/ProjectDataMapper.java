@@ -91,18 +91,32 @@ public class ProjectDataMapper {
         }
     }
 
-    public static List<Project> getLimit(int limit, int offset, String userId) {
+    public static List<Project> getLimit(int limit, int offset, String userId, String searchKey) {
         try {
             Connection db = DataSource.getConnection();
             String statement = "SELECT * FROM project P " +
-                                "WHERE NOT EXISTS (SELECT * FROM projectSkill PS " +
-                                "WHERE PS.projectId = P.id AND " +
-                                "PS.point > (SELECT COUNT(*) FROM endorsement E WHERE E.skillName = PS.skillName AND E.endorsedId = ?)) " +
-                                "ORDER By creationDate ASC LIMIT ? OFFSET ?";
+                               "WHERE NOT EXISTS (SELECT * FROM projectSkill PS " +
+                               "WHERE PS.projectId = P.id AND " +
+                               "PS.point > (SELECT COUNT(*) FROM endorsement E " +
+                               "WHERE E.skillName = PS.skillName AND E.endorsedId = ?)) ";
+            if (searchKey != null)
+                statement += "AND (P.title LIKE \"%?%\" OR P.description LIKE \"%?%\")" +
+                             "ORDER By creationDate ASC LIMIT ? OFFSET ?";
+            else
+                statement += "ORDER By creationDate ASC LIMIT ? OFFSET ?";
             PreparedStatement dbStatement = db.prepareStatement(statement);
             dbStatement.setString(1, userId);
-            dbStatement.setInt(2, limit);
-            dbStatement.setInt(3, offset);
+            if (searchKey != null) {
+                dbStatement.setString(2, userId);
+                dbStatement.setString(3, userId);
+                dbStatement.setInt(4, limit);
+                dbStatement.setInt(5, offset);
+            }
+            else
+            {
+                dbStatement.setInt(2, limit);
+                dbStatement.setInt(3, offset);
+            }
             ResultSet rs = dbStatement.executeQuery();
             List<Project> projects = new ArrayList<>();
             while (rs.next())

@@ -14,7 +14,7 @@ public class ProjectController {
 
     @GetMapping
     public List<Project.ProjectJson> getProjects() {
-        List<Project> response = MiddlewareService.getSuitedProjects(0, 0, false);
+        List<Project> response = MiddlewareService.getSuitedProjects(0, 0, false, "");
         List<Project.ProjectJson> ret = new ArrayList<>();
         for (Project project : response)
             ret.add(project.toProjectJson());
@@ -31,8 +31,9 @@ public class ProjectController {
     }
 
     @GetMapping("/page")
-    public List<Project.ProjectJson> getProjectPagination(@RequestParam(value = "limit") int limit, @RequestParam(value = "page") int page) {
-        List<Project> response = MiddlewareService.getSuitedProjects(page, limit, true);
+    public List<Project.ProjectJson> getProjectPagination(@RequestParam(value = "limit") int limit
+            , @RequestParam(value = "page") int page, @RequestParam(value = "searchKey") String searchKey) {
+        List<Project> response = MiddlewareService.getSuitedProjects(page, limit, true, searchKey);
         List<Project.ProjectJson> ret = new ArrayList<>();
         for (Project project : response)
             ret.add(project.toProjectJson());
