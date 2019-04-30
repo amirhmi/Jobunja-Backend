@@ -31,11 +31,78 @@ public class ProjectDataMapper {
         }
     }
 
+    public static boolean userSuited(String projectId, String userId) {
+        try {
+            Connection db = DataSource.getConnection();
+            String statement = "SELECT CASE WHEN " +
+                    "NOT EXISTS (SELECT * FROM projectSkill PS " +
+                    "WHERE PS.projectId = ? AND " +
+                    "PS.point > (SELECT COUNT(*) FROM endorsement E WHERE E.skillName = PS.skillName AND E.endorsedId = ?))" +
+                    "THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END";
+            PreparedStatement dbStatement = db.prepareStatement(statement);
+            dbStatement.setString(1, projectId);
+            dbStatement.setString(2, userId);
+            ResultSet rs = dbStatement.executeQuery();
+            boolean ret = rs.getBoolean(1);
+            rs.close();
+            dbStatement.close();
+            db.close();
+            return ret;
+        }
+        catch (SQLException e) {
+            throw new CustomException.SqlException();
+        }
+    }
+
+    public static boolean exists(String projectId) {
+        try {
+            Connection db = DataSource.getConnection();
+            String statement = "SELECT CASE WHEN EXISTS (SELECT * FROM project WHERE id = ?";
+            PreparedStatement dbStatement = db.prepareStatement(statement);
+            dbStatement.setString(1, projectId);
+            ResultSet rs = dbStatement.executeQuery();
+            boolean ret = rs.getBoolean(1);
+            rs.close();
+            dbStatement.close();
+            db.close();
+            return ret;
+        }
+        catch (SQLException e) {
+            throw new CustomException.SqlException();
+        }
+    }
+
     public static List<Project> getAll() {
         try {
             Connection db = DataSource.getConnection();
             String statement = "SELECT * FROM project";
             PreparedStatement dbStatement = db.prepareStatement(statement);
+            ResultSet rs = dbStatement.executeQuery();
+            List<Project> projects = new ArrayList<>();
+            while (rs.next())
+                projects.add(fillProject(rs));
+            rs.close();
+            dbStatement.close();
+            db.close();
+            return projects;
+        }
+        catch (SQLException e) {
+            throw new CustomException.SqlException();
+        }
+    }
+
+    public static List<Project> getLimit(int limit, int offset, String userId) {
+        try {
+            Connection db = DataSource.getConnection();
+            String statement = "SELECT * FROM project P " +
+                                "WHERE NOT EXISTS (SELECT * FROM projectSkill PS " +
+                                "WHERE PS.projectId = P.id AND " +
+                                "PS.point > (SELECT COUNT(*) FROM endorsement E WHERE E.skillName = PS.skillName AND E.endorsedId = ?)) " +
+                                "ORDER By creationDate ASC LIMIT ? OFFSET ?";
+            PreparedStatement dbStatement = db.prepareStatement(statement);
+            dbStatement.setString(1, userId);
+            dbStatement.setInt(2, limit);
+            dbStatement.setInt(3, offset);
             ResultSet rs = dbStatement.executeQuery();
             List<Project> projects = new ArrayList<>();
             while (rs.next())

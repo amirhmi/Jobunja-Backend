@@ -30,10 +30,35 @@ public class UserDataMapper {
         }
     }
 
-    public static List<User> getAll() {
+    public static List<User> getAll ()
+    {
+        return getAll(false);
+    }
+
+    public static boolean exists(String userId) {
+        String statement = "SELECT CASE WHEN EXISTS (SELECT * FROM user WHERE id = ?)"
+                + "THEN CAST (1 AS BIT) ELSE CAST (0 AS BIT) END";
+        try {
+            Connection db = DataSource.getConnection();
+            PreparedStatement dbStatement = db.prepareStatement(statement);
+            dbStatement.setString(1, userId);
+            ResultSet rs = dbStatement.executeQuery();
+            boolean ret = rs.getBoolean(1);
+            dbStatement.close();
+            db.close();
+            return ret;
+        }
+        catch (SQLException e) {
+            throw new CustomException.SqlException();
+        }
+    }
+
+    public static List<User> getAll(boolean exceptCurrent) {
         try {
             Connection db = DataSource.getConnection();
             String statement = "SELECT * FROM user";
+            if (exceptCurrent)
+                statement += " WHERE id <> 1";
             PreparedStatement dbStatement = db.prepareStatement(statement);
             ResultSet rs = dbStatement.executeQuery();
             List<User> users = new ArrayList<>();

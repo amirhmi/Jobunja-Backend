@@ -44,6 +44,47 @@ public class UserSkillDataMapper {
         }
     }
 
+    public static boolean exists(String skillname, String userId) {
+        String statement = "SELECT CASE WHEN EXISTS (SELECT * FROM UserSkill U WHERE U.userId = ? AND U.skillName = ?) "
+                + "THEN CAST (1 AS BIT) ELSE CAST (0 AS BIT) END";
+        try {
+            Connection db = DataSource.getConnection();
+            PreparedStatement dbStatement = db.prepareStatement(statement);
+            dbStatement.setString(1, userId);
+            dbStatement.setString(2, skillname);
+            ResultSet rs = dbStatement.executeQuery();
+            boolean ret = rs.getBoolean(1);
+            rs.close();
+            dbStatement.close();
+            db.close();
+            return ret;
+        }
+        catch (SQLException e) {
+            throw new CustomException.SqlException();
+        }
+    }
+
+    public static List<String> findNotExistsForUser(String userId) {
+        String statement = "SELECT S.skillName FROM skill S " +
+                "WHERE NOT EXISTS (SELECT * FROM userSkill US WHERE US.userId = ? and US.skillName = S.skillName)";
+        try {
+            Connection db = DataSource.getConnection();
+            PreparedStatement dbStatement = db.prepareStatement(statement);
+            dbStatement.setString(1, userId);
+            ResultSet rs = dbStatement.executeQuery();
+            List<String> skills = new ArrayList<>();
+            while (rs.next())
+                skills.add(rs.getString("skillName"));
+            rs.close();
+            dbStatement.close();
+            db.close();
+            return skills;
+        }
+        catch (SQLException e) {
+            throw new CustomException.SqlException();
+    }
+}
+
     public static List<Skill> findByUser(String userId) throws SQLException {
         String statement = "SELECT * FROM UserSkill U WHERE U.userId = ?";
         Connection db = DataSource.getConnection();
@@ -59,6 +100,7 @@ public class UserSkillDataMapper {
             skill.setEndorsedBy(endorsersId);
             skills.add(skill);
         }
+        rs.close();
         dbStatement.close();
         db.close();
         return skills;

@@ -14,7 +14,7 @@ public class ProjectController {
 
     @GetMapping
     public List<Project.ProjectJson> getProjects() {
-        List<Project> response = MiddlewareService.getSuitedProjects();
+        List<Project> response = MiddlewareService.getSuitedProjects(0, 0, false);
         List<Project.ProjectJson> ret = new ArrayList<>();
         for (Project project : response)
             ret.add(project.toProjectJson());
@@ -28,6 +28,15 @@ public class ProjectController {
             throw new CustomException.ProjectNotFoundException();
         }
         return project.toProjectJson();
+    }
+
+    @GetMapping("/page")
+    public List<Project.ProjectJson> getProjectPagination(@RequestParam(value = "limit") int limit, @RequestParam(value = "page") int page) {
+        List<Project> response = MiddlewareService.getSuitedProjects(page, limit, true);
+        List<Project.ProjectJson> ret = new ArrayList<>();
+        for (Project project : response)
+            ret.add(project.toProjectJson());
+        return ret;
     }
 
     @PostMapping("/{id}/bid")

@@ -63,32 +63,24 @@ public class Project {
     public void setOwner(User user) { this.owner = user;}
     public void setWinner(User user) { this.winner = user;}
 
-    public boolean addBid(Bid bid) throws NotSuitedBidException
-    {
-        if (!bidSuited(bid))
-            throw new NotSuitedBidException();
-        this.bids.add(bid);
-        return true;
-    }
-
-    private boolean bidSuited(Bid bid)
+    /*public boolean bidSuited(Bid bid)
     {
         if (bid.getBudget() > this.budget)
             return false;
         return userSuited(bid.getUser());
-    }
+    }*/
 
-    public boolean userSuited(User user)
+    /*private boolean userSuited(User user)
     {
         for (Skill skill : this.skills) {
-            if (!user.hasSkill(skill.getName()))
+            if (!UserSkillDataMapper.exists(skill.getName(), user.getId()))
                 return false;
             long skill_points = user.getSkillPoint(skill);
             if (skill_points < skill.getPoint())
                 return false;
         }
         return true;
-    }
+    }*/
 
     public Bid evaluate()
     {

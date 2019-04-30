@@ -47,11 +47,10 @@ public class UserController {
     @PutMapping(value = "/{id}/endorse")
     public User.UserJson endorseSkill(@PathVariable(value = "id") String userId,
                                         @RequestParam String skillName) {
-        User endorsedUser = MiddlewareService.getSpecificUser(userId);
-        if (endorsedUser == null)
+        if (!MiddlewareService.userExists(userId))
             throw new CustomException.UserNotFoundException();
-        Skill skillRes = MiddlewareService.endorseSkillForOtherUser(skillName, endorsedUser);
-        return endorsedUser.toUserJson();
+        MiddlewareService.endorseSkillForOtherUser(skillName, userId);
+        return MiddlewareService.getSpecificUser(userId).toUserJson();
     }
 
 }

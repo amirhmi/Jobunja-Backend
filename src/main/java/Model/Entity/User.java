@@ -56,21 +56,6 @@ public class User {
         throw new SkillNotFoundException();
     }
 
-    public void addSkill(Skill skill) throws SkillAlreadyExistsException{
-        if (hasSkill(skill.getName()))
-            throw new SkillAlreadyExistsException();
-        skills.add(skill);
-    }
-
-    public boolean hasSkill(String skillName) {
-        for(Skill skill : skills) {
-            if (skill.getName().equals(skillName)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public void removeSkill(String skillName) throws SkillNotFoundException{
         for(Skill skill : skills)
             if(skill.getName().equals(skillName)) {
