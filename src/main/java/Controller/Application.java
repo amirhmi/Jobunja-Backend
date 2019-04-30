@@ -21,20 +21,12 @@ public class Application {
     @PostConstruct
     public void init() {
         try {
-            String project_data_json = http_client_get.HttpGetRequest(RequestType.PROJECT);
             String skills_data_json = http_client_get.HttpGetRequest(RequestType.SKILL);
 
             EntityInitializer.createTables();
             List<String> validSkillNames = JsonParser.parseNameList(skills_data_json);
             for(String skillName : validSkillNames)
                 SkillDataMapper.insert(skillName);
-            List<Project> projs = JsonParser.parseProjectList(project_data_json);
-            for(Project p : projs) {
-                ProjectDataMapper.insert(p);
-                for(Skill skill : p.getSkills()) {
-                    ProjectSkillDataMapper.insert(p.getId(), skill.getName(), skill.getPoint());
-                }
-            }
             UserDataMapper.insert(new User("1", "علی", "شریف زاده", "برنامه نویس وب",
                     "https://i.ibb.co/wCkChfK/ali.jpg",
                     "روی سنگ قبرم بنویسید: خدا بیامرز می خواست خیلی کارا بکنه ولی پول نداشت",
@@ -55,8 +47,6 @@ public class Application {
                     "روی سنگ قبرم بنویسید: خدا بیامرز می خواست خیلی کارا بکنه ولی پول نداشت",
                     new Skill("C", 4), new Skill("C++", 7), new Skill("Photoshop", 1),
                     new Skill("Java", 4), new Skill("Linux", 3)));
-            System.out.println(ProjectDataMapper.userSuited("01c76d31-99a3-441e-8425-d00e874d809a", "1"));
-            System.out.println(ProjectDataMapper.userSuited("88526a38-0360-446a-a8e6-e1f196a7ccbc", "1"));
         }
         catch (SQLException e) {
             System.out.println(e.getMessage());
