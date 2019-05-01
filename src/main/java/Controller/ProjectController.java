@@ -32,7 +32,7 @@ public class ProjectController {
 
     @GetMapping("/page")
     public List<Project.ProjectJson> getProjectPagination(@RequestParam(value = "limit") int limit
-            , @RequestParam(value = "page") int page, @RequestParam(value = "searchKey") String searchKey) {
+            , @RequestParam(value = "page") int page, @RequestParam(value = "searchKey" , required = false) String searchKey) {
         List<Project> response = MiddlewareService.getSuitedProjects(page, limit, true, searchKey);
         List<Project.ProjectJson> ret = new ArrayList<>();
         for (Project project : response)

@@ -100,17 +100,16 @@ public class ProjectDataMapper {
                                "PS.point > (SELECT COUNT(*) FROM endorsement E " +
                                "WHERE E.skillName = PS.skillName AND E.endorsedId = ?)) ";
             if (searchKey != null)
-                statement += "AND (P.title LIKE \"%?%\" OR P.description LIKE \"%?%\")" +
-                             "ORDER By creationDate ASC LIMIT ? OFFSET ?";
-            else
-                statement += "ORDER By creationDate ASC LIMIT ? OFFSET ?";
+                statement += "AND (P.title LIKE ? OR P.description LIKE ?)";
+            statement += "ORDER By creationDate ASC LIMIT ? OFFSET ?";
             PreparedStatement dbStatement = db.prepareStatement(statement);
             dbStatement.setString(1, userId);
             if (searchKey != null) {
-                dbStatement.setString(2, userId);
-                dbStatement.setString(3, userId);
+                dbStatement.setString(2, "%" + searchKey + "%");
+                dbStatement.setString(3, "%" + searchKey + "%");
                 dbStatement.setInt(4, limit);
                 dbStatement.setInt(5, offset);
+
             }
             else
             {

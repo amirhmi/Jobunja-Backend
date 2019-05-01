@@ -4,16 +4,16 @@ import DataAccess.*;
 import Model.Entity.Project;
 import Model.Entity.Skill;
 import Model.Entity.User;
-import Model.Service.HttpClientGet;
-import Model.Service.JsonParser;
-import Model.Service.MiddlewareService;
-import Model.Service.RequestType;
+import Model.Service.*;
 import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 @Component
 public class Application {
@@ -21,9 +21,10 @@ public class Application {
     @PostConstruct
     public void init() {
         try {
-            String skills_data_json = http_client_get.HttpGetRequest(RequestType.SKILL);
-
             EntityInitializer.createTables();
+            ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+            scheduler.scheduleAtFixedRate(new FetchProjects(), 0, 5, TimeUnit.MINUTES);
+            String skills_data_json = http_client_get.HttpGetRequest(RequestType.SKILL);
             List<String> validSkillNames = JsonParser.parseNameList(skills_data_json);
             for(String skillName : validSkillNames)
                 SkillDataMapper.insert(skillName);
