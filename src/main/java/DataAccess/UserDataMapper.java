@@ -60,12 +60,14 @@ public class UserDataMapper {
             if (exceptCurrent)
                 statement += " WHERE id <> 1";
             if (exceptCurrent && searchKey != null)
-                statement += " AND firstName LIKE \"%?%\"";
+                statement += " AND firstName || ' ' || lastName LIKE ?";
             else if (searchKey != null)
-                statement += "WHERE firstName LIKE \"%?%\"";
+                statement += "WHERE firstName || ' ' || lastName LIKE ?";
+            System.out.println(1);
             PreparedStatement dbStatement = db.prepareStatement(statement);
+            System.out.println(2);
             if (searchKey != null)
-                dbStatement.setString(1, searchKey);
+                dbStatement.setString(1, searchKey + "%");
             ResultSet rs = dbStatement.executeQuery();
             List<User> users = new ArrayList<>();
             while (rs.next())
