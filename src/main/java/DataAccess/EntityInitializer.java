@@ -36,7 +36,7 @@ public class EntityInitializer {
                 "  skillName VARCHAR NOT NULL," +
                 "  PRIMARY KEY (endorserId, endorsedId, skillName)," +
                 "  FOREIGN KEY (endorserId) REFERENCES User(id)," +
-                "  FOREIGN KEY (endorsedId, skillName) REFERENCES UserSkill(userId, skillName)" +
+                "  FOREIGN KEY (endorsedId, skillName) REFERENCES UserSkill(userId, skillName) ON DELETE CASCADE" +
                 ");";
         String createProject =
                 "CREATE TABLE IF NOT EXISTS Project" +

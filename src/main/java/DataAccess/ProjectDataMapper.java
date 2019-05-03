@@ -101,7 +101,7 @@ public class ProjectDataMapper {
                                "WHERE E.skillName = PS.skillName AND E.endorsedId = ?)) ";
             if (searchKey != null)
                 statement += "AND (P.title LIKE ? OR P.description LIKE ?)";
-            statement += "ORDER By creationDate ASC LIMIT ? OFFSET ?";
+            statement += "ORDER By creationDate DESC LIMIT ? OFFSET ?";
             PreparedStatement dbStatement = db.prepareStatement(statement);
             dbStatement.setString(1, userId);
             if (searchKey != null) {
@@ -109,7 +109,6 @@ public class ProjectDataMapper {
                 dbStatement.setString(3, "%" + searchKey + "%");
                 dbStatement.setInt(4, limit);
                 dbStatement.setInt(5, offset);
-
             }
             else
             {
