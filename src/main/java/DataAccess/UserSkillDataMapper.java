@@ -11,13 +11,13 @@ import java.util.List;
 import Exception.CustomException;
 
 public class UserSkillDataMapper {
-    public static void insert(String userId, String skillName) {
+    public static void insert(int userId, String skillName) {
         String statement = "INSERT OR IGNORE INTO UserSkill(userid, skillName)" +
                             "VALUES(?, ?)";
         try {
             Connection db = DataSource.getConnection();
             PreparedStatement dbStatement = db.prepareStatement(statement);
-            dbStatement.setString(1, userId);
+            dbStatement.setInt(1, userId);
             dbStatement.setString(2, skillName);
             dbStatement.execute();
             dbStatement.close();
@@ -28,12 +28,12 @@ public class UserSkillDataMapper {
         }
     }
 
-    public static void delete(String userId, String skillName) throws CustomException.SqlException {
+    public static void delete(int userId, String skillName) throws CustomException.SqlException {
         try {
             Connection db = DataSource.getConnection();
             String statement = "DELETE FROM userSkill WHERE userId = ? and skillName = ?";
             PreparedStatement dbStatement = db.prepareStatement(statement);
-            dbStatement.setString(1, userId);
+            dbStatement.setInt(1, userId);
             dbStatement.setString(2, skillName);
             dbStatement.execute();
             dbStatement.close();
@@ -44,13 +44,13 @@ public class UserSkillDataMapper {
         }
     }
 
-    public static boolean exists(String skillname, String userId) {
+    public static boolean exists(String skillname, int userId) {
         String statement = "SELECT CASE WHEN EXISTS (SELECT * FROM UserSkill U WHERE U.userId = ? AND U.skillName = ?) "
                 + "THEN CAST (1 AS BIT) ELSE CAST (0 AS BIT) END";
         try {
             Connection db = DataSource.getConnection();
             PreparedStatement dbStatement = db.prepareStatement(statement);
-            dbStatement.setString(1, userId);
+            dbStatement.setInt(1, userId);
             dbStatement.setString(2, skillname);
             ResultSet rs = dbStatement.executeQuery();
             boolean ret = rs.getBoolean(1);
@@ -64,13 +64,13 @@ public class UserSkillDataMapper {
         }
     }
 
-    public static List<String> findNotExistsForUser(String userId) {
+    public static List<String> findNotExistsForUser(int userId) {
         String statement = "SELECT S.skillName FROM skill S " +
                 "WHERE NOT EXISTS (SELECT * FROM userSkill US WHERE US.userId = ? and US.skillName = S.skillName)";
         try {
             Connection db = DataSource.getConnection();
             PreparedStatement dbStatement = db.prepareStatement(statement);
-            dbStatement.setString(1, userId);
+            dbStatement.setInt(1, userId);
             ResultSet rs = dbStatement.executeQuery();
             List<String> skills = new ArrayList<>();
             while (rs.next())
@@ -85,18 +85,18 @@ public class UserSkillDataMapper {
     }
 }
 
-    public static List<Skill> findByUser(String userId) throws SQLException {
+    public static List<Skill> findByUser(int userId) throws SQLException {
         String statement = "SELECT * FROM UserSkill U WHERE U.userId = ?";
         Connection db = DataSource.getConnection();
         PreparedStatement dbStatement = db.prepareStatement(statement);
-        dbStatement.setString(1, userId);
+        dbStatement.setInt(1, userId);
         ResultSet rs = dbStatement.executeQuery();
         List<Skill> skills = new ArrayList<>();
         while (rs.next()) {
             Skill skill = new Skill();
             String skillName = rs.getString("skillName");
             skill.setName(skillName);
-            List<String> endorsersId = EndorsementDataMapper.findEndorsersId(userId, skillName);
+            List<Integer> endorsersId = EndorsementDataMapper.findEndorsersId(userId, skillName);
             skill.setEndorsedBy(endorsersId);
             skills.add(skill);
         }

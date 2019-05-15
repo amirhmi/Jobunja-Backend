@@ -23,7 +23,7 @@ public class MiddlewareService {
         return UserDataMapper.getAll(searchKey, true);
     }
 
-    public static User getSpecificUser(String id)
+    public static User getSpecificUser(int id)
     {
         return UserDataMapper.find(id);
     }
@@ -41,7 +41,7 @@ public class MiddlewareService {
             throw new CustomException.ProjectNotFoundException();
         if(hasCurrentUserBidForProject(id))
             throw new CustomException.ProjectAlreadyBidExcption();
-        String currentUserId = getCurrentUserId();
+        int currentUserId = getCurrentUserId();
         Project project = ProjectDataMapper.find(id);
         if(!ProjectDataMapper.userSuited(id, getCurrentUserId()) || bidAmount > project.getBudget())
             throw new CustomException.NotSuitedProjectBidException();
@@ -65,9 +65,9 @@ public class MiddlewareService {
         return UserSkillDataMapper.exists(skillName, getCurrentUserId());
     }
 
-    public static void endorseSkillForOtherUser (String skillName, String userId)
+    public static void endorseSkillForOtherUser (String skillName, int userId)
     {
-        if (userId.equals(getCurrentUserId()))
+        if (userId == getCurrentUserId())
             throw new CustomException.EndorseByOwnerException();
         try {
             EndorsementDataMapper.insert(getCurrentUserId(), userId, skillName);
@@ -82,15 +82,19 @@ public class MiddlewareService {
         }
     }
 
-    public static boolean userExists(String userId) { return UserDataMapper.exists(userId); }
+    public static boolean userExists(int userId) { return UserDataMapper.exists(userId); }
 
     public static User getCurrentUser()  {
         return UserDataMapper.find(getCurrentUserId());
     }
 
-    public static String getCurrentUserId()
+    public static int getCurrentUserId()
     {
-        return "1";
+        return 1;
+    }
+
+    public static void addUser(User user) {
+        UserDataMapper.insert(user);
     }
 
     public static void RemoveSkillForLoginUser(String skillName) {

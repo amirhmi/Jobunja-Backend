@@ -12,12 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDataMapper {
-    public static User find(String userId) {
+    public static User find(int userId) {
         try {
             Connection db = DataSource.getConnection();
             String statement = "SELECT * FROM user WHERE id = ?";
             PreparedStatement dbStatement = db.prepareStatement(statement);
-            dbStatement.setString(1, userId);
+            dbStatement.setInt(1, userId);
             ResultSet rs = dbStatement.executeQuery();
             User user = fillUser(rs);
             rs.close();
@@ -35,13 +35,31 @@ public class UserDataMapper {
         return getAll(null, false);
     }
 
-    public static boolean exists(String userId) {
+    public static boolean exists(int userId) {
         String statement = "SELECT CASE WHEN EXISTS (SELECT * FROM user WHERE id = ?)"
                 + "THEN CAST (1 AS BIT) ELSE CAST (0 AS BIT) END";
         try {
             Connection db = DataSource.getConnection();
             PreparedStatement dbStatement = db.prepareStatement(statement);
-            dbStatement.setString(1, userId);
+            dbStatement.setInt(1, userId);
+            ResultSet rs = dbStatement.executeQuery();
+            boolean ret = rs.getBoolean(1);
+            dbStatement.close();
+            db.close();
+            return ret;
+        }
+        catch (SQLException e) {
+            throw new CustomException.SqlException();
+        }
+    }
+
+    public static boolean existUserName(String userName) {
+        String statement = "SELECT CASE WHEN EXISTS (SELECT * FROM user WHERE userName = ?)"
+                + "THEN CAST (1 AS BIT) ELSE CAST (0 AS BIT) END";
+        try {
+            Connection db = DataSource.getConnection();
+            PreparedStatement dbStatement = db.prepareStatement(statement);
+            dbStatement.setString(1, userName);
             ResultSet rs = dbStatement.executeQuery();
             boolean ret = rs.getBoolean(1);
             dbStatement.close();
@@ -83,29 +101,36 @@ public class UserDataMapper {
     public static User fillUser(ResultSet rs) throws SQLException {
         String firstName = rs.getString("firstName");
         String lastName = rs.getString("lastName");
+        String userName = rs.getString("userName");
         String jobTitle = rs.getString("jobTitle");
         String profilePicUrl = rs.getString("profilePicUrl");
         String bio = rs.getString("bio");
-        String userId = rs.getString("id");
+        int userId = rs.getInt("id");
         List<Skill> skills = UserSkillDataMapper.findByUser(userId);
-        return new User(userId, firstName, lastName, skills, jobTitle, profilePicUrl, bio);
+        return new User(userId, firstName, lastName, userName, jobTitle, profilePicUrl, bio, skills);
     }
 
-    public static void insert(User user) throws SQLException {
-        Connection db = DataSource.getConnection();
-        String statement =
-                "INSERT OR IGNORE INTO User(id, firstName, lastName, jobTitle, profilePicUrl, bio)" +
-                        "VALUES(?, ?, ?, ?, ?, ?)";
-        PreparedStatement dbStatement = db.prepareStatement(statement);
-        dbStatement.setString(1, user.getId());
-        dbStatement.setString(2, user.getFirstName());
-        dbStatement.setString(3, user.getLastName());
-        dbStatement.setString(4, user.getJobTitle());
-        dbStatement.setString(5, user.getProfilePicUrl());
-        dbStatement.setString(6, user.getBio());
-        dbStatement.execute();
-        dbStatement.close();
-        db.close();
+    public static void insert(User user) {
+        try {
+            Connection db = DataSource.getConnection();
+            String statement =
+                    "INSERT INTO User(firstName, lastName, userName, password, jobTitle, profilePicUrl, bio)" +
+                            "VALUES(?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement dbStatement = db.prepareStatement(statement);
+            dbStatement.setString(1, user.getFirstName());
+            dbStatement.setString(2, user.getLastName());
+            dbStatement.setString(3, user.getUserName());
+            dbStatement.setString(4, user.getPassword());
+            dbStatement.setString(5, user.getJobTitle());
+            dbStatement.setString(6, user.getProfilePicUrl());
+            dbStatement.setString(7, user.getBio());
+            dbStatement.execute();
+            dbStatement.close();
+            db.close();
+        }
+        catch (SQLException e) {
+            throw new CustomException.SqlException();
+        }
         for (Skill s : user.getSkills()) {
             UserSkillDataMapper.insert(user.getId(), s.getName());
         }

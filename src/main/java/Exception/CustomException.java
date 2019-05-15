@@ -37,4 +37,10 @@ public class CustomException {
 
     @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "sql exception")
     public static class SqlException extends RuntimeException { }
+
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "bad parameter for singup")
+    public static class SignupException extends RuntimeException { }
+
+    @ResponseStatus(code = HttpStatus.FORBIDDEN, reason = "user name already exists")
+    public static class AlreadyUserNameExist extends RuntimeException { }
 }

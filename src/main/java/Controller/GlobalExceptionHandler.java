@@ -78,6 +78,18 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(messageToJson("this skilled is already endorsed"), HttpStatus.FORBIDDEN);
     }
 
+    @ExceptionHandler({CustomException.SignupException.class})
+    public ResponseEntity<String> handleException(HttpServletRequest req, CustomException.SignupException exception, HttpServletResponse resp)
+    {
+        return new ResponseEntity<>(messageToJson("this skilled is already endorsed"), HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler({CustomException.AlreadyUserNameExist.class})
+    public ResponseEntity<String> handleException(HttpServletRequest req, CustomException.AlreadyUserNameExist exception, HttpServletResponse resp)
+    {
+        return new ResponseEntity<>(messageToJson("this skilled is already endorsed"), HttpStatus.FORBIDDEN);
+    }
+
     @ExceptionHandler({SQLException.class})
     public ResponseEntity<String> handleException(HttpServletRequest req, SQLException exception, HttpServletResponse resp)
     {

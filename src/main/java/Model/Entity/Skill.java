@@ -9,7 +9,7 @@ import java.util.List;
 public class Skill {
     private String name;
     private int point;
-    private List<String> endorsersId = new ArrayList<>();
+    private List<Integer> endorsersId = new ArrayList<>();
 
     public Skill() {
         this.name = "no-skill";
@@ -32,20 +32,20 @@ public class Skill {
 
     public void setName(String name) { this.name = name;}
     public void setPoint(int point) { this.point = point;}
-    public void setEndorsedBy(List<String> endorsersId) { this.endorsersId = endorsersId;}
+    public void setEndorsedBy(List<Integer> endorsersId) { this.endorsersId = endorsersId;}
 
-    public Boolean isEndorsed(String endorserId)
+    public Boolean isEndorsed(int endorserId)
     {
-        for (String userId: endorsersId)
-            if (userId.equals(endorserId))
+        for (int userId: endorsersId)
+            if (userId == endorserId)
                 return true;
         return false;
     }
 
     public void endorse(User endorser) throws AlreadyEndorsedException
     {
-        for (String userId : endorsersId)
-            if (userId.equals(endorser.getId()))
+        for (int userId : endorsersId)
+            if (userId == endorser.getId())
                 throw new AlreadyEndorsedException();
         endorsersId.add(endorser.getId());
         this.point += 1;
@@ -53,7 +53,7 @@ public class Skill {
 
     public String getName() { return this.name;}
     public int getPoint() { return this.point;}
-    public List<String> getEndorsersId() { return this.endorsersId;}
+    public List<Integer> getEndorsersId() { return this.endorsersId;}
 
     public static class InvalidSkillNameException extends RuntimeException { }
 
@@ -71,8 +71,8 @@ public class Skill {
         SkillJson ret = new SkillJson();
         ret.name = this.name;
         ret.point = this.point;
-        for (String userId : endorsersId)
-            ret.endorsers.add(userId);
+        for (int userId : endorsersId)
+            ret.endorsers.add(Integer.toString(userId));
         return ret;
     }
 }

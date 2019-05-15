@@ -10,13 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EndorsementDataMapper {
-    public static void insert(String endorserId, String endorsedId, String skillName) throws CustomException.SqlException {
+    public static void insert(int endorserId, int endorsedId, String skillName) throws CustomException.SqlException {
         try {
             Connection db = DataSource.getConnection();
             String statement = "INSERT INTO endorsement(endorserId, endorsedId, skillName) VALUES(?, ?, ?)";
             PreparedStatement dbStatement = db.prepareStatement(statement);
-            dbStatement.setString(1, endorserId);
-            dbStatement.setString(2, endorsedId);
+            dbStatement.setInt(1, endorserId);
+            dbStatement.setInt(2, endorsedId);
             dbStatement.setString(3, skillName);
             dbStatement.execute();
             dbStatement.close();
@@ -27,17 +27,17 @@ public class EndorsementDataMapper {
         }
     }
 
-    public static List<String> findEndorsersId(String endorsedId, String skillName) {
+    public static List<Integer> findEndorsersId(int endorsedId, String skillName) {
         String statement = "SELECT endorserId FROM endorsement WHERE endorsedId = ? and skillName = ?";
         try {
             Connection db = DataSource.getConnection();
             PreparedStatement dbStatement = db.prepareStatement(statement);
-            dbStatement.setString(1, endorsedId);
+            dbStatement.setInt(1, endorsedId);
             dbStatement.setString(2, skillName);
             ResultSet rs = dbStatement.executeQuery();
-            List<String> endorsersId = new ArrayList<>();
+            List<Integer> endorsersId = new ArrayList<>();
             while (rs.next())
-                endorsersId.add(rs.getString("endorserId"));
+                endorsersId.add(rs.getInt("endorserId"));
             rs.close();
             dbStatement.close();
             db.close();
@@ -48,7 +48,7 @@ public class EndorsementDataMapper {
         }
     }
 
-    public static int findSkillPoint(String endorsedId, String skillName) {
+    public static int findSkillPoint(int endorsedId, String skillName) {
         return findEndorsersId(endorsedId, skillName).size();
     }
 }

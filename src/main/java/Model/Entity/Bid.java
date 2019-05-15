@@ -4,10 +4,10 @@ import DataAccess.ProjectDataMapper;
 import DataAccess.UserDataMapper;
 
 public class Bid {
-    private String userId;
+    private int userId;
     private String projectId;
     private int budget;
-    public Bid(String userId, int budget, String projectId)
+    public Bid(int userId, int budget, String projectId)
     {
         this.userId = userId;
         this.budget = budget;
@@ -29,7 +29,7 @@ public class Bid {
     public BidJson toBidJson ()
     {
         BidJson ret = new BidJson();
-        ret.user = this.userId;
+        ret.user = Integer.toString(this.userId);
         ret.project = this.projectId;
         ret.budget = this.budget;
         return ret;

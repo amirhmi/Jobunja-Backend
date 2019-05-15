@@ -28,23 +28,18 @@ public class Application {
             List<String> validSkillNames = JsonParser.parseNameList(skills_data_json);
             for(String skillName : validSkillNames)
                 SkillDataMapper.insert(skillName);
-            UserDataMapper.insert(new User("1", "علی", "شریف زاده", "برنامه نویس وب",
+            UserDataMapper.insert(new User("علی", "شریف زاده", "ali", "1","برنامه نویس وب",
                     "https://i.ibb.co/wCkChfK/ali.jpg",
                     "روی سنگ قبرم بنویسید: خدا بیامرز می خواست خیلی کارا بکنه ولی پول نداشت",
                     new Skill("HTML", 5), new Skill("Javascript", 4), new Skill("C++", 2),
                     new Skill("Java", 3), new Skill("SQL", 3)));
-            UserDataMapper.insert(new User("2", "امیرحسین", "احمدی", "دانش‌پژوه",
+            UserDataMapper.insert(new User("امیرحسین", "احمدی", "amir", "2", "دانش‌پژوه",
                     "https://i.ibb.co/5FRFzY8/amir.jpg",
                     "روی سنگ قبرم بنویسید: خدا بیامرز می خواست خیلی کارا بکنه ولی پول نداشت",
                     new Skill("HTML", 5), new Skill("Django", 6), new Skill("PHP", 2),
                     new Skill("Java", 3), new Skill("Node.js", 10)));
-            UserDataMapper.insert(new User("3", "بهار", "باطنی", "گیمر",
+            UserDataMapper.insert(new User("بهار", "باطنی", "bahar", "3", "گیمر",
                     "https://i.ibb.co/d5Y4PDK/bahar.jpg",
-                    "روی سنگ قبرم بنویسید: خدا بیامرز می خواست خیلی کارا بکنه ولی پول نداشت",
-                    new Skill("C", 4), new Skill("C++", 7), new Skill("Photoshop", 1),
-                    new Skill("Java", 4), new Skill("Linux", 3)));
-            UserDataMapper.insert(new User("4", "محمد", "رضوی", "گرافیست",
-                    "http://www.leseditionsducafe.com/wp-content/uploads/2016/06/male_cartoon_portrait_actual_by_ianmaiguapictures-d8pmfyo-768x681.jpg",
                     "روی سنگ قبرم بنویسید: خدا بیامرز می خواست خیلی کارا بکنه ولی پول نداشت",
                     new Skill("C", 4), new Skill("C++", 7), new Skill("Photoshop", 1),
                     new Skill("Java", 4), new Skill("Linux", 3)));

@@ -31,7 +31,7 @@ public class ProjectDataMapper {
         }
     }
 
-    public static boolean userSuited(String projectId, String userId) {
+    public static boolean userSuited(String projectId, int userId) {
         try {
             Connection db = DataSource.getConnection();
             String statement = "SELECT CASE WHEN " +
@@ -41,7 +41,7 @@ public class ProjectDataMapper {
                     "THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END";
             PreparedStatement dbStatement = db.prepareStatement(statement);
             dbStatement.setString(1, projectId);
-            dbStatement.setString(2, userId);
+            dbStatement.setInt(2, userId);
             ResultSet rs = dbStatement.executeQuery();
             boolean ret = rs.getBoolean(1);
             rs.close();
@@ -91,7 +91,7 @@ public class ProjectDataMapper {
         }
     }
 
-    public static List<Project> getLimit(int limit, int offset, String userId, String searchKey) {
+    public static List<Project> getLimit(int limit, int offset, int userId, String searchKey) {
         try {
             Connection db = DataSource.getConnection();
             String statement = "SELECT * FROM project P " +
@@ -103,7 +103,7 @@ public class ProjectDataMapper {
                 statement += "AND (P.title LIKE ? OR P.description LIKE ?)";
             statement += "ORDER By creationDate DESC LIMIT ? OFFSET ?";
             PreparedStatement dbStatement = db.prepareStatement(statement);
-            dbStatement.setString(1, userId);
+            dbStatement.setInt(1, userId);
             if (searchKey != null) {
                 dbStatement.setString(2, "%" + searchKey + "%");
                 dbStatement.setString(3, "%" + searchKey + "%");
@@ -138,13 +138,12 @@ public class ProjectDataMapper {
         project.setBudget(rs.getInt("budget"));
         project.setDeadline(rs.getLong("deadline"));
         project.setCreationDate(rs.getLong("creationDate"));
-        String winnerId = rs.getString("winnerId");
-        if(winnerId != null)
+        int winnerId = rs.getInt("winnerId");
+        if(winnerId != 0)
             project.setWinner(UserDataMapper.find(winnerId));
-        String ownerId = rs.getString("ownerId");
-        if(ownerId != null)
+        int ownerId = rs.getInt("ownerId");
+        if(ownerId != 0)
             project.setOwner(UserDataMapper.find(ownerId));
-        //TODO: get and set bids
         List<Skill> skills = ProjectSkillDataMapper.findByProject(rs.getString("id"));
         project.setSkills(skills);
         List<Bid> bids = BidDataMapper.findByProject(project.getId());

@@ -11,12 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BidDataMapper {
-    public static void insert(String projectId, String userId, int budget) {
+    public static void insert(String projectId, int userId, int budget) {
         try {
             Connection db = DataSource.getConnection();
             String statement = "INSERT INTO bid(userId, projectId, budget) VALUES(?, ?, ?)";
             PreparedStatement dbStatement = db.prepareStatement(statement);
-            dbStatement.setString(1, userId);
+            dbStatement.setInt(1, userId);
             dbStatement.setString(2, projectId);
             dbStatement.setInt(3, budget);
             dbStatement.execute();
@@ -28,12 +28,12 @@ public class BidDataMapper {
         }
     }
 
-    public static Bid find(String userId, String projectId) {
+    public static Bid find(int userId, String projectId) {
         try {
             Connection db = DataSource.getConnection();
             String statement = "SELECT * FROM bid WHERE userId = ? and projectId = ?";
             PreparedStatement dbStatement = db.prepareStatement(statement);
-            dbStatement.setString(1, userId);
+            dbStatement.setInt(1, userId);
             dbStatement.setString(2, projectId);
             ResultSet rs = dbStatement.executeQuery();
             Bid bid = null;
@@ -70,7 +70,7 @@ public class BidDataMapper {
     }
 
     public static Bid fillBid(ResultSet rs) throws SQLException {
-        String userId = rs.getString("userId");
+        int userId = rs.getInt("userId");
         String projectId = rs.getString("projectId");
         int budget = rs.getInt("budget");
         return new Bid(userId, budget, projectId);

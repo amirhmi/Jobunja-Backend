@@ -5,13 +5,14 @@ public class EntityInitializer {
         String createUser =
                 "CREATE TABLE IF NOT EXISTS User" +
                 "(" +
-                "  id VARCHAR NOT NULL," +
+                "  id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "  firstName VARCHAR NOT NULL," +
                 "  lastName VARCHAR NOT NULL," +
+                "  userName VARCHAR NOT NULL," +
+                "  password VARCHAR NOT NULL," +
                 "  jobTitle VARCHAR," +
                 "  profilePicUrl VARCHAR," +
-                "  bio VARCHAR," +
-                "  PRIMARY KEY (id)" +
+                "  bio VARCHAR" +
                 ");";
         String createSkill =
                 "CREATE TABLE IF NOT EXISTS Skill" +
@@ -22,7 +23,7 @@ public class EntityInitializer {
         String createUserSkill =
                 "CREATE TABLE IF NOT EXISTS UserSkill" +
                 "(" +
-                "  userId VARCHAR NOT NULL," +
+                "  userId INTEGER NOT NULL," +
                 "  skillName VARCHAR NOT NULL," +
                 "  PRIMARY KEY (userId, skillName)," +
                 "  FOREIGN KEY (userId) REFERENCES User(id)," +
@@ -31,8 +32,8 @@ public class EntityInitializer {
         String createEndorsement =
                 "CREATE TABLE IF NOT EXISTS Endorsement" +
                 "(" +
-                "  endorserId VARCHAR NOT NULL," +
-                "  endorsedId VARCHAR NOT NULL," +
+                "  endorserId INTEGER NOT NULL," +
+                "  endorsedId INTEGER NOT NULL," +
                 "  skillName VARCHAR NOT NULL," +
                 "  PRIMARY KEY (endorserId, endorsedId, skillName)," +
                 "  FOREIGN KEY (endorserId) REFERENCES User(id)," +
@@ -58,7 +59,7 @@ public class EntityInitializer {
                 "CREATE TABLE IF NOT EXISTS Bid" +
                 "(" +
                 "  budget INT NOT NULL," +
-                "  userId VARCHAR NOT NULL," +
+                "  userId INTEGER NOT NULL," +
                 "  projectId VARCHAR NOT NULL," +
                 "  PRIMARY KEY (userId, projectId)," +
                 "  FOREIGN KEY (userId) REFERENCES User(id)," +

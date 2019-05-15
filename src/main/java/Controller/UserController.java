@@ -23,12 +23,12 @@ public class UserController {
 
     @GetMapping("/myid")
     public String getLoginUserId() {
-        return MiddlewareService.getCurrentUser().getId();
+        return Integer.toString(MiddlewareService.getCurrentUser().getId());
     }
 
     @GetMapping("/{id}")
     public User.UserJson getUser(@PathVariable(value = "id") String id) {
-        User user = MiddlewareService.getSpecificUser(id);
+        User user = MiddlewareService.getSpecificUser(Integer.parseInt(id));
         if(user == null) {
             throw new CustomException.UserNotFoundException();
         }
@@ -37,7 +37,7 @@ public class UserController {
 
     @GetMapping("/{id}/amiendorser")
     public List<Boolean> getIsEndorsedBefore(@PathVariable(value = "id") String id) {
-        User user = MiddlewareService.getSpecificUser(id);
+        User user = MiddlewareService.getSpecificUser(Integer.parseInt(id));
         if (user == null){
             throw new CustomException.UserNotFoundException();
         }
@@ -47,10 +47,10 @@ public class UserController {
     @PutMapping(value = "/{id}/endorse")
     public User.UserJson endorseSkill(@PathVariable(value = "id") String userId,
                                         @RequestParam String skillName) {
-        if (!MiddlewareService.userExists(userId))
+        if (!MiddlewareService.userExists(Integer.parseInt(userId)))
             throw new CustomException.UserNotFoundException();
-        MiddlewareService.endorseSkillForOtherUser(skillName, userId);
-        return MiddlewareService.getSpecificUser(userId).toUserJson();
+        MiddlewareService.endorseSkillForOtherUser(skillName, Integer.parseInt(userId));
+        return MiddlewareService.getSpecificUser(Integer.parseInt(userId)).toUserJson();
     }
 
 }
