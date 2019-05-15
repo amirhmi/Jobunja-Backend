@@ -4,10 +4,14 @@ import DataAccess.UserDataMapper;
 import Model.Entity.User;
 import Model.Service.Cryptography;
 import Model.Service.MiddlewareService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import Exception.CustomException;
+
+import javax.security.auth.login.LoginException;
 
 @RestController
 public class AuthController {
@@ -26,49 +30,12 @@ public class AuthController {
         MiddlewareService.addUser(newUser);
     }
 
-    private class SignupUserModel {
-        private String firstName;
-        private String lastName;
-        private String userName;
-        private String jobTitle;
-        private String imgUrl;
-        private String bio;
-
-        public String getFirstName() {
-            return firstName;
-        }
-        public void setFirstName(String firstName) {
-            this.firstName = firstName;
-        }
-        public String getLastName() {
-            return lastName;
-        }
-        public void setLastName(String lastName) {
-            this.lastName = lastName;
-        }
-        public String getUserName() {
-            return userName;
-        }
-        public void setUserName(String userName) {
-            this.userName = userName;
-        }
-        public String getJobTitle() {
-            return jobTitle;
-        }
-        public void setJobTitle(String jobTitle) {
-            this.jobTitle = jobTitle;
-        }
-        public String getImgUrl() {
-            return imgUrl;
-        }
-        public void setImgUrl(String imgUrl) {
-            this.imgUrl = imgUrl;
-        }
-        public String getBio() {
-            return bio;
-        }
-        public void setBio(String bio) {
-            this.bio = bio;
+    @PostMapping("/login")
+    public void login(String userName, String password) {
+        String hashedPassword = Cryptography.getSHA(password);
+        int userId = MiddlewareService.findByUsernamePassword(userName, hashedPassword);
+        if(userId == 0) {
+            throw new CustomException.LoginException();
         }
     }
 }

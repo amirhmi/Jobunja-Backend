@@ -154,4 +154,25 @@ public class UserDataMapper {
             throw new CustomException.SqlException();
         }
     }
+
+    public static int findByUsernamePass(String userName, String password) {
+        String statement = "SELECT id FROM User WHERE userName = ? and password = ?";
+        try {
+            Connection db = DataSource.getConnection();
+            PreparedStatement dbStatement = db.prepareStatement(statement);
+            dbStatement.setString(1, userName);
+            dbStatement.setString(2, password);
+            ResultSet rs = dbStatement.executeQuery();
+            int id = 0;
+            if(rs.next())
+                id = rs.getInt(1);
+            rs.close();
+            dbStatement.close();
+            db.close();
+            return id;
+        }
+        catch (SQLException e) {
+            throw new CustomException.SqlException();
+        }
+    }
 }

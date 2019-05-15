@@ -106,4 +106,8 @@ public class MiddlewareService {
     public static List<String> CanBeAddedSkills() {
         return UserSkillDataMapper.findNotExistsForUser(getCurrentUserId());
     }
+
+    public static int findByUsernamePassword(String userName, String password) {
+        return UserDataMapper.findByUsernamePass(userName, password);
+    }
 }
