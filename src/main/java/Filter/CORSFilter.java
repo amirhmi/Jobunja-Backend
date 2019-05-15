@@ -1,4 +1,4 @@
-package Model.Service;
+package Filter;
 
 import java.io.IOException;
 import javax.servlet.Filter;

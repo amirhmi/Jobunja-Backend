@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import Exception.CustomException;
 
 @RestController
-@RequestMapping("/signup")
-public class SignupController {
-    @PostMapping
+public class AuthController {
+    @PostMapping("/signup")
     public void signup(String firstName, String lastName, String userName, String password,
                        String jobTitle, String imgUrl, String bio) {
         if(firstName.length() == 0 || lastName.length() == 0 || userName.length() == 0 ||

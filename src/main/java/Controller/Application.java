@@ -1,10 +1,13 @@
 package Controller;
 
 import DataAccess.*;
+import Filter.JwtFilter;
 import Model.Entity.Project;
 import Model.Entity.Skill;
 import Model.Entity.User;
 import Model.Service.*;
+import org.springframework.boot.context.embedded.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 
