@@ -8,11 +8,12 @@ public class EntityInitializer {
                 "  id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "  firstName VARCHAR NOT NULL," +
                 "  lastName VARCHAR NOT NULL," +
-                "  userName VARCHAR NOT NULL," +
+                "  userName VARCHAR NOT NULL ," +
                 "  password VARCHAR NOT NULL," +
                 "  jobTitle VARCHAR," +
                 "  profilePicUrl VARCHAR," +
-                "  bio VARCHAR" +
+                "  bio VARCHAR," +
+                "  UNIQUE(userName)" +
                 ");";
         String createSkill =
                 "CREATE TABLE IF NOT EXISTS Skill" +
