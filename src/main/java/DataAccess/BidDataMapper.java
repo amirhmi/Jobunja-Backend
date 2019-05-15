@@ -36,7 +36,9 @@ public class BidDataMapper {
             dbStatement.setString(1, userId);
             dbStatement.setString(2, projectId);
             ResultSet rs = dbStatement.executeQuery();
-            Bid bid = fillBid(rs);
+            Bid bid = null;
+            if(rs.next())
+                bid = fillBid(rs);
             rs.close();
             dbStatement.close();
             db.close();

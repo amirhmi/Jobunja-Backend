@@ -57,7 +57,7 @@ public class ProjectDataMapper {
     public static boolean exists(String projectId) {
         try {
             Connection db = DataSource.getConnection();
-            String statement = "SELECT CASE WHEN EXISTS (SELECT * FROM project WHERE id = ?";
+            String statement = "SELECT CASE WHEN EXISTS (SELECT * FROM project WHERE id = ?) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END";
             PreparedStatement dbStatement = db.prepareStatement(statement);
             dbStatement.setString(1, projectId);
             ResultSet rs = dbStatement.executeQuery();
