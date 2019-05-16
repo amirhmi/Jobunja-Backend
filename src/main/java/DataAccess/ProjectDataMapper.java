@@ -9,8 +9,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.oracle.jrockit.jfr.ContentType.Timestamp;
-
 public class ProjectDataMapper {
 
     public static Project find(String projectId)  {
