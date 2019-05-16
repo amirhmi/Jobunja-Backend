@@ -165,7 +165,7 @@ public class Project {
         }
         ret.alreadyBid = currentUserAlreadyBid();
         ret.budget = this.budget;
-        ret.deadline = 1557999995000L;
+        ret.deadline = this.deadline;
         if (this.winner != null) {
             ret.winnerId = Integer.toString(this.winner.getId());
             ret.winnerName = this.winner.getFullName();
