@@ -1,7 +1,6 @@
 package Controller;
 
 import DataAccess.*;
-import Model.Entity.Project;
 import Model.Entity.Skill;
 import Model.Entity.User;
 import Model.Service.*;
@@ -29,17 +28,17 @@ public class Application {
             List<String> validSkillNames = JsonParser.parseNameList(skills_data_json);
             for(String skillName : validSkillNames)
                 SkillDataMapper.insert(skillName);
-            UserDataMapper.insert(new User("علی", "شریف زاده", "ali", "1","برنامه نویس وب",
+            UserDataMapper.insert(new User("علی", "شریف زاده", "ali", Cryptography.getSHA("1"),"برنامه نویس وب",
                     "https://i.ibb.co/wCkChfK/ali.jpg",
                     "روی سنگ قبرم بنویسید: خدا بیامرز می خواست خیلی کارا بکنه ولی پول نداشت",
                     new Skill("HTML", 5), new Skill("Javascript", 4), new Skill("C++", 2),
                     new Skill("Java", 3), new Skill("SQL", 3)));
-            UserDataMapper.insert(new User("امیرحسین", "احمدی", "amir", "2", "دانش‌پژوه",
+            UserDataMapper.insert(new User("امیرحسین", "احمدی", "amir", Cryptography.getSHA("2"), "دانش‌پژوه",
                     "https://i.ibb.co/5FRFzY8/amir.jpg",
                     "روی سنگ قبرم بنویسید: خدا بیامرز می خواست خیلی کارا بکنه ولی پول نداشت",
                     new Skill("HTML", 5), new Skill("Django", 6), new Skill("PHP", 2),
                     new Skill("Java", 3), new Skill("Node.js", 10)));
-            UserDataMapper.insert(new User("بهار", "باطنی", "bahar", "3", "گیمر",
+            UserDataMapper.insert(new User("بهار", "باطنی", "bahar", Cryptography.getSHA("3"), "گیمر",
                     "https://i.ibb.co/d5Y4PDK/bahar.jpg",
                     "روی سنگ قبرم بنویسید: خدا بیامرز می خواست خیلی کارا بکنه ولی پول نداشت",
                     new Skill("C", 4), new Skill("C++", 7), new Skill("Photoshop", 1),

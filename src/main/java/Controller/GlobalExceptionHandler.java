@@ -95,4 +95,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     {
         return new ResponseEntity<>(messageToJson("error in getting valid skills"), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler({CustomException.LoginException.class})
+    public ResponseEntity<String> handleException(HttpServletRequest req, CustomException.LoginException exception, HttpServletResponse resp)
+    {
+        return new ResponseEntity<>(messageToJson("error in getting valid skills"), HttpStatus.FORBIDDEN);
+    }
 }

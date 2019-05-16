@@ -114,7 +114,7 @@ public class UserDataMapper {
         try {
             Connection db = DataSource.getConnection();
             String statement =
-                    "INSERT INTO User(firstName, lastName, userName, password, jobTitle, profilePicUrl, bio)" +
+                    "INSERT OR IGNORE INTO User(firstName, lastName, userName, password, jobTitle, profilePicUrl, bio)" +
                             "VALUES(?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement dbStatement = db.prepareStatement(statement);
             dbStatement.setString(1, user.getFirstName());
@@ -131,8 +131,48 @@ public class UserDataMapper {
         catch (SQLException e) {
             throw new CustomException.SqlException();
         }
+        int userId = findIdByUserName(user.getUserName());
         for (Skill s : user.getSkills()) {
-            UserSkillDataMapper.insert(user.getId(), s.getName());
+            UserSkillDataMapper.insert(userId, s.getName());
+        }
+    }
+
+    private static int findIdByUserName(String userName) {
+        String statement = "SELECT id FROM User WHERE userName = ?";
+        try {
+            Connection db = DataSource.getConnection();
+            PreparedStatement dbStatement = db.prepareStatement(statement);
+            dbStatement.setString(1, userName);
+            ResultSet rs = dbStatement.executeQuery();
+            int id = rs.getInt(1);
+            rs.close();
+            dbStatement.close();
+            db.close();
+            return id;
+        }
+        catch (SQLException e) {
+            throw new CustomException.SqlException();
+        }
+    }
+
+    public static int findByUsernamePass(String userName, String password) {
+        String statement = "SELECT id FROM User WHERE userName = ? and password = ?";
+        try {
+            Connection db = DataSource.getConnection();
+            PreparedStatement dbStatement = db.prepareStatement(statement);
+            dbStatement.setString(1, userName);
+            dbStatement.setString(2, password);
+            ResultSet rs = dbStatement.executeQuery();
+            int id = 0;
+            if(rs.next())
+                id = rs.getInt(1);
+            rs.close();
+            dbStatement.close();
+            db.close();
+            return id;
+        }
+        catch (SQLException e) {
+            throw new CustomException.SqlException();
         }
     }
 }

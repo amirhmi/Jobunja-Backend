@@ -20,6 +20,7 @@ public class ProjectDataMapper {
             PreparedStatement dbStatement = db.prepareStatement(statement);
             dbStatement.setString(1, projectId);
             ResultSet rs = dbStatement.executeQuery();
+            rs.getString("Id");
             Project project = fillProject(rs);
             rs.close();
             dbStatement.close();
@@ -27,6 +28,7 @@ public class ProjectDataMapper {
             return project;
         }
         catch (SQLException e) {
+            System.out.println(e.getMessage());
             throw new CustomException.SqlException();
         }
     }

@@ -110,4 +110,7 @@ public class MiddlewareService {
     public static List<Project> getRecentlyEndedProjects() {
         return ProjectDataMapper.getRecentlyEnded();
     }
-}
+
+    public static int findByUsernamePassword(String userName, String password) {
+        return UserDataMapper.findByUsernamePass(userName, password);
+    }}

@@ -43,4 +43,8 @@ public class CustomException {
 
     @ResponseStatus(code = HttpStatus.FORBIDDEN, reason = "user name already exists")
     public static class AlreadyUserNameExist extends RuntimeException { }
+
+    @ResponseStatus(code = HttpStatus.FORBIDDEN, reason = "user name already exists")
+    public static class LoginException extends RuntimeException { }
+
 }

@@ -1,4 +1,4 @@
-package Model.Service;
+package Filter;
 
 import java.io.IOException;
 import javax.servlet.Filter;
@@ -25,7 +25,7 @@ public class CORSFilter implements Filter {
 
         ((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Origin", "*");
         ((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Methods","GET, OPTIONS, HEAD, PUT, POST, DELETE");
-        ((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With, remember-me");
+        ((HttpServletResponse) servletResponse).addHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With, remember-me, authorization");
 
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
 
