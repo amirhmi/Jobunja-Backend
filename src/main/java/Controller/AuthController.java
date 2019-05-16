@@ -4,14 +4,15 @@ import DataAccess.UserDataMapper;
 import Model.Entity.User;
 import Model.Service.Cryptography;
 import Model.Service.MiddlewareService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import Exception.CustomException;
 
-import javax.security.auth.login.LoginException;
+import javax.xml.bind.DatatypeConverter;
+
 
 @RestController
 public class AuthController {
@@ -31,11 +32,13 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public void login(String userName, String password) {
+    public String login(String userName, String password) {
         String hashedPassword = Cryptography.getSHA(password);
         int userId = MiddlewareService.findByUsernamePassword(userName, hashedPassword);
         if(userId == 0) {
             throw new CustomException.LoginException();
         }
+
+        return Cryptography.createJWT(Integer.toString(userId), "jobunja", 1800000);
     }
 }
