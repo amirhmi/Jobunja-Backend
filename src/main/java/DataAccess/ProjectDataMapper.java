@@ -4,12 +4,12 @@ import Model.Entity.Bid;
 import Model.Entity.Project;
 import Model.Entity.Skill;
 import Exception.CustomException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.oracle.jrockit.jfr.ContentType.Timestamp;
 
 public class ProjectDataMapper {
 
@@ -131,6 +131,31 @@ public class ProjectDataMapper {
         }
     }
 
+    public static List<Project> getRecentlyEnded() {
+        try {
+            Connection db = DataSource.getConnection();
+            String statement = "SELECT * FROM project P " +
+                    "WHERE P.deadline < ? AND ? - P.deadline <= 121000"; //less than one minute passed
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            long nowTime = timestamp.getTime();
+            PreparedStatement dbStatement = db.prepareStatement(statement);
+            System.out.println("now is " + nowTime);
+            dbStatement.setLong(1, nowTime);
+            dbStatement.setLong(2, nowTime);
+            ResultSet rs = dbStatement.executeQuery();
+            List<Project> projects = new ArrayList<>();
+            while (rs.next())
+                projects.add(fillProject(rs));
+            rs.close();
+            dbStatement.close();
+            db.close();
+            return projects;
+        }
+        catch (SQLException e) {
+            throw new CustomException.SqlException();
+        }
+    }
+
     private static Project fillProject(ResultSet rs) throws SQLException {
         Project project = new Project();
         project.setId(rs.getString("Id"));
@@ -170,5 +195,21 @@ public class ProjectDataMapper {
         dbStatement.close();
         dbStatement.close();
         db.close();
+    }
+
+    public static void setWinner (String projectId, int winnerId) {
+        try {
+            Connection db = DataSource.getConnection();
+            String statement = "UPDATE Project SET winnerId = ? WHERE id = ?";
+            PreparedStatement dbStatement = db.prepareStatement(statement);
+            dbStatement.setInt(1, winnerId);
+            dbStatement.setString(2, projectId);
+            dbStatement.executeUpdate();
+            dbStatement.close();
+            db.close();
+        }
+        catch (SQLException e) {
+            throw new CustomException.SqlException();
+        }
     }
 }
