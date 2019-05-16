@@ -13,40 +13,40 @@ import java.util.List;
 public class ProjectController {
 
     @GetMapping
-    public List<Project.ProjectJson> getProjects() {
-        List<Project> response = MiddlewareService.getSuitedProjects(0, 0, false, "");
+    public List<Project.ProjectJson> getProjects(@RequestAttribute int userId) {
+        List<Project> response = MiddlewareService.getSuitedProjects(0, 0, false, "", userId);
         List<Project.ProjectJson> ret = new ArrayList<>();
         for (Project project : response)
-            ret.add(project.toProjectJson());
+            ret.add(project.toProjectJson(userId));
         return ret;
     }
 
     @GetMapping("/{id}")
-    public Project.ProjectJson getProject(@PathVariable(value = "id") String id) {
-        Project project = MiddlewareService.getSpecificProject(id);
+    public Project.ProjectJson getProject(@PathVariable(value = "id") String id,  @RequestAttribute int userId) {
+        Project project = MiddlewareService.getSpecificProject(id, userId);
         if(project == null) {
             throw new CustomException.ProjectNotFoundException();
         }
-        return project.toProjectJson();
+        return project.toProjectJson(userId);
     }
 
     @GetMapping("/page")
-    public List<Project.ProjectJson> getProjectPagination(@RequestParam(value = "limit") int limit
+    public List<Project.ProjectJson> getProjectPagination(@RequestParam(value = "limit") int limit, @RequestAttribute int userId
             , @RequestParam(value = "page") int page, @RequestParam(value = "searchKey" , required = false) String searchKey) {
-        List<Project> response = MiddlewareService.getSuitedProjects(page, limit, true, searchKey);
+        List<Project> response = MiddlewareService.getSuitedProjects(page, limit, true, searchKey, userId);
         List<Project.ProjectJson> ret = new ArrayList<>();
         for (Project project : response)
-            ret.add(project.toProjectJson());
+            ret.add(project.toProjectJson(userId));
         return ret;
     }
 
     @PostMapping("/{id}/bid")
     public Bid.BidJson setBid(@PathVariable(value = "id") String id,
-                              Integer bidAmount) {
+                              Integer bidAmount, @RequestAttribute int userId) {
         if(bidAmount == null) {
             throw new CustomException.BadBidAmountException();
         }
-        Bid bid = MiddlewareService.setBid(id, bidAmount);
+        Bid bid = MiddlewareService.setBid(id, bidAmount, userId);
         return bid.toBidJson();
     }
 }

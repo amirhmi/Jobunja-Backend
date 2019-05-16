@@ -9,18 +9,18 @@ import java.util.List;
 import Exception.CustomException;
 
 public class MiddlewareService {
-    public static List<Project> getSuitedProjects(int page, int limit, boolean hasPage, String searchKey)
+    public static List<Project> getSuitedProjects(int page, int limit, boolean hasPage, String searchKey, int currentUserId)
     {
         List<Project> projectList;
         if(!hasPage)
             projectList = ProjectDataMapper.getAll();
         else
-            projectList = ProjectDataMapper.getLimit(limit, page*limit, getCurrentUserId(), searchKey);
+            projectList = ProjectDataMapper.getLimit(limit, page*limit, currentUserId, searchKey);
         return projectList;
     }
 
-    public static List<User> getUsersExceptCurrent(String searchKey) {
-        return UserDataMapper.getAll(searchKey, true);
+    public static List<User> getUsersExceptCurrent(String searchKey, int userId) {
+        return UserDataMapper.getAll(searchKey, true, userId);
     }
 
     public static User getSpecificUser(int id)
@@ -28,49 +28,48 @@ public class MiddlewareService {
         return UserDataMapper.find(id);
     }
 
-    public static Project getSpecificProject(String id)
+    public static Project getSpecificProject(String id, int currentUserId)
     {
         Project project = ProjectDataMapper.find(id);
-        if(project != null && ProjectDataMapper.userSuited(id ,getCurrentUserId()))
+        if(project != null && ProjectDataMapper.userSuited(id ,currentUserId))
             return project;
         return null;
     }
 
-    public static Bid setBid(String id, int bidAmount) {
+    public static Bid setBid(String id, int bidAmount, int currentUserId) {
         if(!ProjectDataMapper.exists(id))
             throw new CustomException.ProjectNotFoundException();
-        if(hasCurrentUserBidForProject(id))
+        if(hasCurrentUserBidForProject(id, currentUserId))
             throw new CustomException.ProjectAlreadyBidExcption();
-        int currentUserId = getCurrentUserId();
         Project project = ProjectDataMapper.find(id);
-        if(!ProjectDataMapper.userSuited(id, getCurrentUserId()) || bidAmount > project.getBudget())
+        if(!ProjectDataMapper.userSuited(id, currentUserId) || bidAmount > project.getBudget())
             throw new CustomException.NotSuitedProjectBidException();
         BidDataMapper.insert(id, currentUserId, bidAmount);
-        return new Bid(getCurrentUserId(), bidAmount, id);
+        return new Bid(currentUserId, bidAmount, id);
     }
 
-    public static boolean hasCurrentUserBidForProject(String projectId) {
-        return BidDataMapper.find(getCurrentUserId(), projectId) != null;
+    public static boolean hasCurrentUserBidForProject(String projectId, int currentUserId) {
+        return BidDataMapper.find(currentUserId, projectId) != null;
     }
 
-    public static void addSkillForLoginUser(String skillName) throws CustomException.InvalidSkillNameException, CustomException.SkillAlreadyExistsException {
-            if(currentUserHasSkill(skillName)) {
+    public static void addSkillForLoginUser(String skillName, int currentUserId) throws CustomException.InvalidSkillNameException, CustomException.SkillAlreadyExistsException {
+            if(currentUserHasSkill(skillName, currentUserId)) {
                 throw new CustomException.SkillAlreadyExistsException();
             }
-            UserSkillDataMapper.insert(getCurrentUserId(), skillName);
+            UserSkillDataMapper.insert(currentUserId, skillName);
     }
 
-    public static boolean currentUserHasSkill(String skillName)
+    public static boolean currentUserHasSkill(String skillName, int currentUserId)
     {
-        return UserSkillDataMapper.exists(skillName, getCurrentUserId());
+        return UserSkillDataMapper.exists(skillName, currentUserId);
     }
 
-    public static void endorseSkillForOtherUser (String skillName, int userId)
+    public static void endorseSkillForOtherUser (String skillName, int userId, int currentUserId)
     {
-        if (userId == getCurrentUserId())
+        if (userId == currentUserId)
             throw new CustomException.EndorseByOwnerException();
         try {
-            EndorsementDataMapper.insert(getCurrentUserId(), userId, skillName);
+            EndorsementDataMapper.insert(currentUserId, userId, skillName);
         }
         catch (User.SkillNotFoundException e)
         {
@@ -84,27 +83,22 @@ public class MiddlewareService {
 
     public static boolean userExists(int userId) { return UserDataMapper.exists(userId); }
 
-    public static User getCurrentUser()  {
-        return UserDataMapper.find(getCurrentUserId());
-    }
-
-    public static int getCurrentUserId()
-    {
-        return 1;
+    public static User getCurrentUser(int currentUserId)  {
+        return UserDataMapper.find(currentUserId);
     }
 
     public static void addUser(User user) {
         UserDataMapper.insert(user);
     }
 
-    public static void RemoveSkillForLoginUser(String skillName) {
-        if (!UserSkillDataMapper.exists(skillName, getCurrentUserId()))
+    public static void RemoveSkillForLoginUser(String skillName, int currentUserId) {
+        if (!UserSkillDataMapper.exists(skillName, currentUserId))
             throw new CustomException.SkillNotFoundForUserException();
-        UserSkillDataMapper.delete(getCurrentUserId(), skillName);
+        UserSkillDataMapper.delete(currentUserId, skillName);
     }
 
-    public static List<String> CanBeAddedSkills() {
-        return UserSkillDataMapper.findNotExistsForUser(getCurrentUserId());
+    public static List<String> CanBeAddedSkills(int currentUserId) {
+        return UserSkillDataMapper.findNotExistsForUser(currentUserId);
     }
 
     public static int findByUsernamePassword(String userName, String password) {

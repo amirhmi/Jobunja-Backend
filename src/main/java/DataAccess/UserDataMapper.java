@@ -30,9 +30,9 @@ public class UserDataMapper {
         }
     }
 
-    public static List<User> getAll ()
+    public static List<User> getAll (int userId)
     {
-        return getAll(null, false);
+        return getAll(null, false, userId);
     }
 
     public static boolean exists(int userId) {
@@ -71,12 +71,12 @@ public class UserDataMapper {
         }
     }
 
-    public static List<User> getAll(String searchKey, boolean exceptCurrent) {
+    public static List<User> getAll(String searchKey, boolean exceptCurrent, int userId) {
         try {
             Connection db = DataSource.getConnection();
             String statement = "SELECT * FROM user";
             if (exceptCurrent)
-                statement += " WHERE id <> 1";
+                statement += " WHERE id <> " + Integer.toString(userId);
             if (exceptCurrent && searchKey != null)
                 statement += " AND firstName || ' ' || lastName LIKE ?";
             else if (searchKey != null)

@@ -107,9 +107,9 @@ public class Project {
         return ret;
     }
 
-    private boolean currentUserAlreadyBid() {
+    private boolean currentUserAlreadyBid(int userId) {
         for(Bid bid: bids) {
-            if(MiddlewareService.getCurrentUser().getId() == bid.getUser().getId())
+            if(MiddlewareService.getCurrentUser(userId).getId() == bid.getUser().getId())
                 return true;
         }
         return false;
@@ -142,7 +142,7 @@ public class Project {
         }
     }
 
-    public ProjectJson toProjectJson ()
+    public ProjectJson toProjectJson (int userId)
     {
         ProjectJson ret = new ProjectJson();
         ret.id = this.id;
@@ -163,7 +163,7 @@ public class Project {
             bidJson.budget = bid.getBudget();
             ret.bids.add(bidJson);
         }
-        ret.alreadyBid = currentUserAlreadyBid();
+        ret.alreadyBid = currentUserAlreadyBid(userId);
         ret.budget = this.budget;
         ret.deadline = 1557999995000L;
         if (this.winner != null) {

@@ -1,6 +1,5 @@
 package Controller;
 
-import Model.Entity.Skill;
 import Model.Entity.User;
 import Model.Service.MiddlewareService;
 import org.springframework.web.bind.annotation.*;
@@ -13,8 +12,10 @@ import java.util.List;
 public class UserController {
 
     @GetMapping
-    public List<User.UserJson> getUsers(@RequestParam(value = "searchKey", required = false) String searchKey) {
-        List<User> users = MiddlewareService.getUsersExceptCurrent(searchKey);
+    public List<User.UserJson> getUsers(@RequestParam(value = "searchKey", required = false) String searchKey,
+                                        @RequestAttribute int userId) {
+        List<User> users = MiddlewareService.getUsersExceptCurrent(searchKey, userId);
+        System.out.println();
         List<User.UserJson> usersRes = new ArrayList<>();
         for (User user : users)
             usersRes.add(user.toUserJson());
@@ -22,12 +23,12 @@ public class UserController {
     }
 
     @GetMapping("/myid")
-    public String getLoginUserId() {
-        return Integer.toString(MiddlewareService.getCurrentUser().getId());
+    public String getLoginUserId(@RequestAttribute int userId) {
+        return Integer.toString(userId);
     }
 
     @GetMapping("/{id}")
-    public User.UserJson getUser(@PathVariable(value = "id") String id) {
+    public User.UserJson getUser(@PathVariable(value = "id") String id, @RequestAttribute String userId) {
         User user = MiddlewareService.getSpecificUser(Integer.parseInt(id));
         if(user == null) {
             throw new CustomException.UserNotFoundException();
@@ -36,21 +37,21 @@ public class UserController {
     }
 
     @GetMapping("/{id}/amiendorser")
-    public List<Boolean> getIsEndorsedBefore(@PathVariable(value = "id") String id) {
+    public List<Boolean> getIsEndorsedBefore(@PathVariable(value = "id") String id, @RequestAttribute int userId) {
         User user = MiddlewareService.getSpecificUser(Integer.parseInt(id));
         if (user == null){
             throw new CustomException.UserNotFoundException();
         }
-        return user.getIsEndorser(MiddlewareService.getCurrentUser().getId());
+        return user.getIsEndorser(MiddlewareService.getCurrentUser(userId).getId());
     }
 
     @PutMapping(value = "/{id}/endorse")
-    public User.UserJson endorseSkill(@PathVariable(value = "id") String userId,
-                                        @RequestParam String skillName) {
-        if (!MiddlewareService.userExists(Integer.parseInt(userId)))
+    public User.UserJson endorseSkill(@PathVariable(value = "id") String endorsedId,
+                                        @RequestParam String skillName, @RequestAttribute int userId) {
+        if (!MiddlewareService.userExists(Integer.parseInt(endorsedId)))
             throw new CustomException.UserNotFoundException();
-        MiddlewareService.endorseSkillForOtherUser(skillName, Integer.parseInt(userId));
-        return MiddlewareService.getSpecificUser(Integer.parseInt(userId)).toUserJson();
+        MiddlewareService.endorseSkillForOtherUser(skillName, Integer.parseInt(endorsedId), userId);
+        return MiddlewareService.getSpecificUser(Integer.parseInt(endorsedId)).toUserJson();
     }
 
 }

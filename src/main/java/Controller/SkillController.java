@@ -11,20 +11,20 @@ import java.util.List;
 @RequestMapping("/skills")
 public class SkillController {
     @GetMapping
-    public List<String> getAddableSkills()
+    public List<String> getAddableSkills(@RequestAttribute int userId)
     {
-        return MiddlewareService.CanBeAddedSkills();
+        return MiddlewareService.CanBeAddedSkills(userId);
     }
 
     @PutMapping
-    public User.UserJson addSkill(@RequestParam String skillName) {
-        MiddlewareService.addSkillForLoginUser(skillName);
-        return MiddlewareService.getCurrentUser().toUserJson();
+    public User.UserJson addSkill(@RequestParam String skillName, @RequestAttribute int userId) {
+        MiddlewareService.addSkillForLoginUser(skillName, userId);
+        return MiddlewareService.getCurrentUser(userId).toUserJson();
     }
 
     @DeleteMapping
-    public User.UserJson removeSkill(@RequestParam String skillName) {
-        MiddlewareService.RemoveSkillForLoginUser(skillName);
-        return MiddlewareService.getCurrentUser().toUserJson();
+    public User.UserJson removeSkill(@RequestParam String skillName, @RequestAttribute int userId) {
+        MiddlewareService.RemoveSkillForLoginUser(skillName, userId);
+        return MiddlewareService.getCurrentUser(userId).toUserJson();
     }
 }
