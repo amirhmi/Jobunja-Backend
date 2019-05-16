@@ -38,7 +38,6 @@ public class AuthController {
         if(userId == 0) {
             throw new CustomException.LoginException();
         }
-
         return Cryptography.createJWT(Integer.toString(userId), "jobunja", 1800000);
     }
 }
