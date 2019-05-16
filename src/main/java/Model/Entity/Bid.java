@@ -15,6 +15,8 @@ public class Bid {
     }
     public User getUser () { return UserDataMapper.find(userId); }
 
+    public int getUserId () { return userId; }
+
     public Project getProject() { return ProjectDataMapper.find(projectId); }
 
     public int getBudget() { return budget; }

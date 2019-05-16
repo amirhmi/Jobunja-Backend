@@ -24,6 +24,7 @@ public class Application {
             EntityInitializer.createTables();
             ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
             scheduler.scheduleAtFixedRate(new FetchProjects(), 0, 5, TimeUnit.MINUTES);
+            scheduler.scheduleAtFixedRate(new UpdateWinners(), 0, 1, TimeUnit.MINUTES);
             String skills_data_json = http_client_get.HttpGetRequest(RequestType.SKILL);
             List<String> validSkillNames = JsonParser.parseNameList(skills_data_json);
             for(String skillName : validSkillNames)

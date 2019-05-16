@@ -106,4 +106,8 @@ public class MiddlewareService {
     public static List<String> CanBeAddedSkills() {
         return UserSkillDataMapper.findNotExistsForUser(getCurrentUserId());
     }
+
+    public static List<Project> getRecentlyEndedProjects() {
+        return ProjectDataMapper.getRecentlyEnded();
+    }
 }
