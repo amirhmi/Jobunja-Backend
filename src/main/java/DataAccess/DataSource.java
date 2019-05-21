@@ -12,10 +12,10 @@ public class DataSource {
     private static BasicDataSource ds = new BasicDataSource();
 
     static {
-        File dbfile = new File(".");
-        ds.setDriverClassName("org.sqlite.JDBC");
-        System.out.println(dbfile.getAbsolutePath());
-        ds.setUrl("jdbc:sqlite:" + dbfile.getAbsolutePath() + "/jobunja.db");
+        ds.setDriverClassName("com.mysql.jdbc.Driver");
+        ds.setUrl("jdbc:mysql://localhost:8000/tracker");
+        ds.setUsername("root");
+        ds.setPassword("sheep");
         ds.setMinIdle(2);
         ds.setMaxIdle(10);
         ds.setMaxOpenPreparedStatements(10);
