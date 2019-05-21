@@ -14,10 +14,11 @@ public class ProjectDataMapper {
     public static Project find(String projectId)  {
         try {
             Connection db = DataSource.getConnection();
-            String statement = "SELECT * FROM project WHERE id = ?";
+            String statement = "SELECT * FROM Project WHERE id = ?";
             PreparedStatement dbStatement = db.prepareStatement(statement);
             dbStatement.setString(1, projectId);
             ResultSet rs = dbStatement.executeQuery();
+            rs.next();
             rs.getString("Id");
             Project project = fillProject(rs);
             rs.close();
@@ -37,12 +38,13 @@ public class ProjectDataMapper {
             String statement = "SELECT CASE WHEN " +
                     "NOT EXISTS (SELECT * FROM projectSkill PS " +
                     "WHERE PS.projectId = ? AND " +
-                    "PS.point > (SELECT COUNT(*) FROM endorsement E WHERE E.skillName = PS.skillName AND E.endorsedId = ?))" +
+                    "PS.point > (SELECT COUNT(*) FROM Endorsement E WHERE E.skillName = PS.skillName AND E.endorsedId = ?))" +
                     "THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END";
             PreparedStatement dbStatement = db.prepareStatement(statement);
             dbStatement.setString(1, projectId);
             dbStatement.setInt(2, userId);
             ResultSet rs = dbStatement.executeQuery();
+            rs.next();
             boolean ret = rs.getBoolean(1);
             rs.close();
             dbStatement.close();
@@ -57,10 +59,11 @@ public class ProjectDataMapper {
     public static boolean exists(String projectId) {
         try {
             Connection db = DataSource.getConnection();
-            String statement = "SELECT CASE WHEN EXISTS (SELECT * FROM project WHERE id = ?) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END";
+            String statement = "SELECT CASE WHEN EXISTS (SELECT * FROM Project WHERE id = ?) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END";
             PreparedStatement dbStatement = db.prepareStatement(statement);
             dbStatement.setString(1, projectId);
             ResultSet rs = dbStatement.executeQuery();
+            rs.next();
             boolean ret = rs.getBoolean(1);
             rs.close();
             dbStatement.close();
@@ -75,9 +78,10 @@ public class ProjectDataMapper {
     public static List<Project> getAll() {
         try {
             Connection db = DataSource.getConnection();
-            String statement = "SELECT * FROM project";
+            String statement = "SELECT * FROM Project";
             PreparedStatement dbStatement = db.prepareStatement(statement);
             ResultSet rs = dbStatement.executeQuery();
+            rs.next();
             List<Project> projects = new ArrayList<>();
             while (rs.next())
                 projects.add(fillProject(rs));
@@ -94,10 +98,10 @@ public class ProjectDataMapper {
     public static List<Project> getLimit(int limit, int offset, int userId, String searchKey) {
         try {
             Connection db = DataSource.getConnection();
-            String statement = "SELECT * FROM project P " +
+            String statement = "SELECT * FROM Project P " +
                                "WHERE NOT EXISTS (SELECT * FROM projectSkill PS " +
                                "WHERE PS.projectId = P.id AND " +
-                               "PS.point > (SELECT COUNT(*) FROM endorsement E " +
+                               "PS.point > (SELECT COUNT(*) FROM Endorsement E " +
                                "WHERE E.skillName = PS.skillName AND E.endorsedId = ?)) ";
             if (searchKey != null)
                 statement += "AND (P.title LIKE ? OR P.description LIKE ?)";
@@ -116,6 +120,7 @@ public class ProjectDataMapper {
                 dbStatement.setInt(3, offset);
             }
             ResultSet rs = dbStatement.executeQuery();
+            rs.next();
             List<Project> projects = new ArrayList<>();
             while (rs.next())
                 projects.add(fillProject(rs));
@@ -132,7 +137,7 @@ public class ProjectDataMapper {
     public static List<Project> getRecentlyEnded() {
         try {
             Connection db = DataSource.getConnection();
-            String statement = "SELECT * FROM project P " +
+            String statement = "SELECT * FROM Project P " +
                     "WHERE P.deadline < ? AND ? - P.deadline <= 121000"; //less than one minute passed
             Timestamp timestamp = new Timestamp(System.currentTimeMillis());
             long nowTime = timestamp.getTime();
@@ -141,6 +146,7 @@ public class ProjectDataMapper {
             dbStatement.setLong(1, nowTime);
             dbStatement.setLong(2, nowTime);
             ResultSet rs = dbStatement.executeQuery();
+            rs.next();
             List<Project> projects = new ArrayList<>();
             while (rs.next())
                 projects.add(fillProject(rs));
@@ -179,7 +185,7 @@ public class ProjectDataMapper {
     public static void insert(Project project) throws SQLException {
         Connection db = DataSource.getConnection();
         String statement =
-                "INSERT OR IGNORE INTO project(id, title, description, imageUrl, budget, deadline, creationDate)" +
+                "INSERT IGNORE INTO Project(id, title, description, imageUrl, budget, deadline, creationDate)" +
                 "VALUES(?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement dbStatement = db.prepareStatement(statement);
         dbStatement.setString(1, project.getId());

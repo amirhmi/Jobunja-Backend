@@ -22,9 +22,9 @@ public class AuthController {
         if(firstName.length() == 0 || lastName.length() == 0 || userName.length() == 0 ||
            password.length() < 6 || jobTitle.length() == 0 || imgUrl.length() == 0)
             throw new CustomException.SignupException();
-
-        if(UserDataMapper.existUserName(userName))
+        if(UserDataMapper.existUserName(userName)) { System.out.println(3);
             throw new CustomException.AlreadyUserNameExist();
+        }
 
         String hashedPassword = Cryptography.getSHA(password);
         User newUser = new User(firstName, lastName, userName, hashedPassword, jobTitle, imgUrl, bio);

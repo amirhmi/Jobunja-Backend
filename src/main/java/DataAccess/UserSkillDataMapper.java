@@ -12,7 +12,7 @@ import Exception.CustomException;
 
 public class UserSkillDataMapper {
     public static void insert(int userId, String skillName) {
-        String statement = "INSERT OR IGNORE INTO UserSkill(userid, skillName)" +
+        String statement = "INSERT IGNORE INTO UserSkill(userid, skillName)" +
                             "VALUES(?, ?)";
         try {
             Connection db = DataSource.getConnection();
@@ -53,6 +53,7 @@ public class UserSkillDataMapper {
             dbStatement.setInt(1, userId);
             dbStatement.setString(2, skillname);
             ResultSet rs = dbStatement.executeQuery();
+            rs.next();
             boolean ret = rs.getBoolean(1);
             rs.close();
             dbStatement.close();
@@ -72,6 +73,7 @@ public class UserSkillDataMapper {
             PreparedStatement dbStatement = db.prepareStatement(statement);
             dbStatement.setInt(1, userId);
             ResultSet rs = dbStatement.executeQuery();
+            rs.next();
             List<String> skills = new ArrayList<>();
             while (rs.next())
                 skills.add(rs.getString("skillName"));
@@ -91,6 +93,7 @@ public class UserSkillDataMapper {
         PreparedStatement dbStatement = db.prepareStatement(statement);
         dbStatement.setInt(1, userId);
         ResultSet rs = dbStatement.executeQuery();
+        rs.next();
         List<Skill> skills = new ArrayList<>();
         while (rs.next()) {
             Skill skill = new Skill();

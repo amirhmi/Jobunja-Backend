@@ -13,7 +13,7 @@ public class EndorsementDataMapper {
     public static void insert(int endorserId, int endorsedId, String skillName) throws CustomException.SqlException {
         try {
             Connection db = DataSource.getConnection();
-            String statement = "INSERT INTO endorsement(endorserId, endorsedId, skillName) VALUES(?, ?, ?)";
+            String statement = "INSERT INTO Endorsement(endorserId, endorsedId, skillName) VALUES(?, ?, ?)";
             PreparedStatement dbStatement = db.prepareStatement(statement);
             dbStatement.setInt(1, endorserId);
             dbStatement.setInt(2, endorsedId);
@@ -28,13 +28,14 @@ public class EndorsementDataMapper {
     }
 
     public static List<Integer> findEndorsersId(int endorsedId, String skillName) {
-        String statement = "SELECT endorserId FROM endorsement WHERE endorsedId = ? and skillName = ?";
+        String statement = "SELECT endorserId FROM Endorsement WHERE endorsedId = ? and skillName = ?";
         try {
             Connection db = DataSource.getConnection();
             PreparedStatement dbStatement = db.prepareStatement(statement);
             dbStatement.setInt(1, endorsedId);
             dbStatement.setString(2, skillName);
             ResultSet rs = dbStatement.executeQuery();
+            rs.next();
             List<Integer> endorsersId = new ArrayList<>();
             while (rs.next())
                 endorsersId.add(rs.getInt("endorserId"));

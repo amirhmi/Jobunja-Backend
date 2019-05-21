@@ -15,10 +15,11 @@ public class UserDataMapper {
     public static User find(int userId) {
         try {
             Connection db = DataSource.getConnection();
-            String statement = "SELECT * FROM user WHERE id = ?";
+            String statement = "SELECT * FROM User WHERE id = ?";
             PreparedStatement dbStatement = db.prepareStatement(statement);
             dbStatement.setInt(1, userId);
             ResultSet rs = dbStatement.executeQuery();
+            rs.next();
             User user = fillUser(rs);
             rs.close();
             dbStatement.close();
@@ -36,13 +37,14 @@ public class UserDataMapper {
     }
 
     public static boolean exists(int userId) {
-        String statement = "SELECT CASE WHEN EXISTS (SELECT * FROM user WHERE id = ?)"
+        String statement = "SELECT CASE WHEN EXISTS (SELECT * FROM User WHERE id = ?)"
                 + "THEN CAST (1 AS BIT) ELSE CAST (0 AS BIT) END";
         try {
             Connection db = DataSource.getConnection();
             PreparedStatement dbStatement = db.prepareStatement(statement);
             dbStatement.setInt(1, userId);
             ResultSet rs = dbStatement.executeQuery();
+            rs.next();
             boolean ret = rs.getBoolean(1);
             dbStatement.close();
             db.close();
@@ -54,19 +56,20 @@ public class UserDataMapper {
     }
 
     public static boolean existUserName(String userName) {
-        String statement = "SELECT CASE WHEN EXISTS (SELECT * FROM user WHERE userName = ?)"
-                + "THEN CAST (1 AS BIT) ELSE CAST (0 AS BIT) END";
+        String statement = "SELECT EXISTS( SELECT * FROM User WHERE userName = ?)";
         try {
             Connection db = DataSource.getConnection();
             PreparedStatement dbStatement = db.prepareStatement(statement);
             dbStatement.setString(1, userName);
             ResultSet rs = dbStatement.executeQuery();
+            rs.next();
             boolean ret = rs.getBoolean(1);
             dbStatement.close();
             db.close();
             return ret;
         }
         catch (SQLException e) {
+            System.out.println(e.getMessage());
             throw new CustomException.SqlException();
         }
     }
@@ -74,7 +77,7 @@ public class UserDataMapper {
     public static List<User> getAll(String searchKey, boolean exceptCurrent, int userId) {
         try {
             Connection db = DataSource.getConnection();
-            String statement = "SELECT * FROM user";
+            String statement = "SELECT * FROM User";
             if (exceptCurrent)
                 statement += " WHERE id <> " + Integer.toString(userId);
             if (exceptCurrent && searchKey != null)
@@ -85,6 +88,7 @@ public class UserDataMapper {
             if (searchKey != null)
                 dbStatement.setString(1, searchKey + "%");
             ResultSet rs = dbStatement.executeQuery();
+            rs.next();
             List<User> users = new ArrayList<>();
             while (rs.next())
                 users.add(fillUser(rs));
@@ -114,7 +118,7 @@ public class UserDataMapper {
         try {
             Connection db = DataSource.getConnection();
             String statement =
-                    "INSERT OR IGNORE INTO User(firstName, lastName, userName, password, jobTitle, profilePicUrl, bio)" +
+                    "INSERT IGNORE INTO User(firstName, lastName, userName, password, jobTitle, profilePicUrl, bio)" +
                             "VALUES(?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement dbStatement = db.prepareStatement(statement);
             dbStatement.setString(1, user.getFirstName());
@@ -124,11 +128,14 @@ public class UserDataMapper {
             dbStatement.setString(5, user.getJobTitle());
             dbStatement.setString(6, user.getProfilePicUrl());
             dbStatement.setString(7, user.getBio());
+            System.out.println(1);
             dbStatement.execute();
+            System.out.println(1);
             dbStatement.close();
             db.close();
         }
         catch (SQLException e) {
+            System.out.println(e.getMessage());
             throw new CustomException.SqlException();
         }
         int userId = findIdByUserName(user.getUserName());
@@ -144,6 +151,7 @@ public class UserDataMapper {
             PreparedStatement dbStatement = db.prepareStatement(statement);
             dbStatement.setString(1, userName);
             ResultSet rs = dbStatement.executeQuery();
+            rs.next();
             int id = rs.getInt(1);
             rs.close();
             dbStatement.close();
@@ -163,6 +171,7 @@ public class UserDataMapper {
             dbStatement.setString(1, userName);
             dbStatement.setString(2, password);
             ResultSet rs = dbStatement.executeQuery();
+            rs.next();
             int id = 0;
             if(rs.next())
                 id = rs.getInt(1);

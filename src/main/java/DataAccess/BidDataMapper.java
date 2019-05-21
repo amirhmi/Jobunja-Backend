@@ -14,7 +14,7 @@ public class BidDataMapper {
     public static void insert(String projectId, int userId, int budget) {
         try {
             Connection db = DataSource.getConnection();
-            String statement = "INSERT INTO bid(userId, projectId, budget) VALUES(?, ?, ?)";
+            String statement = "INSERT INTO Bid(userId, projectId, budget) VALUES(?, ?, ?)";
             PreparedStatement dbStatement = db.prepareStatement(statement);
             dbStatement.setInt(1, userId);
             dbStatement.setString(2, projectId);
@@ -31,7 +31,7 @@ public class BidDataMapper {
     public static Bid find(int userId, String projectId) {
         try {
             Connection db = DataSource.getConnection();
-            String statement = "SELECT * FROM bid WHERE userId = ? and projectId = ?";
+            String statement = "SELECT * FROM Bid WHERE userId = ? and projectId = ?";
             PreparedStatement dbStatement = db.prepareStatement(statement);
             dbStatement.setInt(1, userId);
             dbStatement.setString(2, projectId);
@@ -52,10 +52,11 @@ public class BidDataMapper {
     public static List<Bid> findByProject(String projectId) {
         try {
             Connection db = DataSource.getConnection();
-            String statement = "SELECT * FROM bid WHERE projectId = ?";
+            String statement = "SELECT * FROM Bid WHERE projectId = ?";
             PreparedStatement dbStatement = db.prepareStatement(statement);
             dbStatement.setString(1, projectId);
             ResultSet rs = dbStatement.executeQuery();
+            rs.next();
             List<Bid> bids = new ArrayList<>();
             while (rs.next())
                 bids.add(fillBid(rs));

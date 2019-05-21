@@ -16,6 +16,7 @@ public class ProjectSkillDataMapper {
         PreparedStatement dbStatement = db.prepareStatement(statement);
         dbStatement.setString(1, projectId);
         ResultSet rs = dbStatement.executeQuery();
+        rs.next();
         List<Skill> skills = new ArrayList<>();
         while (rs.next()) {
             Skill skill = new Skill(rs.getString("skillName"), rs.getInt("point"));
@@ -29,7 +30,7 @@ public class ProjectSkillDataMapper {
 
     public static void insert(String projectId, String skillName, int val) throws SQLException {
         Connection db = DataSource.getConnection();
-        String statement = "INSERT OR IGNORE INTO ProjectSkill(point, skillName, projectId) VALUES(?, ?, ?)";
+        String statement = "INSERT IGNORE INTO ProjectSkill(point, skillName, projectId) VALUES(?, ?, ?)";
         PreparedStatement dbStatement = db.prepareStatement(statement);
         dbStatement.setInt(1, val);
         dbStatement.setString(2, skillName);
