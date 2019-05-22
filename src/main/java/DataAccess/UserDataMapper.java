@@ -18,9 +18,7 @@ public class UserDataMapper {
             String statement = "SELECT * FROM User WHERE id = ?";
             PreparedStatement dbStatement = db.prepareStatement(statement);
             dbStatement.setInt(1, userId);
-            System.out.println(2);
             ResultSet rs = dbStatement.executeQuery();
-            System.out.println(3);
             rs.next();
             User user = fillUser(rs);
             rs.close();
@@ -84,9 +82,9 @@ public class UserDataMapper {
             if (exceptCurrent)
                 statement += " WHERE id <> " + Integer.toString(userId);
             if (exceptCurrent && searchKey != null)
-                statement += " AND firstName || ' ' || lastName LIKE ?";
+                statement += " AND concat(firstName, ' ', lastName) LIKE ?";
             else if (searchKey != null)
-                statement += "WHERE firstName || ' ' || lastName LIKE ?";
+                statement += "WHERE concat(firstName, ' ', lastName) LIKE ?";
             PreparedStatement dbStatement = db.prepareStatement(statement);
             if (searchKey != null)
                 dbStatement.setString(1, searchKey + "%");

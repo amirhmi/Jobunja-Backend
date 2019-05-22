@@ -1,5 +1,7 @@
 package DataAccess;
 
+import javax.xml.crypto.Data;
+
 public class EntityInitializer {
     public static void createTables() {
         String createUser =
@@ -11,8 +13,8 @@ public class EntityInitializer {
                 "  userName VARCHAR(128) NOT NULL ," +
                 "  password VARCHAR(128) NOT NULL," +
                 "  jobTitle VARCHAR(128)," +
-                "  profilePicUrl VARCHAR(2048)," +
-                "  bio VARCHAR(2048)," +
+                "  profilePicUrl VARCHAR(1024)," +
+                "  bio VARCHAR(1024)," +
                 "  UNIQUE(userName)" +
                 ");";
         String createSkill =
@@ -43,10 +45,10 @@ public class EntityInitializer {
         String createProject =
                 "CREATE TABLE IF NOT EXISTS Project" +
                 "(" +
-                "  id VARCHAR(1024) NOT NULL," +
-                "  title VARCHAR(2048) NOT NULL," +
-                "  description VARCHAR(2048)," +
-                "  imageUrl VARCHAR(2048)," +
+                "  id VARCHAR(512) NOT NULL," +
+                "  title VARCHAR(1024) NOT NULL," +
+                "  description VARCHAR(1024)," +
+                "  imageUrl VARCHAR(1024)," +
                 "  budget INT NOT NULL," +
                 "  deadline INT NOT NULL," +
                 "  creationDate INT," +
@@ -76,6 +78,7 @@ public class EntityInitializer {
                 "  FOREIGN KEY (skillName) REFERENCES Skill(skillName)," +
                 "  FOREIGN KEY (projectId) REFERENCES Project(id)" +
                 ");";
+        DataSource.executeSql("ALTER DATABASE tracker CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
         DataSource.executeSql(createUser);
         DataSource.executeSql(createProject);
         DataSource.executeSql(createBid);
