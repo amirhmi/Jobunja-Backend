@@ -56,7 +56,6 @@ public class BidDataMapper {
             PreparedStatement dbStatement = db.prepareStatement(statement);
             dbStatement.setString(1, projectId);
             ResultSet rs = dbStatement.executeQuery();
-            rs.next();
             List<Bid> bids = new ArrayList<>();
             while (rs.next())
                 bids.add(fillBid(rs));

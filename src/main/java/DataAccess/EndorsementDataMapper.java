@@ -35,7 +35,6 @@ public class EndorsementDataMapper {
             dbStatement.setInt(1, endorsedId);
             dbStatement.setString(2, skillName);
             ResultSet rs = dbStatement.executeQuery();
-            rs.next();
             List<Integer> endorsersId = new ArrayList<>();
             while (rs.next())
                 endorsersId.add(rs.getInt("endorserId"));

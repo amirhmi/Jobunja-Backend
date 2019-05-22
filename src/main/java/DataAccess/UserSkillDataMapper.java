@@ -24,6 +24,7 @@ public class UserSkillDataMapper {
             db.close();
         }
         catch (SQLException e) {
+            System.out.println(e.getMessage());
             throw new CustomException.SqlException();
         }
     }
@@ -45,8 +46,7 @@ public class UserSkillDataMapper {
     }
 
     public static boolean exists(String skillname, int userId) {
-        String statement = "SELECT CASE WHEN EXISTS (SELECT * FROM UserSkill U WHERE U.userId = ? AND U.skillName = ?) "
-                + "THEN CAST (1 AS BIT) ELSE CAST (0 AS BIT) END";
+        String statement = "SELECT EXISTS (SELECT * FROM UserSkill U WHERE U.userId = ? AND U.skillName = ?) ";
         try {
             Connection db = DataSource.getConnection();
             PreparedStatement dbStatement = db.prepareStatement(statement);
@@ -73,7 +73,6 @@ public class UserSkillDataMapper {
             PreparedStatement dbStatement = db.prepareStatement(statement);
             dbStatement.setInt(1, userId);
             ResultSet rs = dbStatement.executeQuery();
-            rs.next();
             List<String> skills = new ArrayList<>();
             while (rs.next())
                 skills.add(rs.getString("skillName"));
@@ -93,7 +92,6 @@ public class UserSkillDataMapper {
         PreparedStatement dbStatement = db.prepareStatement(statement);
         dbStatement.setInt(1, userId);
         ResultSet rs = dbStatement.executeQuery();
-        rs.next();
         List<Skill> skills = new ArrayList<>();
         while (rs.next()) {
             Skill skill = new Skill();

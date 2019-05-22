@@ -37,8 +37,7 @@ public class UserDataMapper {
     }
 
     public static boolean exists(int userId) {
-        String statement = "SELECT CASE WHEN EXISTS (SELECT * FROM User WHERE id = ?)"
-                + "THEN CAST (1 AS BIT) ELSE CAST (0 AS BIT) END";
+        String statement = "SELECT EXISTS (SELECT * FROM User WHERE id = ?)";
         try {
             Connection db = DataSource.getConnection();
             PreparedStatement dbStatement = db.prepareStatement(statement);
@@ -88,7 +87,6 @@ public class UserDataMapper {
             if (searchKey != null)
                 dbStatement.setString(1, searchKey + "%");
             ResultSet rs = dbStatement.executeQuery();
-            rs.next();
             List<User> users = new ArrayList<>();
             while (rs.next())
                 users.add(fillUser(rs));
@@ -128,9 +126,7 @@ public class UserDataMapper {
             dbStatement.setString(5, user.getJobTitle());
             dbStatement.setString(6, user.getProfilePicUrl());
             dbStatement.setString(7, user.getBio());
-            System.out.println(1);
             dbStatement.execute();
-            System.out.println(1);
             dbStatement.close();
             db.close();
         }
@@ -166,15 +162,16 @@ public class UserDataMapper {
     public static int findByUsernamePass(String userName, String password) {
         String statement = "SELECT id FROM User WHERE userName = ? and password = ?";
         try {
+            System.out.println(password);
             Connection db = DataSource.getConnection();
             PreparedStatement dbStatement = db.prepareStatement(statement);
             dbStatement.setString(1, userName);
             dbStatement.setString(2, password);
             ResultSet rs = dbStatement.executeQuery();
-            rs.next();
             int id = 0;
             if(rs.next())
                 id = rs.getInt(1);
+            System.out.println(id);
             rs.close();
             dbStatement.close();
             db.close();

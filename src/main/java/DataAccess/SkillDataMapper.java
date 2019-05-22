@@ -39,7 +39,6 @@ public class SkillDataMapper {
         String statement = "SELECT * FROM Skill";
         Statement stmt = db.createStatement();
         ResultSet rs = stmt.executeQuery(statement);
-        rs.next();
         List<String> skills = new ArrayList<>();
         while (rs.next())
             skills.add(rs.getString("skillName"));

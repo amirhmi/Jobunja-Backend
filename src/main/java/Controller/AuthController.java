@@ -22,9 +22,8 @@ public class AuthController {
         if(firstName.length() == 0 || lastName.length() == 0 || userName.length() == 0 ||
            password.length() < 6 || jobTitle.length() == 0 || imgUrl.length() == 0)
             throw new CustomException.SignupException();
-        if(UserDataMapper.existUserName(userName)) { System.out.println(3);
+        if(UserDataMapper.existUserName(userName))
             throw new CustomException.AlreadyUserNameExist();
-        }
 
         String hashedPassword = Cryptography.getSHA(password);
         User newUser = new User(firstName, lastName, userName, hashedPassword, jobTitle, imgUrl, bio);
@@ -34,7 +33,9 @@ public class AuthController {
     @PostMapping("/login")
     public String login(String userName, String password) {
         String hashedPassword = Cryptography.getSHA(password);
+        System.out.println(userName + ' ' + password);
         int userId = MiddlewareService.findByUsernamePassword(userName, hashedPassword);
+        System.out.println(userId);
         if(userId == 0) {
             throw new CustomException.LoginException();
         }

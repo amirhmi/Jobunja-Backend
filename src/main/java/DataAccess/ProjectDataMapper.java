@@ -35,11 +35,10 @@ public class ProjectDataMapper {
     public static boolean userSuited(String projectId, int userId) {
         try {
             Connection db = DataSource.getConnection();
-            String statement = "SELECT CASE WHEN " +
+            String statement = "SELECT " +
                     "NOT EXISTS (SELECT * FROM projectSkill PS " +
                     "WHERE PS.projectId = ? AND " +
-                    "PS.point > (SELECT COUNT(*) FROM Endorsement E WHERE E.skillName = PS.skillName AND E.endorsedId = ?))" +
-                    "THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END";
+                    "PS.point > (SELECT COUNT(*) FROM Endorsement E WHERE E.skillName = PS.skillName AND E.endorsedId = ?))";
             PreparedStatement dbStatement = db.prepareStatement(statement);
             dbStatement.setString(1, projectId);
             dbStatement.setInt(2, userId);
@@ -59,7 +58,7 @@ public class ProjectDataMapper {
     public static boolean exists(String projectId) {
         try {
             Connection db = DataSource.getConnection();
-            String statement = "SELECT CASE WHEN EXISTS (SELECT * FROM Project WHERE id = ?) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END";
+            String statement = "SELECT EXISTS (SELECT * FROM Project WHERE id = ?)";
             PreparedStatement dbStatement = db.prepareStatement(statement);
             dbStatement.setString(1, projectId);
             ResultSet rs = dbStatement.executeQuery();
@@ -81,7 +80,6 @@ public class ProjectDataMapper {
             String statement = "SELECT * FROM Project";
             PreparedStatement dbStatement = db.prepareStatement(statement);
             ResultSet rs = dbStatement.executeQuery();
-            rs.next();
             List<Project> projects = new ArrayList<>();
             while (rs.next())
                 projects.add(fillProject(rs));
@@ -120,7 +118,6 @@ public class ProjectDataMapper {
                 dbStatement.setInt(3, offset);
             }
             ResultSet rs = dbStatement.executeQuery();
-            rs.next();
             List<Project> projects = new ArrayList<>();
             while (rs.next())
                 projects.add(fillProject(rs));
@@ -146,7 +143,6 @@ public class ProjectDataMapper {
             dbStatement.setLong(1, nowTime);
             dbStatement.setLong(2, nowTime);
             ResultSet rs = dbStatement.executeQuery();
-            rs.next();
             List<Project> projects = new ArrayList<>();
             while (rs.next())
                 projects.add(fillProject(rs));

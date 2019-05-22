@@ -9,10 +9,10 @@ public class EntityInitializer {
                 "  firstName VARCHAR(64) NOT NULL," +
                 "  lastName VARCHAR(128) NOT NULL," +
                 "  userName VARCHAR(128) NOT NULL ," +
-                "  password VARCHAR(64) NOT NULL," +
+                "  password VARCHAR(128) NOT NULL," +
                 "  jobTitle VARCHAR(128)," +
                 "  profilePicUrl VARCHAR(2048)," +
-                "  bio VARCHAR(8192)," +
+                "  bio VARCHAR(2048)," +
                 "  UNIQUE(userName)" +
                 ");";
         String createSkill =
@@ -45,7 +45,7 @@ public class EntityInitializer {
                 "(" +
                 "  id VARCHAR(1024) NOT NULL," +
                 "  title VARCHAR(2048) NOT NULL," +
-                "  description VARCHAR(32000)," +
+                "  description VARCHAR(2048)," +
                 "  imageUrl VARCHAR(2048)," +
                 "  budget INT NOT NULL," +
                 "  deadline INT NOT NULL," +
@@ -61,7 +61,7 @@ public class EntityInitializer {
                 "(" +
                 "  budget INT NOT NULL," +
                 "  userId INTEGER NOT NULL," +
-                "  projectId VARCHAR(1024) NOT NULL," +
+                "  projectId VARCHAR(512) NOT NULL," +
                 "  PRIMARY KEY (userId, projectId)," +
                 "  FOREIGN KEY (userId) REFERENCES User(id)," +
                 "  FOREIGN KEY (projectId) REFERENCES Project(id)" +
@@ -71,7 +71,7 @@ public class EntityInitializer {
                 "(" +
                 "  point INT NOT NULL," +
                 "  skillName VARCHAR(64) NOT NULL," +
-                "  projectId VARCHAR(1024) NOT NULL," +
+                "  projectId VARCHAR(512) NOT NULL," +
                 "  PRIMARY KEY (skillName, projectId)," +
                 "  FOREIGN KEY (skillName) REFERENCES Skill(skillName)," +
                 "  FOREIGN KEY (projectId) REFERENCES Project(id)" +

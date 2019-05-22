@@ -15,7 +15,6 @@ public class UserController {
     public List<User.UserJson> getUsers(@RequestParam(value = "searchKey", required = false) String searchKey,
                                         @RequestAttribute int userId) {
         List<User> users = MiddlewareService.getUsersExceptCurrent(searchKey, userId);
-        System.out.println();
         List<User.UserJson> usersRes = new ArrayList<>();
         for (User user : users)
             usersRes.add(user.toUserJson());
