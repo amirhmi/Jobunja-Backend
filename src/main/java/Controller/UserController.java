@@ -28,6 +28,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public User.UserJson getUser(@PathVariable(value = "id") String id, @RequestAttribute String userId) {
+        System.out.println(1);
         User user = MiddlewareService.getSpecificUser(Integer.parseInt(id));
         if(user == null) {
             throw new CustomException.UserNotFoundException();

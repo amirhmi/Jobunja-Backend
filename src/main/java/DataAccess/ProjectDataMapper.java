@@ -36,7 +36,7 @@ public class ProjectDataMapper {
         try {
             Connection db = DataSource.getConnection();
             String statement = "SELECT " +
-                    "NOT EXISTS (SELECT * FROM projectSkill PS " +
+                    "NOT EXISTS (SELECT * FROM ProjectSkill PS " +
                     "WHERE PS.projectId = ? AND " +
                     "PS.point > (SELECT COUNT(*) FROM Endorsement E WHERE E.skillName = PS.skillName AND E.endorsedId = ?))";
             PreparedStatement dbStatement = db.prepareStatement(statement);
@@ -97,7 +97,7 @@ public class ProjectDataMapper {
         try {
             Connection db = DataSource.getConnection();
             String statement = "SELECT * FROM Project P " +
-                               "WHERE NOT EXISTS (SELECT * FROM projectSkill PS " +
+                               "WHERE NOT EXISTS (SELECT * FROM ProjectSkill PS " +
                                "WHERE PS.projectId = P.id AND " +
                                "PS.point > (SELECT COUNT(*) FROM Endorsement E " +
                                "WHERE E.skillName = PS.skillName AND E.endorsedId = ?)) ";
@@ -127,6 +127,7 @@ public class ProjectDataMapper {
             return projects;
         }
         catch (SQLException e) {
+            System.out.println(e.getMessage());
             throw new CustomException.SqlException();
         }
     }

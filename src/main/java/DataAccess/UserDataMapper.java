@@ -18,7 +18,9 @@ public class UserDataMapper {
             String statement = "SELECT * FROM User WHERE id = ?";
             PreparedStatement dbStatement = db.prepareStatement(statement);
             dbStatement.setInt(1, userId);
+            System.out.println(2);
             ResultSet rs = dbStatement.executeQuery();
+            System.out.println(3);
             rs.next();
             User user = fillUser(rs);
             rs.close();
@@ -45,6 +47,7 @@ public class UserDataMapper {
             ResultSet rs = dbStatement.executeQuery();
             rs.next();
             boolean ret = rs.getBoolean(1);
+            rs.close();
             dbStatement.close();
             db.close();
             return ret;
@@ -63,6 +66,7 @@ public class UserDataMapper {
             ResultSet rs = dbStatement.executeQuery();
             rs.next();
             boolean ret = rs.getBoolean(1);
+            rs.close();
             dbStatement.close();
             db.close();
             return ret;

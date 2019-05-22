@@ -32,7 +32,7 @@ public class UserSkillDataMapper {
     public static void delete(int userId, String skillName) throws CustomException.SqlException {
         try {
             Connection db = DataSource.getConnection();
-            String statement = "DELETE FROM userSkill WHERE userId = ? and skillName = ?";
+            String statement = "DELETE FROM UserSkill WHERE userId = ? and skillName = ?";
             PreparedStatement dbStatement = db.prepareStatement(statement);
             dbStatement.setInt(1, userId);
             dbStatement.setString(2, skillName);
@@ -66,8 +66,8 @@ public class UserSkillDataMapper {
     }
 
     public static List<String> findNotExistsForUser(int userId) {
-        String statement = "SELECT S.skillName FROM skill S " +
-                "WHERE NOT EXISTS (SELECT * FROM userSkill US WHERE US.userId = ? and US.skillName = S.skillName)";
+        String statement = "SELECT S.skillName FROM Skill S " +
+                "WHERE NOT EXISTS (SELECT * FROM UserSkill US WHERE US.userId = ? and US.skillName = S.skillName)";
         try {
             Connection db = DataSource.getConnection();
             PreparedStatement dbStatement = db.prepareStatement(statement);
@@ -82,6 +82,7 @@ public class UserSkillDataMapper {
             return skills;
         }
         catch (SQLException e) {
+            System.out.println(e.getMessage());
             throw new CustomException.SqlException();
     }
 }
