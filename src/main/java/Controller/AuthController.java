@@ -4,14 +4,10 @@ import DataAccess.UserDataMapper;
 import Model.Entity.User;
 import Model.Service.Cryptography;
 import Model.Service.MiddlewareService;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import Exception.CustomException;
-
-import javax.xml.bind.DatatypeConverter;
 
 
 @RestController

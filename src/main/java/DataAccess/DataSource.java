@@ -13,7 +13,7 @@ public class DataSource {
 
     static {
         ds.setDriverClassName("com.mysql.jdbc.Driver");
-        ds.setUrl("jdbc:mysql://localhost:8000/tracker?useUnicode=yes&characterEncoding=UTF-8");
+        ds.setUrl("jdbc:mysql://db:3306/tracker?useUnicode=yes&characterEncoding=UTF-8");
         ds.setUsername("root");
         ds.setPassword("sheep");
         ds.setMinIdle(2);
@@ -23,8 +23,18 @@ public class DataSource {
         ds.setRemoveAbandonedTimeout(10);
     }
 
-    public static Connection getConnection() throws SQLException {
-        return ds.getConnection();
+    public static Connection getConnection() {
+        Connection connection = null;
+
+        while (connection == null) {
+            try {
+                connection = ds.getConnection();
+            } catch (SQLException e) {
+                System.out.println("Connecting failed, retrying...");
+            }
+        }
+        return connection;
+//        return ds.getConnection();
     }
 
     public static void executeSql(String sql) {
