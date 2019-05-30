@@ -5,7 +5,7 @@ services:
 variables:
   DOCKER_USER: "amirhmi"
   DOCKER_PASSWORD: "amirhossein"
-  CONTAINER_IMAGE: "CONTAINER_IMAGE"
+  CONTAINER_IMAGE: "jobunja_back"
 
 stages:
 - test
