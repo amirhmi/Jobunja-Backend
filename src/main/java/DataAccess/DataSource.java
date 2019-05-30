@@ -30,6 +30,7 @@ public class DataSource {
             try {
                 connection = ds.getConnection();
             } catch (SQLException e) {
+                System.out.println(e.getMessage());
                 System.out.println("Connecting failed, retrying...");
             }
         }
