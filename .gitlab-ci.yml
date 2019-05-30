@@ -1,3 +1,23 @@
-rspec:
+variables:
+  DOCKER_USER: "amirhmi"
+  DOCKER_PASSWORD: "amirhossein"
+  CONTAINER_IMAGE: "CONTAINER_IMAGE"
+
+
+stages:
+- test
+- build
+- deploy
+
+test:
+  stage: test
+  script: echo "Running tests"
+
+build:
+  stage: build
   script:
-    - echo hello
+  - docker login quay.io -u ${DOCKER_USER} -p ${DOCKER_PASSWORD}
+  - docker build -t ${CONTAINER_IMAGE} .
+  - docker tag ${CONTAINER_IMAGE} ${CONTAINER_IMAGE}
+  - docker tag ${CONTAINER_IMAGE} ${CONTAINER_IMAGE}:latest
+  - docker push ${CONTAINER_IMAGE}
