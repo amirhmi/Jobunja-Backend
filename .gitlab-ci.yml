@@ -23,4 +23,4 @@ build:
   - docker build -t ${CONTAINER_IMAGE} .
   - docker tag ${CONTAINER_IMAGE} ${CONTAINER_IMAGE}
   - docker tag ${CONTAINER_IMAGE} ${CONTAINER_IMAGE}:latest
-  - docker push ${CONTAINER_IMAGE}
+  - docker push ${CONTAINER_IMAGE} quay.io/amirhmi/jobunja_back
