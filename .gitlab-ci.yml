@@ -1,8 +1,11 @@
+image: docker:latest
+services:
+- docker:dind
+
 variables:
   DOCKER_USER: "amirhmi"
   DOCKER_PASSWORD: "amirhossein"
   CONTAINER_IMAGE: "CONTAINER_IMAGE"
-
 
 stages:
 - test
