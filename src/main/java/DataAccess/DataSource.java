@@ -13,7 +13,7 @@ public class DataSource {
 
     static {
         ds.setDriverClassName("com.mysql.jdbc.Driver");
-        ds.setUrl("jdbc:mysql://db:3306/tracker?useUnicode=yes&characterEncoding=UTF-8");
+        ds.setUrl("jdbc:mysql://185.166.107.141:30037/tracker?useUnicode=yes&characterEncoding=UTF-8");
         ds.setUsername("root");
         ds.setPassword("sheep");
         ds.setMinIdle(2);
