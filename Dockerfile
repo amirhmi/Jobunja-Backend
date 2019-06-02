@@ -10,7 +10,6 @@ RUN mvn -f /usr/src/myapp/pom.xml clean package
 #Deploy
 FROM tomcat:9.0.20-jre11
 
-COPY --from=BUILD /usr/src/myapp/target/jobunja-1.0-SNAPSHOT.war /usr/local/tomcat/webapps/ROOT.war
-RUN rm -r /usr/local/tomcat/webapps/ROOT
+COPY --from=BUILD /usr/src/myapp/target/jobunja-1.0-SNAPSHOT.war /usr/local/tomcat/webapps/
 
 CMD ["catalina.sh", "run"]
