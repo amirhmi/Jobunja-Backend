@@ -1,3 +1,3 @@
-# Internet Engineering Model.Entity.Project
+# Jobunja
 
 Projects of Internet Engineering Course
